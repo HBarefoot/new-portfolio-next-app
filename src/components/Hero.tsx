@@ -26,185 +26,254 @@ const Hero = () => {
     <section id="hero" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 pt-16 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Network Nodes and Connections */}
+        {/* Central Hub Network - Left Side */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.12 }}
+          transition={{ duration: 3, delay: 1 }}
+          className="absolute top-1/4 left-1/6"
+        >
+          <svg width="300" height="300" viewBox="0 0 300 300">
+            {/* Central Node */}
+            <motion.circle
+              cx="150"
+              cy="150"
+              r="12"
+              fill="#3b82f6"
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 4, repeat: Infinity }}
+              className="opacity-60"
+            />
+            
+            {/* Radiating Connection Lines */}
+            {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => (
+              <g key={`connection-${i}`}>
+                <motion.line
+                  x1="150"
+                  y1="150"
+                  x2={150 + Math.cos(angle * Math.PI / 180) * 120}
+                  y2={150 + Math.sin(angle * Math.PI / 180) * 120}
+                  stroke="#3b82f6"
+                  strokeWidth="1"
+                  strokeDasharray="3,3"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ 
+                    duration: 2, 
+                    delay: i * 0.3,
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    repeatDelay: 4
+                  }}
+                  className="opacity-40"
+                />
+                
+                {/* Flowing Data Particles */}
+                <motion.circle
+                  r="2"
+                  fill="#8b5cf6"
+                  animate={{
+                    cx: [150, 150 + Math.cos(angle * Math.PI / 180) * 120],
+                    cy: [150, 150 + Math.sin(angle * Math.PI / 180) * 120],
+                    opacity: [0, 0.8, 0]
+                  }}
+                  transition={{
+                    duration: 3,
+                    delay: i * 0.4,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+                
+                {/* End Nodes */}
+                <motion.circle
+                  cx={150 + Math.cos(angle * Math.PI / 180) * 120}
+                  cy={150 + Math.sin(angle * Math.PI / 180) * 120}
+                  r="6"
+                  fill="#8b5cf6"
+                  animate={{ 
+                    scale: [0.8, 1.1, 0.8],
+                    opacity: [0.3, 0.6, 0.3]
+                  }}
+                  transition={{ 
+                    duration: 3, 
+                    delay: i * 0.2,
+                    repeat: Infinity 
+                  }}
+                />
+              </g>
+            ))}
+          </svg>
+        </motion.div>
+
+        {/* Secondary Hub Network - Right Side */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.08 }}
-          transition={{ duration: 2, delay: 1 }}
+          transition={{ duration: 3, delay: 2 }}
+          className="absolute top-1/2 right-1/6"
+        >
+          <svg width="250" height="250" viewBox="0 0 250 250">
+            {/* Central Node */}
+            <motion.rect
+              x="115"
+              y="115"
+              width="20"
+              height="20"
+              rx="4"
+              fill="#06b6d4"
+              animate={{ 
+                scale: [1, 1.15, 1],
+                rotate: [0, 90, 0]
+              }}
+              transition={{ duration: 6, repeat: Infinity }}
+              className="opacity-50"
+            />
+            
+            {/* Radiating Lines - Fewer connections */}
+            {[30, 90, 150, 210, 270, 330].map((angle, i) => (
+              <g key={`secondary-${i}`}>
+                <motion.line
+                  x1="125"
+                  y1="125"
+                  x2={125 + Math.cos(angle * Math.PI / 180) * 90}
+                  y2={125 + Math.sin(angle * Math.PI / 180) * 90}
+                  stroke="#06b6d4"
+                  strokeWidth="1.5"
+                  strokeDasharray="4,4"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ 
+                    duration: 2.5, 
+                    delay: i * 0.4,
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    repeatDelay: 3
+                  }}
+                  className="opacity-35"
+                />
+                
+                {/* Data Flow */}
+                <motion.circle
+                  r="1.5"
+                  fill="#f59e0b"
+                  animate={{
+                    cx: [125, 125 + Math.cos(angle * Math.PI / 180) * 90],
+                    cy: [125, 125 + Math.sin(angle * Math.PI / 180) * 90],
+                    opacity: [0, 1, 0]
+                  }}
+                  transition={{
+                    duration: 4,
+                    delay: i * 0.6,
+                    repeat: Infinity,
+                    ease: "easeOut"
+                  }}
+                />
+                
+                {/* Target Nodes */}
+                <motion.polygon
+                  points={`${125 + Math.cos(angle * Math.PI / 180) * 90},${125 + Math.sin(angle * Math.PI / 180) * 90 - 4} ${125 + Math.cos(angle * Math.PI / 180) * 90 + 4},${125 + Math.sin(angle * Math.PI / 180) * 90 + 4} ${125 + Math.cos(angle * Math.PI / 180) * 90 - 4},${125 + Math.sin(angle * Math.PI / 180) * 90 + 4}`}
+                  fill="#f59e0b"
+                  animate={{ 
+                    scale: [0.7, 1.2, 0.7],
+                    opacity: [0.2, 0.5, 0.2]
+                  }}
+                  transition={{ 
+                    duration: 4, 
+                    delay: i * 0.3,
+                    repeat: Infinity 
+                  }}
+                />
+              </g>
+            ))}
+          </svg>
+        </motion.div>
+
+        {/* Flowing Network Streams - Background */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.06 }}
+          transition={{ duration: 4, delay: 0.5 }}
           className="absolute inset-0"
         >
-          {/* Node Network */}
           <svg width="100%" height="100%" className="absolute inset-0">
-            {/* Connection Lines */}
+            {/* Horizontal Flow Streams */}
             <motion.path
-              d="M 100,150 Q 300,100 500,200 T 900,150"
+              d="M 0,200 Q 200,180 400,200 T 800,200 T 1200,200"
               fill="none"
-              stroke="#3b82f6"
-              strokeWidth="1"
-              strokeDasharray="4,4"
+              stroke="url(#gradient1)"
+              strokeWidth="2"
+              strokeDasharray="8,8"
               initial={{ pathLength: 0 }}
               animate={{ pathLength: 1 }}
-              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-              className="opacity-30"
+              transition={{ 
+                duration: 12, 
+                repeat: Infinity, 
+                ease: "linear" 
+              }}
             />
+            
             <motion.path
-              d="M 200,300 Q 400,250 600,350 T 1000,300"
+              d="M 0,400 Q 250,420 500,400 T 1000,400 T 1400,400"
               fill="none"
-              stroke="#8b5cf6"
-              strokeWidth="1"
+              stroke="url(#gradient2)"
+              strokeWidth="1.5"
               strokeDasharray="6,6"
               initial={{ pathLength: 0 }}
               animate={{ pathLength: 1 }}
-              transition={{ duration: 10, repeat: Infinity, ease: "linear", delay: 2 }}
-              className="opacity-30"
+              transition={{ 
+                duration: 15, 
+                repeat: Infinity, 
+                ease: "linear",
+                delay: 2
+              }}
             />
-            <motion.path
-              d="M 150,500 Q 350,400 550,500 T 850,450"
-              fill="none"
-              stroke="#06b6d4"
-              strokeWidth="1"
-              strokeDasharray="3,3"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 4 }}
-              className="opacity-30"
-            />
+
+            {/* Gradient Definitions */}
+            <defs>
+              <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#3b82f6" stopOpacity="0" />
+                <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.6" />
+                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
+              </linearGradient>
+              <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#06b6d4" stopOpacity="0" />
+                <stop offset="50%" stopColor="#06b6d4" stopOpacity="0.5" />
+                <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
+              </linearGradient>
+            </defs>
           </svg>
-
-          {/* Workflow Nodes */}
-          <motion.div
-            animate={{ 
-              scale: [1, 1.1, 1],
-              opacity: [0.6, 0.8, 0.6]
-            }}
-            transition={{ duration: 4, repeat: Infinity, delay: 0 }}
-            className="absolute top-32 left-20"
-          >
-            <div className="w-8 h-8 rounded-lg bg-blue-500 opacity-20 flex items-center justify-center">
-              <div className="w-3 h-3 bg-white rounded-full"></div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            animate={{ 
-              scale: [1, 1.2, 1],
-              opacity: [0.5, 0.7, 0.5]
-            }}
-            transition={{ duration: 5, repeat: Infinity, delay: 1.5 }}
-            className="absolute top-48 right-32"
-          >
-            <div className="w-6 h-6 rounded-full bg-purple-500 opacity-20 flex items-center justify-center">
-              <div className="w-2 h-2 bg-white rounded-full"></div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            animate={{ 
-              scale: [1, 1.15, 1],
-              opacity: [0.4, 0.6, 0.4]
-            }}
-            transition={{ duration: 6, repeat: Infinity, delay: 3 }}
-            className="absolute bottom-48 left-32"
-          >
-            <div className="w-10 h-6 rounded bg-cyan-500 opacity-20 flex items-center justify-center">
-              <div className="w-4 h-1 bg-white rounded-full"></div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            animate={{ 
-              scale: [1, 1.1, 1],
-              opacity: [0.5, 0.8, 0.5]
-            }}
-            transition={{ duration: 3.5, repeat: Infinity, delay: 2 }}
-            className="absolute top-1/2 right-20"
-          >
-            <div className="w-7 h-7 rounded bg-indigo-500 opacity-20 flex items-center justify-center">
-              <div className="w-3 h-3 border border-white rounded-full"></div>
-            </div>
-          </motion.div>
         </motion.div>
 
-        {/* Data Flow Particles */}
-        {[...Array(8)].map((_, i) => (
+        {/* Ambient Data Particles */}
+        {[...Array(12)].map((_, i) => (
           <motion.div
-            key={`particle-${i}`}
+            key={`ambient-${i}`}
             animate={{
-              x: [0, 200, 400, 600, 800],
-              y: [100 + i * 50, 120 + i * 45, 140 + i * 55, 110 + i * 60, 130 + i * 50],
-              opacity: [0, 0.6, 0.8, 0.6, 0],
+              x: [0, 100, 200, 300, 400, 500],
+              y: [100 + i * 30, 90 + i * 35, 110 + i * 25, 95 + i * 40, 105 + i * 30, 100 + i * 30],
+              opacity: [0, 0.3, 0.6, 0.3, 0.1, 0],
             }}
             transition={{
-              duration: 15 + i * 2,
+              duration: 20 + i * 3,
               repeat: Infinity,
-              delay: i * 1.5,
-              ease: "easeInOut"
+              delay: i * 1.2,
+              ease: "linear"
             }}
             className="absolute"
             style={{
-              left: '5%',
-              top: `${15 + i * 8}%`,
+              left: '-50px',
+              top: `${10 + i * 6}%`,
             }}
           >
-            <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"></div>
+            <div 
+              className="w-1 h-1 rounded-full"
+              style={{
+                background: `hsl(${200 + i * 20}, 70%, 60%)`,
+              }}
+            />
           </motion.div>
         ))}
-
-        {/* AI Brain Circuit Pattern */}
-        <motion.div
-          animate={{ 
-            opacity: [0.02, 0.08, 0.02],
-          }}
-          transition={{ duration: 8, repeat: Infinity }}
-          className="absolute top-1/4 right-1/4"
-        >
-          <svg width="200" height="200" viewBox="0 0 200 200">
-            <circle cx="100" cy="100" r="80" fill="none" stroke="#3b82f6" strokeWidth="0.5" strokeDasharray="2,2" />
-            <circle cx="100" cy="100" r="60" fill="none" stroke="#8b5cf6" strokeWidth="0.5" strokeDasharray="3,3" />
-            <circle cx="100" cy="100" r="40" fill="none" stroke="#06b6d4" strokeWidth="0.5" strokeDasharray="1,1" />
-            <circle cx="70" cy="70" r="8" fill="#3b82f6" opacity="0.3" />
-            <circle cx="130" cy="70" r="6" fill="#8b5cf6" opacity="0.3" />
-            <circle cx="100" cy="130" r="7" fill="#06b6d4" opacity="0.3" />
-            <line x1="70" y1="70" x2="130" y2="70" stroke="#3b82f6" strokeWidth="0.5" opacity="0.4" />
-            <line x1="70" y1="70" x2="100" y2="130" stroke="#8b5cf6" strokeWidth="0.5" opacity="0.4" />
-            <line x1="130" y1="70" x2="100" y2="130" stroke="#06b6d4" strokeWidth="0.5" opacity="0.4" />
-          </svg>
-        </motion.div>
-
-        {/* N8N-style Workflow Blocks */}
-        <motion.div
-          animate={{
-            y: [0, -20, 0],
-            rotate: [0, 5, 0],
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-1/3 left-1/4 opacity-10"
-        >
-          <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-green-500 rounded-sm"></div>
-            <div className="w-1 h-0.5 bg-gray-400"></div>
-            <div className="w-4 h-4 bg-blue-500 rounded-sm"></div>
-            <div className="w-1 h-0.5 bg-gray-400"></div>
-            <div className="w-4 h-4 bg-purple-500 rounded-sm"></div>
-          </div>
-        </motion.div>
-
-        {/* API Connection Visualization */}
-        <motion.div
-          animate={{
-            scale: [1, 1.05, 1],
-            opacity: [0.05, 0.15, 0.05],
-          }}
-          transition={{ duration: 6, repeat: Infinity, delay: 1 }}
-          className="absolute top-20 right-20"
-        >
-          <svg width="120" height="80" viewBox="0 0 120 80">
-            <rect x="10" y="30" width="20" height="20" fill="#3b82f6" opacity="0.5" rx="2" />
-            <rect x="90" y="30" width="20" height="20" fill="#8b5cf6" opacity="0.5" rx="2" />
-            <path d="M30,40 Q60,20 90,40" fill="none" stroke="#06b6d4" strokeWidth="1" strokeDasharray="2,2" />
-            <circle cx="60" cy="30" r="3" fill="#06b6d4" opacity="0.6" />
-          </svg>
-        </motion.div>
       </div>
       <div className="container mx-auto px-4 lg:px-6 py-16">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
