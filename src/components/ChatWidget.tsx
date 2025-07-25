@@ -21,6 +21,28 @@ const ChatWidget = () => {
         "Hi there! 👋",
         "I'm Henry's AI assistant. How can I help you today?"
       ],
+      // Custom response processing to handle Telegram bot format
+      responseMapping: {
+        text: (response: any) => {
+          // Handle nested Telegram bot response format
+          if (response?.result?.text) {
+            return response.result.text;
+          }
+          // Handle direct text response
+          if (typeof response === 'string') {
+            return response;
+          }
+          // Handle other common formats
+          if (response?.text) {
+            return response.text;
+          }
+          if (response?.message) {
+            return response.message;
+          }
+          // Fallback
+          return 'Thanks for your message! Henry will get back to you soon.';
+        }
+      },
       i18n: {
         en: {
           title: "Henry's AI Assistant",
