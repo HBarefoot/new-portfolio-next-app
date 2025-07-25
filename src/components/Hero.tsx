@@ -125,6 +125,13 @@ const Hero = () => {
                     height={320}
                     className="w-full h-full object-cover rounded-full"
                     priority
+                    unoptimized
+                    onError={(e) => {
+                      console.error('Image failed to load:', e);
+                    }}
+                    onLoad={() => {
+                      console.log('Image loaded successfully');
+                    }}
                   />
                 </div>
               </div>
