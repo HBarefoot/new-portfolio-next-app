@@ -6,8 +6,9 @@ import { useState } from 'react';
 import { useForm, ValidationError } from '@formspree/react';
 
 const Contact = () => {
-  // Formspree form hook - uses environment variable
-  const [state, handleSubmit] = useForm(process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID || "");
+  // Formspree form hook - uses Vercel integration environment variable
+  // Falls back to a placeholder during build if env var not set
+  const [state, handleSubmit] = useForm(process.env.NEXT_PUBLIC_FORM || "placeholder");
   
   const [formData, setFormData] = useState({
     name: '',
