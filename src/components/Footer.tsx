@@ -44,27 +44,31 @@ const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
-            className="flex flex-col md:items-center"
           >
-            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-            <nav className="space-y-2">
+            <h4 className="text-lg font-semibold mb-4 text-center md:text-center">Quick Links</h4>
+            <nav className="space-y-2 text-center md:text-center">
               {[
-                { label: 'About', href: 'about' },
-                { label: 'Skills', href: 'skills' },
-                { label: 'Experience', href: 'experience' },
-                { label: 'Contact', href: 'contact' }
+                { label: 'About', href: '#about' },
+                { label: 'Skills', href: '#skills' },
+                { label: 'Experience', href: '#experience' },
+                { label: 'Projects', href: '#projects' },
+                { label: 'Contact', href: '#contact' }
               ].map((link) => (
-                <motion.button
+                <motion.a
                   key={link.href}
-                  onClick={() => {
-                    const element = document.getElementById(link.href);
-                    if (element) element.scrollIntoView({ behavior: 'smooth' });
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const element = document.getElementById(link.href.substring(1));
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                   }}
                   whileHover={{ x: 5 }}
-                  className="block text-gray-400 hover:text-white transition-colors"
+                  className="block text-gray-400 hover:text-white transition-colors cursor-pointer"
                 >
                   {link.label}
-                </motion.button>
+                </motion.a>
               ))}
             </nav>
           </motion.div>
@@ -75,10 +79,9 @@ const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className="flex flex-col md:items-end"
           >
-            <h4 className="text-lg font-semibold mb-4">Get In Touch</h4>
-            <div className="space-y-2 text-gray-400">
+            <h4 className="text-lg font-semibold mb-4 text-center md:text-right">Get In Touch</h4>
+            <div className="space-y-2 text-gray-400 text-center md:text-right">
               <a
                 href="tel:+19545401902"
                 className="block hover:text-white transition-colors"
