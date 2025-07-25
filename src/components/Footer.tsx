@@ -45,8 +45,8 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <h4 className="text-lg font-semibold mb-4 text-center md:text-center">Quick Links</h4>
-            <nav className="space-y-2 text-center md:text-center">
+            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+            <nav className="space-y-2">
               {[
                 { label: 'About', href: '#about' },
                 { label: 'Skills', href: '#skills' },
@@ -80,8 +80,8 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h4 className="text-lg font-semibold mb-4 text-center md:text-right">Get In Touch</h4>
-            <div className="space-y-2 text-gray-400 text-center md:text-right">
+            <h4 className="text-lg font-semibold mb-4">Get In Touch</h4>
+            <div className="space-y-2 text-gray-400">
               <a
                 href="tel:+19545401902"
                 className="block hover:text-white transition-colors"
