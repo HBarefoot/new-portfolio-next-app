@@ -47,14 +47,15 @@ const Hero = () => {
     <section id="hero" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 pt-16 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        {/* Central Hub Network - Centered for all viewports */}
+        {/* Central Hub Network - Constrained positioning */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.3 }}
           transition={{ duration: 3, delay: 1 }}
           className="absolute top-1/4 left-1/2 transform -translate-x-1/2 lg:left-1/6 lg:transform-none"
+          style={{ maxWidth: '300px', maxHeight: '300px' }}
         >
-          <svg width="250" height="250" viewBox="0 0 250 250" className="w-48 h-48 md:w-60 md:h-60 lg:w-72 lg:h-72">
+          <svg width="250" height="250" viewBox="0 0 250 250" className="w-48 h-48 md:w-60 md:h-60 lg:w-64 lg:h-64 max-w-full max-h-full">
             {/* Central Node */}
             <motion.circle
               cx="125"
@@ -127,14 +128,15 @@ const Hero = () => {
           </svg>
         </motion.div>
 
-        {/* Secondary Hub Network - Repositioned for mobile */}
+        {/* Secondary Hub Network - Constrained positioning */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.2 }}
           transition={{ duration: 3, delay: 2 }}
           className="absolute top-3/4 left-1/2 transform -translate-x-1/2 lg:top-1/2 lg:right-1/6 lg:left-auto lg:transform-none"
+          style={{ maxWidth: '200px', maxHeight: '200px' }}
         >
-          <svg width="200" height="200" viewBox="0 0 200 200" className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48">
+          <svg width="200" height="200" viewBox="0 0 200 200" className="w-32 h-32 md:w-40 md:h-40 lg:w-44 lg:h-44 max-w-full max-h-full">
             {/* Central Node */}
             <motion.rect
               x="85"
@@ -210,70 +212,10 @@ const Hero = () => {
           </svg>
         </motion.div>
 
-        {/* Flowing Network Streams - Simplified to prevent horizontal scroll */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.15 }}
-          transition={{ duration: 4, delay: 0.5 }}
-          className="absolute inset-0 hidden md:block"
-        >
-          <svg 
-            width="100%" 
-            height="100%" 
-            className="absolute inset-0" 
-            viewBox="0 0 1000 600" 
-            preserveAspectRatio="xMidYMid slice"
-          >
-            {/* Simplified Horizontal Flow Streams */}
-            <motion.path
-              d="M 0,200 Q 250,180 500,200 T 1000,200"
-              fill="none"
-              stroke="url(#gradient1)"
-              strokeWidth="2"
-              strokeDasharray="8,4"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ 
-                duration: 8, 
-                repeat: Infinity, 
-                ease: "linear" 
-              }}
-            />
-            
-            <motion.path
-              d="M 0,350 Q 350,370 700,350 T 1000,350"
-              fill="none"
-              stroke="url(#gradient2)"
-              strokeWidth="1.5"
-              strokeDasharray="6,3"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ 
-                duration: 10, 
-                repeat: Infinity, 
-                ease: "linear",
-                delay: 2
-              }}
-            />
-
-            {/* Gradient Definitions */}
-            <defs>
-              <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#3b82f6" stopOpacity="0" />
-                <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
-              </linearGradient>
-              <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#06b6d4" stopOpacity="0" />
-                <stop offset="50%" stopColor="#06b6d4" stopOpacity="0.5" />
-                <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </motion.div>
+        {/* Network Streams - Temporarily disabled to eliminate horizontal scroll */}
       </div>
-      <div className="container mx-auto px-4 lg:px-6 py-8 lg:py-16 max-w-7xl relative z-10">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      <div className="w-full max-w-none mx-auto px-4 lg:px-6 py-8 lg:py-16 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
           {/* Text Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
