@@ -26,145 +26,185 @@ const Hero = () => {
     <section id="hero" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 pt-16 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Floating Circles */}
+        {/* Network Nodes and Connections */}
         <motion.div
-          animate={{
-            x: [0, 100, 0],
-            y: [0, -50, 0],
-            rotate: [0, 180, 360],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          className="absolute top-20 left-10 opacity-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.08 }}
+          transition={{ duration: 2, delay: 1 }}
+          className="absolute inset-0"
         >
-          <svg width="80" height="80" viewBox="0 0 80 80">
-            <circle cx="40" cy="40" r="35" fill="none" stroke="#3b82f6" strokeWidth="2" />
-            <circle cx="40" cy="40" r="20" fill="#3b82f6" opacity="0.3" />
+          {/* Node Network */}
+          <svg width="100%" height="100%" className="absolute inset-0">
+            {/* Connection Lines */}
+            <motion.path
+              d="M 100,150 Q 300,100 500,200 T 900,150"
+              fill="none"
+              stroke="#3b82f6"
+              strokeWidth="1"
+              strokeDasharray="4,4"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              className="opacity-30"
+            />
+            <motion.path
+              d="M 200,300 Q 400,250 600,350 T 1000,300"
+              fill="none"
+              stroke="#8b5cf6"
+              strokeWidth="1"
+              strokeDasharray="6,6"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 10, repeat: Infinity, ease: "linear", delay: 2 }}
+              className="opacity-30"
+            />
+            <motion.path
+              d="M 150,500 Q 350,400 550,500 T 850,450"
+              fill="none"
+              stroke="#06b6d4"
+              strokeWidth="1"
+              strokeDasharray="3,3"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 4 }}
+              className="opacity-30"
+            />
           </svg>
-        </motion.div>
 
-        <motion.div
-          animate={{
-            x: [0, -80, 0],
-            y: [0, 60, 0],
-            rotate: [0, -180, -360],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          className="absolute top-1/2 right-20 opacity-10"
-        >
-          <svg width="60" height="60" viewBox="0 0 60 60">
-            <polygon points="30,5 55,50 5,50" fill="none" stroke="#8b5cf6" strokeWidth="2" />
-            <polygon points="30,15 45,40 15,40" fill="#8b5cf6" opacity="0.3" />
-          </svg>
-        </motion.div>
-
-        {/* Floating Particles */}
-        {[...Array(6)].map((_, i) => (
+          {/* Workflow Nodes */}
           <motion.div
-            key={i}
+            animate={{ 
+              scale: [1, 1.1, 1],
+              opacity: [0.6, 0.8, 0.6]
+            }}
+            transition={{ duration: 4, repeat: Infinity, delay: 0 }}
+            className="absolute top-32 left-20"
+          >
+            <div className="w-8 h-8 rounded-lg bg-blue-500 opacity-20 flex items-center justify-center">
+              <div className="w-3 h-3 bg-white rounded-full"></div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            animate={{ 
+              scale: [1, 1.2, 1],
+              opacity: [0.5, 0.7, 0.5]
+            }}
+            transition={{ duration: 5, repeat: Infinity, delay: 1.5 }}
+            className="absolute top-48 right-32"
+          >
+            <div className="w-6 h-6 rounded-full bg-purple-500 opacity-20 flex items-center justify-center">
+              <div className="w-2 h-2 bg-white rounded-full"></div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            animate={{ 
+              scale: [1, 1.15, 1],
+              opacity: [0.4, 0.6, 0.4]
+            }}
+            transition={{ duration: 6, repeat: Infinity, delay: 3 }}
+            className="absolute bottom-48 left-32"
+          >
+            <div className="w-10 h-6 rounded bg-cyan-500 opacity-20 flex items-center justify-center">
+              <div className="w-4 h-1 bg-white rounded-full"></div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            animate={{ 
+              scale: [1, 1.1, 1],
+              opacity: [0.5, 0.8, 0.5]
+            }}
+            transition={{ duration: 3.5, repeat: Infinity, delay: 2 }}
+            className="absolute top-1/2 right-20"
+          >
+            <div className="w-7 h-7 rounded bg-indigo-500 opacity-20 flex items-center justify-center">
+              <div className="w-3 h-3 border border-white rounded-full"></div>
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Data Flow Particles */}
+        {[...Array(8)].map((_, i) => (
+          <motion.div
+            key={`particle-${i}`}
             animate={{
-              y: [0, -100, 0],
-              opacity: [0.1, 0.3, 0.1],
+              x: [0, 200, 400, 600, 800],
+              y: [100 + i * 50, 120 + i * 45, 140 + i * 55, 110 + i * 60, 130 + i * 50],
+              opacity: [0, 0.6, 0.8, 0.6, 0],
             }}
             transition={{
-              duration: 8 + i * 2,
+              duration: 15 + i * 2,
               repeat: Infinity,
-              delay: i * 2,
+              delay: i * 1.5,
               ease: "easeInOut"
             }}
             className="absolute"
             style={{
-              left: `${10 + i * 15}%`,
-              top: `${20 + i * 10}%`,
+              left: '5%',
+              top: `${15 + i * 8}%`,
             }}
           >
-            <div className="w-2 h-2 bg-blue-400 rounded-full opacity-20"></div>
+            <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"></div>
           </motion.div>
         ))}
 
-        {/* Animated Lines */}
+        {/* AI Brain Circuit Pattern */}
         <motion.div
-          animate={{
-            rotate: [0, 360],
+          animate={{ 
+            opacity: [0.02, 0.08, 0.02],
           }}
-          transition={{
-            duration: 30,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          className="absolute top-1/4 left-1/4 opacity-5"
+          transition={{ duration: 8, repeat: Infinity }}
+          className="absolute top-1/4 right-1/4"
         >
           <svg width="200" height="200" viewBox="0 0 200 200">
-            <path
-              d="M100,20 L180,100 L100,180 L20,100 Z"
-              fill="none"
-              stroke="#3b82f6"
-              strokeWidth="1"
-              strokeDasharray="5,5"
-            />
+            <circle cx="100" cy="100" r="80" fill="none" stroke="#3b82f6" strokeWidth="0.5" strokeDasharray="2,2" />
+            <circle cx="100" cy="100" r="60" fill="none" stroke="#8b5cf6" strokeWidth="0.5" strokeDasharray="3,3" />
+            <circle cx="100" cy="100" r="40" fill="none" stroke="#06b6d4" strokeWidth="0.5" strokeDasharray="1,1" />
+            <circle cx="70" cy="70" r="8" fill="#3b82f6" opacity="0.3" />
+            <circle cx="130" cy="70" r="6" fill="#8b5cf6" opacity="0.3" />
+            <circle cx="100" cy="130" r="7" fill="#06b6d4" opacity="0.3" />
+            <line x1="70" y1="70" x2="130" y2="70" stroke="#3b82f6" strokeWidth="0.5" opacity="0.4" />
+            <line x1="70" y1="70" x2="100" y2="130" stroke="#8b5cf6" strokeWidth="0.5" opacity="0.4" />
+            <line x1="130" y1="70" x2="100" y2="130" stroke="#06b6d4" strokeWidth="0.5" opacity="0.4" />
           </svg>
         </motion.div>
 
+        {/* N8N-style Workflow Blocks */}
         <motion.div
           animate={{
-            rotate: [360, 0],
+            y: [0, -20, 0],
+            rotate: [0, 5, 0],
           }}
-          transition={{
-            duration: 40,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          className="absolute bottom-1/4 right-1/4 opacity-5"
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-1/3 left-1/4 opacity-10"
         >
-          <svg width="150" height="150" viewBox="0 0 150 150">
-            <rect
-              x="25"
-              y="25"
-              width="100"
-              height="100"
-              fill="none"
-              stroke="#8b5cf6"
-              strokeWidth="1"
-              strokeDasharray="3,3"
-              transform="rotate(45 75 75)"
-            />
-          </svg>
+          <div className="flex items-center space-x-2">
+            <div className="w-4 h-4 bg-green-500 rounded-sm"></div>
+            <div className="w-1 h-0.5 bg-gray-400"></div>
+            <div className="w-4 h-4 bg-blue-500 rounded-sm"></div>
+            <div className="w-1 h-0.5 bg-gray-400"></div>
+            <div className="w-4 h-4 bg-purple-500 rounded-sm"></div>
+          </div>
         </motion.div>
 
-        {/* Gradient Orbs */}
+        {/* API Connection Visualization */}
         <motion.div
           animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.1, 0.2, 0.1],
+            scale: [1, 1.05, 1],
+            opacity: [0.05, 0.15, 0.05],
           }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute top-10 right-10 w-32 h-32 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full blur-xl opacity-10"
-        />
-
-        <motion.div
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.1, 0.15, 0.1],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            delay: 2,
-            ease: "easeInOut"
-          }}
-          className="absolute bottom-20 left-10 w-24 h-24 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full blur-xl opacity-10"
-        />
+          transition={{ duration: 6, repeat: Infinity, delay: 1 }}
+          className="absolute top-20 right-20"
+        >
+          <svg width="120" height="80" viewBox="0 0 120 80">
+            <rect x="10" y="30" width="20" height="20" fill="#3b82f6" opacity="0.5" rx="2" />
+            <rect x="90" y="30" width="20" height="20" fill="#8b5cf6" opacity="0.5" rx="2" />
+            <path d="M30,40 Q60,20 90,40" fill="none" stroke="#06b6d4" strokeWidth="1" strokeDasharray="2,2" />
+            <circle cx="60" cy="30" r="3" fill="#06b6d4" opacity="0.6" />
+          </svg>
+        </motion.div>
       </div>
       <div className="container mx-auto px-4 lg:px-6 py-16">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
