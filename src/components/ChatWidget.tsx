@@ -16,7 +16,7 @@ const ChatWidget = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: "Hi! I&apos;m Henry&apos;s AI assistant. How can I help you today?",
+      text: "Hi! I'm Henry's AI assistant. How can I help you today?",
       sender: 'bot',
       timestamp: new Date()
     }
@@ -60,15 +60,24 @@ const ChatWidget = () => {
         })
       });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+      let botResponse = "Thanks for your message! I've received it and Henry will get back to you soon.";
 
-      const data = await response.json();
+      if (response.ok) {
+        try {
+          const data = await response.json();
+          botResponse = data.response || data.message || data.text || botResponse;
+        } catch (parseError) {
+          console.log('Response parsing error:', parseError);
+          // Use default response if JSON parsing fails
+        }
+      } else {
+        console.log('N8N webhook response status:', response.status);
+        // Use default response for non-200 status codes
+      }
       
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: data.response || data.message || "I received your message! Henry will get back to you soon.",
+        text: botResponse,
         sender: 'bot',
         timestamp: new Date()
       };
@@ -78,7 +87,7 @@ const ChatWidget = () => {
       console.error('Chat error:', error);
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: "Thanks for your message! I&apos;ve forwarded it to Henry and he&apos;ll get back to you soon.",
+        text: "Thanks for your message! I've forwarded it to Henry and he'll get back to you soon.",
         sender: 'bot',
         timestamp: new Date()
       };
@@ -128,7 +137,7 @@ const ChatWidget = () => {
                   <Bot size={16} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm">Henry&apos;s Assistant</h3>
+                  <h3 className="font-semibold text-sm">Henry's Assistant</h3>
                   <p className="text-xs opacity-90">Online</p>
                 </div>
               </div>
