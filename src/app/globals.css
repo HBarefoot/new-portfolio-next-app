@@ -132,9 +132,9 @@ html {
   --chat--message--user--background: #3b82f6;
   --chat--message--user--color: #ffffff;
 
-  --chat--toggle--background: #3b82f6;
-  --chat--toggle--hover--background: #2563eb;
-  --chat--toggle--active--background: #1d4ed8;
+  --chat--toggle--background: #2563eb;
+  --chat--toggle--hover--background: #1d4ed8;
+  --chat--toggle--active--background: #1e40af;
   --chat--toggle--color: #ffffff;
   --chat--toggle--size: 64px;
 }
