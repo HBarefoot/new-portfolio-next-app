@@ -3,17 +3,18 @@
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Globe } from 'lucide-react';
 import { useState } from 'react';
+import { useForm, ValidationError } from '@formspree/react';
 
 const Contact = () => {
+  // Formspree form hook - uses environment variable
+  const [state, handleSubmit] = useForm(process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID || "");
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: ''
   });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -23,23 +24,12 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    try {
-      // In a real application, you would send the form data to your backend
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      setSubmitStatus('success');
+  // Reset form when submission is successful
+  if (state.succeeded) {
+    if (formData.name || formData.email || formData.subject || formData.message) {
       setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch {
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-      setTimeout(() => setSubmitStatus('idle'), 5000);
     }
-  };
+  }
 
   const contactInfo = [
     {
@@ -226,6 +216,12 @@ const Contact = () => {
                     className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
                     placeholder="your@email.com"
                   />
+                  <ValidationError 
+                    prefix="Email" 
+                    field="email"
+                    errors={state.errors}
+                    className="text-red-400 text-sm mt-1"
+                  />
                 </div>
               </div>
 
@@ -263,16 +259,16 @@ const Contact = () => {
 
               <motion.button
                 type="submit"
-                disabled={isSubmitting}
-                whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
-                whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                disabled={state.submitting}
+                whileHover={{ scale: state.submitting ? 1 : 1.02 }}
+                whileTap={{ scale: state.submitting ? 1 : 0.98 }}
                 className={`w-full py-3 px-6 rounded-lg font-semibold flex items-center justify-center transition-colors ${
-                  isSubmitting
+                  state.submitting
                     ? 'bg-gray-600 cursor-not-allowed'
                     : 'bg-blue-600 hover:bg-blue-700'
                 } text-white`}
               >
-                {isSubmitting ? (
+                {state.submitting ? (
                   <div className="flex items-center">
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
                     Sending...
@@ -285,24 +281,20 @@ const Contact = () => {
                 )}
               </motion.button>
 
+              {/* Validation Errors */}
+              <ValidationError 
+                errors={state.errors}
+                className="text-red-400 text-sm"
+              />
+
               {/* Status Messages */}
-              {submitStatus === 'success' && (
+              {state.succeeded && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="text-green-400 text-center p-3 bg-green-900/20 rounded-lg"
                 >
                   Message sent successfully! I&apos;ll get back to you soon.
-                </motion.div>
-              )}
-              
-              {submitStatus === 'error' && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-red-400 text-center p-3 bg-red-900/20 rounded-lg"
-                >
-                  There was an error sending your message. Please try again.
                 </motion.div>
               )}
             </form>
