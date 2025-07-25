@@ -119,7 +119,7 @@ const Hero = () => {
               <div className="w-80 h-80 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 p-2 shadow-2xl">
                 <div className="w-full h-full rounded-full overflow-hidden">
                   <Image
-                    src="/henry-profile.jpg"
+                    src="/henry-profile.jpeg"
                     alt="Henry Barefoot - Senior Web Developer"
                     width={320}
                     height={320}
