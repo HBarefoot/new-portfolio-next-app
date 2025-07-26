@@ -18,16 +18,18 @@ const ChatWidget = () => {
       showWelcomeScreen: true,
       loadPreviousSession: false,
       initialMessages: [
-        "Hi there! 👋",
-        "I'm Henry's AI assistant. How can I help you today?"
+        "Welcome to Henry's AI Assistant! 👋",
+        "Before we start, I'd love to know who I'm talking to.",
+        "Please share your name and email so I can provide personalized assistance:",
+        "Example: 'Hi, I'm John Smith, john@company.com. I'd like to know about Henry's React experience.'"
       ],
       i18n: {
         en: {
           title: "Henry's AI Assistant",
-          subtitle: 'Powered by n8n automation. Ask me anything!',
+          subtitle: 'Get instant answers about Henry\'s experience & skills',
           footer: 'Built with ❤️ using n8n',
           getStarted: 'Start Conversation',
-          inputPlaceholder: 'Ask me anything about Henry...',
+          inputPlaceholder: 'Start with your name and email...',
           closeButtonTooltip: 'Close chat',
         },
       },
