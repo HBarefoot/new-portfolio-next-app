@@ -17,6 +17,99 @@ const ChatWidget = () => {
   const [chatInitialized, setChatInitialized] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
+  // Function to force widget styling with JavaScript
+  const forceWidgetStyling = () => {
+    // Find all possible n8n chat elements
+    const chatWidgets = document.querySelectorAll('[data-n8n-chat], .n8n-chat, .n8n-chat-widget, .n8n-chat-window');
+    
+    chatWidgets.forEach((widget) => {
+      // Force main widget styling
+      if (widget instanceof HTMLElement) {
+        widget.style.setProperty('border-radius', '0.75rem', 'important');
+        widget.style.setProperty('box-shadow', '0 25px 50px -12px rgba(0, 0, 0, 0.25)', 'important');
+        widget.style.setProperty('border', '1px solid #e5e7eb', 'important');
+        widget.style.setProperty('background', '#ffffff', 'important');
+        widget.style.setProperty('font-family', 'Inter, sans-serif', 'important');
+      }
+      
+      // Force header styling
+      const headers = widget.querySelectorAll('.n8n-chat-header, .header, [class*="header"]');
+      headers.forEach((header) => {
+        if (header instanceof HTMLElement) {
+          header.style.setProperty('background', 'linear-gradient(to right, #3b82f6, #2563eb)', 'important');
+          header.style.setProperty('color', 'white', 'important');
+          header.style.setProperty('border-radius', '0.75rem 0.75rem 0 0', 'important');
+          header.style.setProperty('padding', '1rem', 'important');
+        }
+      });
+      
+      // Force title styling
+      const titles = widget.querySelectorAll('.n8n-chat-header h1, .n8n-chat-header .title, .header h1, .header .title, h1, [class*="title"]');
+      titles.forEach((title) => {
+        if (title instanceof HTMLElement) {
+          title.style.setProperty('color', 'white', 'important');
+          title.style.setProperty('font-size', '1.125rem', 'important');
+          title.style.setProperty('font-weight', '600', 'important');
+          title.style.setProperty('margin', '0', 'important');
+        }
+      });
+      
+      // Force subtitle styling
+      const subtitles = widget.querySelectorAll('.n8n-chat-header p, .n8n-chat-header .subtitle, .header p, .header .subtitle');
+      subtitles.forEach((subtitle) => {
+        if (subtitle instanceof HTMLElement) {
+          subtitle.style.setProperty('color', 'rgba(255, 255, 255, 0.9)', 'important');
+          subtitle.style.setProperty('font-size', '0.875rem', 'important');
+          subtitle.style.setProperty('margin', '0', 'important');
+          subtitle.style.setProperty('margin-top', '0.25rem', 'important');
+        }
+      });
+      
+      // Force message styling
+      const userMessages = widget.querySelectorAll('.n8n-chat-message-user, .message.user, [class*="message"][class*="user"]');
+      userMessages.forEach((msg) => {
+        if (msg instanceof HTMLElement) {
+          msg.style.setProperty('background-color', '#3b82f6', 'important');
+          msg.style.setProperty('color', 'white', 'important');
+          msg.style.setProperty('border-radius', '1rem 1rem 0.25rem 1rem', 'important');
+        }
+      });
+      
+      const botMessages = widget.querySelectorAll('.n8n-chat-message-bot, .n8n-chat-message-assistant, .message.bot, .message.assistant, [class*="message"]:not([class*="user"])');
+      botMessages.forEach((msg) => {
+        if (msg instanceof HTMLElement) {
+          msg.style.setProperty('background-color', '#f3f4f6', 'important');
+          msg.style.setProperty('color', '#374151', 'important');
+          msg.style.setProperty('border-radius', '1rem 1rem 1rem 0.25rem', 'important');
+        }
+      });
+      
+      // Force input styling
+      const inputs = widget.querySelectorAll('input, textarea, [contenteditable]');
+      inputs.forEach((input) => {
+        if (input instanceof HTMLElement) {
+          input.style.setProperty('border', '1px solid #d1d5db', 'important');
+          input.style.setProperty('border-radius', '0.5rem', 'important');
+          input.style.setProperty('padding', '0.75rem', 'important');
+          input.style.setProperty('background', 'white', 'important');
+          input.style.setProperty('color', '#374151', 'important');
+        }
+      });
+      
+      // Force button styling
+      const buttons = widget.querySelectorAll('button, [role="button"]');
+      buttons.forEach((button) => {
+        if (button instanceof HTMLElement && button.textContent && !button.textContent.includes('×')) {
+          button.style.setProperty('background-color', '#3b82f6', 'important');
+          button.style.setProperty('color', 'white', 'important');
+          button.style.setProperty('border-radius', '0.5rem', 'important');
+          button.style.setProperty('border', 'none', 'important');
+          button.style.setProperty('font-weight', '600', 'important');
+        }
+      });
+    });
+  };
+
   // Initialize chat after contact form is submitted
   useEffect(() => {
     if (contactInfo && !chatInitialized && !isAnimating) {
@@ -32,7 +125,7 @@ const ChatWidget = () => {
           },
         },
         mode: 'window',
-        showWelcomeScreen: false, // Remove welcome screen - jump straight to chat
+        showWelcomeScreen: false,
         loadPreviousSession: false,
         initialMessages: [
           `Welcome ${contactInfo.name}! 👋`,
@@ -50,9 +143,43 @@ const ChatWidget = () => {
           },
         },
       });
+      
+      // Force styling after a short delay to ensure n8n widget is loaded
+      setTimeout(() => {
+        forceWidgetStyling();
+      }, 1000);
+      
       setChatInitialized(true);
     }
   }, [contactInfo, chatInitialized, isAnimating]);
+
+  // Add effect to continuously monitor and style the chat widget
+  useEffect(() => {
+    if (chatInitialized) {
+      // Set up a MutationObserver to watch for changes in the chat widget
+      const observer = new MutationObserver(() => {
+        forceWidgetStyling();
+      });
+      
+      // Start observing
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class', 'style']
+      });
+      
+      // Also apply styling periodically as fallback
+      const interval = setInterval(() => {
+        forceWidgetStyling();
+      }, 2000);
+      
+      return () => {
+        observer.disconnect();
+        clearInterval(interval);
+      };
+    }
+  }, [chatInitialized]);
 
   const handleContactSubmit = async (info: ContactInfo) => {
     setContactInfo(info);
