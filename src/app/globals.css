@@ -138,3 +138,24 @@ html {
   --chat--toggle--color: #ffffff;
   --chat--toggle--size: 64px;
 }
+
+/* Enhanced chat message styling for contact form */
+.n8n-chat-message-bot-text {
+  line-height: 1.5;
+}
+
+.n8n-chat-message-bot-text strong {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* Style the input placeholder for contact form */
+.n8n-chat-input::placeholder {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+/* Add some spacing for better readability in contact form messages */
+.n8n-chat-messages .n8n-chat-message:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
