@@ -150,101 +150,191 @@ body {
   --chat-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-/* Override n8n chat widget styles to match website branding */
-.n8n-chat {
+/* Override n8n chat widget styles with highest specificity */
+div[data-n8n-chat] .n8n-chat,
+.n8n-chat-widget,
+.n8n-chat-window {
   --chat-window-width: 380px !important;
   --chat-window-height: 600px !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 
-/* Header styling to match contact form */
-.n8n-chat .n8n-chat-header {
+/* Force header styling to match contact form exactly */
+div[data-n8n-chat] .n8n-chat-header,
+.n8n-chat .n8n-chat-header,
+.n8n-chat-widget .header,
+.n8n-chat-window .header {
   background: linear-gradient(to right, #3b82f6, #2563eb) !important;
+  background-color: #3b82f6 !important;
   color: white !important;
   border-radius: 0.75rem 0.75rem 0 0 !important;
   padding: 1rem !important;
+  border: none !important;
 }
 
-.n8n-chat .n8n-chat-header h1 {
+/* Force header title styling */
+div[data-n8n-chat] .n8n-chat-header h1,
+div[data-n8n-chat] .n8n-chat-header .title,
+.n8n-chat .n8n-chat-header h1,
+.n8n-chat .n8n-chat-header .title,
+.n8n-chat-widget .header h1,
+.n8n-chat-widget .header .title {
   color: white !important;
   font-size: 1.125rem !important;
   font-weight: 600 !important;
   margin: 0 !important;
+  background: none !important;
 }
 
-.n8n-chat .n8n-chat-header p {
+/* Force header subtitle styling */
+div[data-n8n-chat] .n8n-chat-header p,
+div[data-n8n-chat] .n8n-chat-header .subtitle,
+.n8n-chat .n8n-chat-header p,
+.n8n-chat .n8n-chat-header .subtitle,
+.n8n-chat-widget .header p,
+.n8n-chat-widget .header .subtitle {
   color: rgba(255, 255, 255, 0.9) !important;
   font-size: 0.875rem !important;
   margin: 0 !important;
   margin-top: 0.25rem !important;
+  background: none !important;
 }
 
-/* Window styling */
-.n8n-chat .n8n-chat-window {
+/* Force window styling */
+div[data-n8n-chat] .n8n-chat-window,
+div[data-n8n-chat] .n8n-chat,
+.n8n-chat .n8n-chat-window,
+.n8n-chat-widget {
   border-radius: 0.75rem !important;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
   border: 1px solid #e5e7eb !important;
   background: white !important;
+  background-color: white !important;
 }
 
-/* Message styling */
-.n8n-chat .n8n-chat-message-user {
-  background-color: #3b82f6 !important;
-  color: white !important;
-  border-radius: 1rem 1rem 0.25rem 1rem !important;
-}
-
-.n8n-chat .n8n-chat-message-bot {
-  background-color: #f3f4f6 !important;
-  color: #374151 !important;
-  border-radius: 1rem 1rem 1rem 0.25rem !important;
-}
-
-/* Input area styling */
-.n8n-chat .n8n-chat-input-container {
-  border-top: 1px solid #e5e7eb !important;
-  background: white !important;
+/* Force message container styling */
+div[data-n8n-chat] .n8n-chat-messages,
+div[data-n8n-chat] .messages,
+.n8n-chat .n8n-chat-messages,
+.n8n-chat .messages {
+  background: #f9fafb !important;
+  background-color: #f9fafb !important;
   padding: 1rem !important;
 }
 
-.n8n-chat .n8n-chat-input {
+/* Force user message styling */
+div[data-n8n-chat] .n8n-chat-message-user,
+div[data-n8n-chat] .message.user,
+.n8n-chat .n8n-chat-message-user,
+.n8n-chat .message.user {
+  background-color: #3b82f6 !important;
+  color: white !important;
+  border-radius: 1rem 1rem 0.25rem 1rem !important;
+  padding: 0.75rem 1rem !important;
+  margin: 0.5rem 0 !important;
+}
+
+/* Force bot message styling */
+div[data-n8n-chat] .n8n-chat-message-bot,
+div[data-n8n-chat] .n8n-chat-message-assistant,
+div[data-n8n-chat] .message.bot,
+div[data-n8n-chat] .message.assistant,
+.n8n-chat .n8n-chat-message-bot,
+.n8n-chat .n8n-chat-message-assistant,
+.n8n-chat .message.bot,
+.n8n-chat .message.assistant {
+  background-color: #f3f4f6 !important;
+  color: #374151 !important;
+  border-radius: 1rem 1rem 1rem 0.25rem !important;
+  padding: 0.75rem 1rem !important;
+  margin: 0.5rem 0 !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+/* Force input area styling */
+div[data-n8n-chat] .n8n-chat-input-container,
+div[data-n8n-chat] .input-container,
+.n8n-chat .n8n-chat-input-container,
+.n8n-chat .input-container {
+  border-top: 1px solid #e5e7eb !important;
+  background: white !important;
+  background-color: white !important;
+  padding: 1rem !important;
+}
+
+/* Force input field styling */
+div[data-n8n-chat] .n8n-chat-input,
+div[data-n8n-chat] input,
+div[data-n8n-chat] textarea,
+.n8n-chat .n8n-chat-input,
+.n8n-chat input,
+.n8n-chat textarea {
   border: 1px solid #d1d5db !important;
   border-radius: 0.5rem !important;
   padding: 0.75rem !important;
   font-size: 0.875rem !important;
   background: white !important;
+  background-color: white !important;
+  color: #374151 !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 
-.n8n-chat .n8n-chat-input:focus {
+/* Force input focus styling */
+div[data-n8n-chat] .n8n-chat-input:focus,
+div[data-n8n-chat] input:focus,
+div[data-n8n-chat] textarea:focus,
+.n8n-chat .n8n-chat-input:focus,
+.n8n-chat input:focus,
+.n8n-chat textarea:focus {
   border-color: #3b82f6 !important;
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
   outline: none !important;
 }
 
-/* Send button styling */
-.n8n-chat .n8n-chat-send-button {
+/* Force send button styling */
+div[data-n8n-chat] .n8n-chat-send-button,
+div[data-n8n-chat] button[type="submit"],
+div[data-n8n-chat] .send-button,
+.n8n-chat .n8n-chat-send-button,
+.n8n-chat button[type="submit"],
+.n8n-chat .send-button {
   background-color: #3b82f6 !important;
   color: white !important;
   border-radius: 0.5rem !important;
-  padding: 0.75rem !important;
+  padding: 0.75rem 1rem !important;
   border: none !important;
   font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 
-.n8n-chat .n8n-chat-send-button:hover {
+/* Force send button hover styling */
+div[data-n8n-chat] .n8n-chat-send-button:hover,
+div[data-n8n-chat] button[type="submit"]:hover,
+.n8n-chat .n8n-chat-send-button:hover,
+.n8n-chat button[type="submit"]:hover {
   background-color: #2563eb !important;
 }
 
-/* Footer styling */
-.n8n-chat .n8n-chat-footer {
+/* Force footer styling */
+div[data-n8n-chat] .n8n-chat-footer,
+div[data-n8n-chat] .footer,
+.n8n-chat .n8n-chat-footer,
+.n8n-chat .footer {
   color: #6b7280 !important;
   font-size: 0.75rem !important;
   text-align: center !important;
   padding: 0.5rem !important;
   background: white !important;
+  background-color: white !important;
+  border-top: 1px solid #f3f4f6 !important;
 }
 
-/* Close button styling */
-.n8n-chat .n8n-chat-close-button {
+/* Force close button styling */
+div[data-n8n-chat] .n8n-chat-close-button,
+div[data-n8n-chat] .close-button,
+.n8n-chat .n8n-chat-close-button,
+.n8n-chat .close-button {
   color: rgba(255, 255, 255, 0.8) !important;
   background: rgba(255, 255, 255, 0.1) !important;
   border-radius: 50% !important;
@@ -252,21 +342,43 @@ body {
   border: none !important;
   width: 2rem !important;
   height: 2rem !important;
+  position: absolute !important;
+  top: 1rem !important;
+  right: 1rem !important;
 }
 
-.n8n-chat .n8n-chat-close-button:hover {
+/* Force close button hover styling */
+div[data-n8n-chat] .n8n-chat-close-button:hover,
+div[data-n8n-chat] .close-button:hover,
+.n8n-chat .n8n-chat-close-button:hover,
+.n8n-chat .close-button:hover {
   color: white !important;
   background: rgba(255, 255, 255, 0.2) !important;
 }
 
-/* Remove any unwanted elements */
-.n8n-chat .n8n-chat-welcome-screen {
+/* Remove any unwanted elements or screens */
+div[data-n8n-chat] .n8n-chat-welcome-screen,
+div[data-n8n-chat] .welcome-screen,
+.n8n-chat .n8n-chat-welcome-screen,
+.n8n-chat .welcome-screen {
   display: none !important;
 }
 
-/* Ensure consistent typography */
+/* Force all text elements to use correct font */
+div[data-n8n-chat] *,
 .n8n-chat * {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+/* Override any dark theme or custom colors */
+div[data-n8n-chat],
+.n8n-chat-widget,
+.n8n-chat {
+  --primary-color: #3b82f6 !important;
+  --secondary-color: #2563eb !important;
+  --background-color: #ffffff !important;
+  --text-color: #374151 !important;
+  --border-color: #e5e7eb !important;
 }
 
 /* Enhanced n8n chat message styling for better readability */
