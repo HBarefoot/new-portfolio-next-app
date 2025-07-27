@@ -32,7 +32,7 @@ const ChatWidget = () => {
           },
         },
         mode: 'window',
-        showWelcomeScreen: true,
+        showWelcomeScreen: false, // Remove welcome screen - jump straight to chat
         loadPreviousSession: false,
         initialMessages: [
           `Welcome ${contactInfo.name}! 👋`,
@@ -44,7 +44,7 @@ const ChatWidget = () => {
             title: "Henry's AI Assistant",
             subtitle: `Chat with ${contactInfo.name}`,
             footer: 'Built with ❤️ using n8n',
-            getStarted: 'Continue Conversation',
+            getStarted: 'Start Chatting',
             inputPlaceholder: 'Ask me anything about Henry...',
             closeButtonTooltip: 'Close chat',
           },
