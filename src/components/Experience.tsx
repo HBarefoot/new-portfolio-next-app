@@ -45,6 +45,16 @@ const ExperienceSection = () => {
         "Designed responsive HTML emails",
         "Performed weekly website updates"
       ]
+    },
+    {
+      company: "THE IDEA CENTER",
+      period: "2017 - 2018",
+      responsibilities: [
+        "Prepared and delivered lessons focused on HTML5, CSS3, JavaScript, jQuery, and Bootstrap",
+        "Conducted one-on-one and group review sessions to reinforce concepts",
+        "Assisted students in understanding and applying web development principles",
+        "Created learning materials and exercises for web development fundamentals"
+      ]
     }
   ];
 
@@ -75,7 +85,7 @@ const ExperienceSection = () => {
           </h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            A journey through innovative companies where I&apos;ve contributed to impactful projects and led development teams.
+            Over 8 years of experience through innovative companies where I&apos;ve contributed to impactful projects and led development teams.
           </p>
         </motion.div>
 

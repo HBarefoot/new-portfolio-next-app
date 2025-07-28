@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     template: "%s | Henry Barefoot",
   },
   description:
-    "Senior Web Developer with 5+ years of experience in React, Next.js, TypeScript, and modern web technologies. Passionate about creating exceptional user experiences.",
+    "Senior Web Developer with 8+ years of experience in React, Next.js, TypeScript, and modern web technologies. Passionate about creating exceptional user experiences.",
   keywords: [
     "Henry Barefoot",
     "Web Developer",
@@ -40,14 +40,14 @@ export const metadata: Metadata = {
     url: "https://next.henrybarefoot.com",
     title: "Henry Barefoot - Senior Web Developer",
     description:
-      "Senior Web Developer with 5+ years of experience in React, Next.js, TypeScript, and modern web technologies. Passionate about creating exceptional user experiences.",
+      "Senior Web Developer with 8+ years of experience in React, Next.js, TypeScript, and modern web technologies. Passionate about creating exceptional user experiences.",
     siteName: "Henry Barefoot Portfolio",
   },
   twitter: {
     card: "summary_large_image",
     title: "Henry Barefoot - Senior Web Developer",
     description:
-      "Senior Web Developer with 5+ years of experience in React, Next.js, TypeScript, and modern web technologies.",
+      "Senior Web Developer with 8+ years of experience in React, Next.js, TypeScript, and modern web technologies.",
   },
   robots: {
     index: true,

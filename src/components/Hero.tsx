@@ -248,7 +248,7 @@ const Hero = () => {
               className="text-base sm:text-lg text-gray-600 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0"
             >
               Crafting exceptional digital experiences with modern web technologies. 
-              Specializing in React, Next.js, and full-stack development with 5+ years of experience.
+              Specializing in React, Next.js, and full-stack development with 8+ years of experience.
             </motion.p>
             
             <motion.div

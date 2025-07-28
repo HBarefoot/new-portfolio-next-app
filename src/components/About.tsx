@@ -7,7 +7,7 @@ const About = () => {
   const highlights = [
     {
       icon: <Code className="w-8 h-8" />,
-      title: "5+ Years Experience",
+      title: "8+ Years Experience",
       description: "Building responsive websites and web applications"
     },
     {
@@ -54,7 +54,7 @@ const About = () => {
           >
             <div className="prose prose-lg text-gray-600">
               <p className="text-lg leading-relaxed">
-                Web Developer with 5+ years of experience building responsive websites and web applications. 
+                Web Developer with 8+ years of experience building responsive websites and web applications. 
                 Proficient in JavaScript, PHP, React, and WordPress, with strong UI/UX sensibilities and 
                 back-end integration expertise.
               </p>
@@ -130,7 +130,7 @@ const About = () => {
           className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
         >
           <div>
-            <div className="text-3xl font-bold text-blue-600 mb-2">5+</div>
+            <div className="text-3xl font-bold text-blue-600 mb-2">8+</div>
             <div className="text-gray-600 text-sm">Years Experience</div>
           </div>
           <div>
