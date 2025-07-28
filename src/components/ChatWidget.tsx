@@ -1,10 +1,19 @@
 'use client';
 
+// Extend Window interface to include Vue.js feature flags
+declare global {
+  interface Window {
+    __VUE_OPTIONS_API__?: boolean;
+    __VUE_PROD_DEVTOOLS__?: boolean;
+    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__?: boolean;
+  }
+}
+
 // Define Vue.js feature flags before importing n8n chat
 if (typeof window !== 'undefined') {
-  (window as any).__VUE_OPTIONS_API__ = true;
-  (window as any).__VUE_PROD_DEVTOOLS__ = false;
-  (window as any).__VUE_PROD_HYDRATION_MISMATCH_DETAILS__ = false;
+  window.__VUE_OPTIONS_API__ = true;
+  window.__VUE_PROD_DEVTOOLS__ = false;
+  window.__VUE_PROD_HYDRATION_MISMATCH_DETAILS__ = false;
 }
 
 import { createChat } from '@n8n/chat';
