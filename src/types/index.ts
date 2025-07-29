@@ -18,6 +18,16 @@ export interface Project {
   github?: string;
 }
 
+export interface GalleryProject {
+  title: string;
+  description: string;
+  image: string;
+  technologies: string[];
+  category: string;
+  features: string[];
+  link?: string;
+}
+
 export interface Education {
   institution: string;
   program: string;

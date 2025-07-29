@@ -4,6 +4,7 @@ import About from '@/components/About';
 import Skills from '@/components/Skills';
 import Experience from '@/components/Experience';
 import Projects from '@/components/Projects';
+import ProjectsGallery from '@/components/ProjectsGallery';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import ChatWidget from '@/components/ChatWidget';
@@ -18,6 +19,7 @@ export default function Home() {
         <Skills />
         <Experience />
         <Projects />
+        <ProjectsGallery />
         <Contact />
       </main>
       <Footer />

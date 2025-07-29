@@ -54,6 +54,7 @@ const Footer = () => {
                 { label: 'Skills', href: '#skills' },
                 { label: 'Experience', href: '#experience' },
                 { label: 'Projects', href: '#projects' },
+                { label: 'Gallery', href: '#projects-gallery' },
                 { label: 'Contact', href: '#contact' }
               ].map((link) => (
                 <motion.a
