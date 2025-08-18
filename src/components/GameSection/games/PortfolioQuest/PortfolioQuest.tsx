@@ -88,7 +88,7 @@ const PortfolioQuest = () => {
     canvas.height = 600;
 
     // Enhanced game state with multiple levels and features
-    let gameState: GameState = {
+    const gameState: GameState = {
       screen: 'menu',
       currentLevel: 1,
       totalLevels: 4,
@@ -292,7 +292,7 @@ const PortfolioQuest = () => {
     };
 
     // Collision detection
-    const checkCollision = (rect1: any, rect2: any) => {
+    const checkCollision = (rect1: { x: number; y: number; width: number; height: number }, rect2: { x: number; y: number; width: number; height: number }) => {
       return rect1.x < rect2.x + rect2.width &&
              rect1.x + rect1.width > rect2.x &&
              rect1.y < rect2.y + rect2.height &&
@@ -349,7 +349,7 @@ const PortfolioQuest = () => {
       }
 
       // Check collectible collection
-      gameState.collectibles.forEach((collectible, index) => {
+      gameState.collectibles.forEach((collectible) => {
         if (!collectible.collected) {
           const distance = Math.sqrt(
             Math.pow(player.x + 16 - (collectible.x + 12), 2) + 
@@ -553,7 +553,6 @@ const PortfolioQuest = () => {
       ctx.textAlign = 'center';
       const messageWidth = ctx.measureText(gameState.message).width;
       const maxMessageWidth = canvas.width - 40; // Leave 20px margin on each side
-      const actualMessageWidth = Math.min(messageWidth, maxMessageWidth);
       
       // Adjust font size if message is too long
       if (messageWidth > maxMessageWidth) {
