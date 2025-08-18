@@ -13,11 +13,9 @@ import {
   CheckCircle, 
   Lock,
   Star,
-  Users,
   Clock,
   Award
 } from 'lucide-react';
-import CourseNavigation from './components/CourseNavigation';
 import LessonViewer from './components/LessonViewer';
 import ProgressTracker from './components/ProgressTracker';
 import courseData from './data/courseData';

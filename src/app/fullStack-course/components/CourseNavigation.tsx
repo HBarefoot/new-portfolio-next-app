@@ -6,18 +6,14 @@ import { ChevronRight, Home } from 'lucide-react';
 interface CourseNavigationProps {
   currentModule: number;
   currentLesson: number;
-  totalModules: number;
   totalLessons: number;
-  onNavigate: (moduleId: number, lessonId: number) => void;
   onHome: () => void;
 }
 
 const CourseNavigation: React.FC<CourseNavigationProps> = ({
   currentModule,
   currentLesson,
-  totalModules,
   totalLessons,
-  onNavigate,
   onHome,
 }) => {
   return (

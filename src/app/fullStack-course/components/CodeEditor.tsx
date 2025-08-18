@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Play, RotateCcw, Check, X } from 'lucide-react';
+import { Play, RotateCcw } from 'lucide-react';
 
 interface CodeEditorProps {
   language: string;
@@ -32,7 +32,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       await new Promise(resolve => setTimeout(resolve, 1000));
       setOutput('Code executed successfully! ✅');
       onRun();
-    } catch (error) {
+    } catch {
       setOutput('Error executing code ❌');
     } finally {
       setIsRunning(false);

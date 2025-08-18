@@ -1,24 +1,20 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { 
   ChevronLeft, 
   ChevronRight, 
-  Play, 
   CheckCircle, 
   Code, 
   BookOpen, 
   Trophy,
   Star,
-  Lightbulb,
   Target
 } from 'lucide-react';
 import CourseNavigation from './CourseNavigation';
 import CodeEditor from './CodeEditor';
-import Quiz from './Quiz';
 import courseData from '../data/courseData';
-import type { Lesson } from '../data/courseData';
 
 interface CourseProgress {
   completedLessons: string[];
@@ -35,30 +31,21 @@ interface LessonViewerProps {
   progress: CourseProgress;
   onUpdateProgress: (progress: CourseProgress) => void;
   onBackToCourse: () => void;
-  courseModules: any[];
+  courseModules: Array<{
+    id: number;
+    title: string;
+    icon: React.JSX.Element;
+    description: string;
+    lessons: number;
+    xp: number;
+    color: string;
+  }>;
 }
 
-const LessonViewer: React.FC<LessonViewerProps> = ({
-  moduleId,
-  lessonId,
-  progress,
-  onUpdateProgress,
-  onBackToCourse,
-  courseModules
-}) => {
-  const [currentExercise, setCurrentExercise] = useState<number | null>(null);
-  const [showHints, setShowHints] = useState(false);
-  const [userCode, setUserCode] = useState('');
-
-  const module = courseData[moduleId];
-  const lesson = module?.lessons[lessonId];
-  const totalLessons = module?.lessons.length || 0;
-
-  useEffect(() => {
-    if (lesson?.exercises?.[0]?.startingCode) {
-      setUserCode(lesson.exercises[0].startingCode);
-    }
-  }, [lesson]);
+export default function LessonViewer({ moduleId, lessonId, progress, onUpdateProgress, onBackToCourse, courseModules }: LessonViewerProps) {
+  const currentModule = courseData[moduleId];
+  const lesson = currentModule?.lessons[lessonId];
+  const totalLessons = currentModule?.lessons.length || 0;
 
   if (!lesson) {
     return (
@@ -326,12 +313,7 @@ const LessonViewer: React.FC<LessonViewerProps> = ({
       <CourseNavigation
         currentModule={moduleId}
         currentLesson={lessonId}
-        totalModules={courseModules.length}
         totalLessons={totalLessons}
-        onNavigate={(modId, lessId) => {
-          window.location.hash = `#${modId}-${lessId}`;
-          window.location.reload();
-        }}
         onHome={onBackToCourse}
       />
 
@@ -458,11 +440,10 @@ const LessonViewer: React.FC<LessonViewerProps> = ({
             >
               <h3 className="text-lg font-bold text-white mb-4">Exercises</h3>
               <div className="space-y-3">
-                {lesson.exercises.map((exercise, index) => (
+                {lesson.exercises.map((exercise) => (
                   <div
                     key={exercise.id}
-                    className="p-4 bg-white/10 rounded-lg cursor-pointer hover:bg-white/20 transition-colors"
-                    onClick={() => setCurrentExercise(index)}
+                    className="p-4 bg-white/10 rounded-lg"
                   >
                     <div className="flex items-center justify-between">
                       <h4 className="font-medium text-white">{exercise.title}</h4>
@@ -486,7 +467,7 @@ const LessonViewer: React.FC<LessonViewerProps> = ({
           >
             <h3 className="text-lg font-bold text-white mb-4">Module Progress</h3>
             <div className="space-y-3">
-              {module.lessons.map((l, index) => {
+              {currentModule.lessons.map((l: { id: string; title: string; }, index: number) => {
                 const completed = progress.completedLessons.includes(l.id);
                 const current = index === lessonId;
                 
@@ -520,6 +501,4 @@ const LessonViewer: React.FC<LessonViewerProps> = ({
       </div>
     </div>
   );
-};
-
-export default LessonViewer;
+}
