@@ -16,6 +16,14 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleNavigation = (item: { href: string; external?: boolean }) => {
+    if (item.external) {
+      window.location.href = item.href;
+    } else {
+      scrollToSection(item.href);
+    }
+  };
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -32,6 +40,7 @@ const Header = () => {
     { label: 'Projects', href: 'projects' },
     { label: 'Gallery', href: 'projects-gallery' },
     { label: 'Game', href: 'game' },
+    { label: 'Course', href: '/fullStack-course', external: true },
     { label: 'Contact', href: 'contact' },
   ];
 
@@ -58,7 +67,7 @@ const Header = () => {
             {navItems.map((item) => (
               <button
                 key={item.href}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => handleNavigation(item)}
                 className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
               >
                 {item.label}
@@ -83,7 +92,7 @@ const Header = () => {
               {navItems.map((item) => (
                 <button
                   key={item.href}
-                  onClick={() => scrollToSection(item.href)}
+                  onClick={() => handleNavigation(item)}
                   className="block w-full text-left py-3 text-gray-700 hover:text-blue-600 transition-colors font-medium"
                 >
                   {item.label}
