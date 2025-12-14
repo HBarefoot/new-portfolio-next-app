@@ -23,7 +23,7 @@ import { useEffect } from 'react';
 const ChatWidget = () => {
   useEffect(() => {
     createChat({
-      webhookUrl: 'https://n8n.henrybarefoot.com/webhook/bbc7802e-32f2-4aa5-b7e9-e13cda48c638/chat',
+      webhookUrl: 'https://n8n.srv1197436.hstgr.cloud/webhook/4091fa09-fb9a-4039-9411-7104d213f601/chat',
       webhookConfig: {
         method: 'POST',
         headers: {
