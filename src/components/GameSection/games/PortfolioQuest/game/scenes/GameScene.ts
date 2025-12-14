@@ -213,7 +213,11 @@ class GameScene extends Phaser.Scene {
     });
   }
 
-  collectToken(_player: Phaser.Physics.Arcade.Sprite, token: Phaser.Physics.Arcade.Sprite) {
+  collectToken(
+    _player: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile,
+    tokenObj: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile
+  ) {
+    const token = tokenObj as Phaser.Physics.Arcade.Sprite;
     token.disableBody(true, true);
     this.tokensCollected++;
     
