@@ -30,7 +30,7 @@ const ProjectsGallery = () => {
         "OpenAI-powered customer support chat assistant",
         "Comprehensive admin dashboard with CRUD operations and audit logging"
       ],
-      link: "https://www.alliedyachttransport.com"
+      link: "https://yachttransport.ai"
     },
     {
       title: "RAG (Retrieval-Augmented Generation) AI Workflow",
