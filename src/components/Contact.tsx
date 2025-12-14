@@ -1,20 +1,25 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Globe } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Github, Linkedin, Globe, CheckCircle, AlertCircle } from 'lucide-react';
 import { useState } from 'react';
-import { useForm, ValidationError } from '@formspree/react';
 
 const Contact = () => {
-  // Formspree form hook - uses Vercel integration environment variable
-  // Falls back to a placeholder during build if env var not set
-  const [state, handleSubmit] = useForm(process.env.NEXT_PUBLIC_FORM || "placeholder");
-  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: ''
+  });
+  
+  const [submitState, setSubmitState] = useState<{
+    submitting: boolean;
+    succeeded: boolean;
+    error: string | null;
+  }>({
+    submitting: false,
+    succeeded: false,
+    error: null
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -23,14 +28,49 @@ const Contact = () => {
       ...prev,
       [name]: value
     }));
+    // Clear any previous error when user starts typing
+    if (submitState.error) {
+      setSubmitState(prev => ({ ...prev, error: null }));
+    }
   };
 
-  // Reset form when submission is successful
-  if (state.succeeded) {
-    if (formData.name || formData.email || formData.subject || formData.message) {
-      setFormData({ name: '', email: '', subject: '', message: '' });
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitState({ submitting: true, succeeded: false, error: null });
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message
+        }),
+      });
+
+      if (response.ok) {
+        setSubmitState({ submitting: false, succeeded: true, error: null });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        
+        // Reset success message after 5 seconds
+        setTimeout(() => {
+          setSubmitState(prev => ({ ...prev, succeeded: false }));
+        }, 5000);
+      } else {
+        throw new Error('Failed to submit form');
+      }
+    } catch {
+      setSubmitState({ 
+        submitting: false, 
+        succeeded: false, 
+        error: 'Something went wrong. Please try again or email me directly.' 
+      });
     }
-  }
+  };
 
   const contactInfo = [
     {
@@ -198,7 +238,8 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+                    disabled={submitState.submitting}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     placeholder="Your name"
                   />
                 </div>
@@ -214,14 +255,9 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+                    disabled={submitState.submitting}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     placeholder="your@email.com"
-                  />
-                  <ValidationError 
-                    prefix="Email" 
-                    field="email"
-                    errors={state.errors}
-                    className="text-red-400 text-sm mt-1"
                   />
                 </div>
               </div>
@@ -237,7 +273,8 @@ const Contact = () => {
                   value={formData.subject}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+                  disabled={submitState.submitting}
+                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   placeholder="Project inquiry"
                 />
               </div>
@@ -252,24 +289,25 @@ const Contact = () => {
                   value={formData.message}
                   onChange={handleInputChange}
                   required
+                  disabled={submitState.submitting}
                   rows={6}
-                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400 resize-none"
+                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400 resize-none disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   placeholder="Tell me about your project..."
                 />
               </div>
 
               <motion.button
                 type="submit"
-                disabled={state.submitting}
-                whileHover={{ scale: state.submitting ? 1 : 1.02 }}
-                whileTap={{ scale: state.submitting ? 1 : 0.98 }}
-                className={`w-full py-3 px-6 rounded-lg font-semibold flex items-center justify-center transition-colors ${
-                  state.submitting
+                disabled={submitState.submitting}
+                whileHover={{ scale: submitState.submitting ? 1 : 1.02 }}
+                whileTap={{ scale: submitState.submitting ? 1 : 0.98 }}
+                className={`w-full py-3 px-6 rounded-lg font-semibold flex items-center justify-center transition-all ${
+                  submitState.submitting
                     ? 'bg-gray-600 cursor-not-allowed'
-                    : 'bg-blue-600 hover:bg-blue-700'
+                    : 'bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/25'
                 } text-white`}
               >
-                {state.submitting ? (
+                {submitState.submitting ? (
                   <div className="flex items-center">
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
                     Sending...
@@ -282,20 +320,27 @@ const Contact = () => {
                 )}
               </motion.button>
 
-              {/* Validation Errors */}
-              <ValidationError 
-                errors={state.errors}
-                className="text-red-400 text-sm"
-              />
-
-              {/* Status Messages */}
-              {state.succeeded && (
+              {/* Error Message */}
+              {submitState.error && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-green-400 text-center p-3 bg-green-900/20 rounded-lg"
+                  className="flex items-center text-red-400 p-3 bg-red-900/20 rounded-lg border border-red-800/50"
                 >
-                  Message sent successfully! I&apos;ll get back to you soon.
+                  <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+                  <span className="text-sm">{submitState.error}</span>
+                </motion.div>
+              )}
+
+              {/* Success Message */}
+              {submitState.succeeded && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-center text-green-400 p-3 bg-green-900/20 rounded-lg border border-green-800/50"
+                >
+                  <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+                  <span className="text-sm">Message sent successfully! I&apos;ll get back to you soon.</span>
                 </motion.div>
               )}
             </form>
