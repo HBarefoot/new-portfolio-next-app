@@ -17,6 +17,22 @@ interface GalleryProject {
 const ProjectsGallery = () => {
   const galleryProjects: GalleryProject[] = [
     {
+      title: "Yacht Transport AI Platform",
+      description: "A comprehensive B2B maritime shipping platform that transforms yacht transportation. Built for Allied Yacht Transport, this production-ready application converts a traditionally manual, multi-day quote process into an instant, AI-powered experience delivering accurate quotes in minutes.",
+      image: "/yachttransport.png",
+      category: "Full-Stack Platform",
+      technologies: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "OpenAI", "DocuSign", "Mapbox"],
+      features: [
+        "AI-powered instant quote generation with complex pricing engine",
+        "Maritime routing system with real-world sea paths across 15+ international ports",
+        "DocuSign integration for automated dual-signature contract workflows",
+        "Interactive Mapbox visualization with waypoint generation",
+        "OpenAI-powered customer support chat assistant",
+        "Comprehensive admin dashboard with CRUD operations and audit logging"
+      ],
+      link: "https://www.alliedyachttransport.com"
+    },
+    {
       title: "RAG (Retrieval-Augmented Generation) AI Workflow",
       description: "Advanced n8n workflow implementing RAG architecture for intelligent document processing and AI-powered responses. Features real-time data retrieval, vector embeddings, and context-aware AI responses.",
       image: "/rag-project.png",
@@ -52,6 +68,8 @@ const ProjectsGallery = () => {
         return <Zap className="w-5 h-5" />;
       case "Marketing Automation":
         return <Database className="w-5 h-5" />;
+      case "Full-Stack Platform":
+        return <Code className="w-5 h-5" />;
       default:
         return <Workflow className="w-5 h-5" />;
     }
@@ -63,6 +81,8 @@ const ProjectsGallery = () => {
         return "from-purple-500 to-blue-600";
       case "Marketing Automation":
         return "from-green-500 to-teal-600";
+      case "Full-Stack Platform":
+        return "from-amber-500 to-orange-600";
       default:
         return "from-gray-500 to-gray-600";
     }
@@ -78,6 +98,12 @@ const ProjectsGallery = () => {
       'Google Sheets': 'bg-green-100 text-green-800',
       'Social Media APIs': 'bg-blue-100 text-blue-800',
       'Content Management': 'bg-orange-100 text-orange-800',
+      'Next.js': 'bg-gray-900 text-white',
+      'TypeScript': 'bg-blue-100 text-blue-800',
+      'PostgreSQL': 'bg-blue-200 text-blue-900',
+      'Prisma': 'bg-indigo-100 text-indigo-800',
+      'DocuSign': 'bg-yellow-100 text-yellow-800',
+      'Mapbox': 'bg-cyan-100 text-cyan-800',
     };
     return colorMap[tech] || 'bg-gray-100 text-gray-800';
   };

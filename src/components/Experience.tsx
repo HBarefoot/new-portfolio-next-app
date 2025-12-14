@@ -7,8 +7,17 @@ import { Experience } from '@/types';
 const ExperienceSection = () => {
   const experiences: Experience[] = [
     {
+      company: "ALLIED YACHT",
+      period: "2025 - Present",
+      responsibilities: [
+        "Led end-to-end architecture and development of an AI-powered yacht transport platform, introducing instant pricing, automated scheduling, and digital booking workflows that reduced processing time from days to minutes",
+        "Architected complex pricing and routing engines across 15+ international ports with dynamic weight, insurance, and compliance logic, enabling scalable global operations",
+        "Established modern development standards using Next.js, TypeScript, and Tailwind CSS, delivering a robust and maintainable codebase"
+      ]
+    },
+    {
       company: "ADDIGY",
-      period: "2023 - Present",
+      period: "2023 - 2025",
       responsibilities: [
         "Developed comprehensive reports using Looker Studio and BigQuery",
         "Enhanced user interfaces for better UX",
