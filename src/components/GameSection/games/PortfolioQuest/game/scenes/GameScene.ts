@@ -97,8 +97,8 @@ class GameScene extends Phaser.Scene {
     this.platforms.create(200, 200, 'platform').setScale(4, 1).refreshBody();
 
     // Set platform tint to match portfolio colors
-    this.platforms.children.entries.forEach((platform: any) => {
-      platform.setTint(0x475569);
+    this.platforms.children.entries.forEach((platform) => {
+      (platform as Phaser.Physics.Arcade.Sprite).setTint(0x475569);
     });
   }
 
@@ -122,7 +122,7 @@ class GameScene extends Phaser.Scene {
       setXY: { x: 200, y: 0, stepX: 70 }
     });
 
-    this.skillTokens.children.entries.forEach((child: any, index: number) => {
+    this.skillTokens.children.entries.forEach((child, index: number) => {
       const token = child as Phaser.Physics.Arcade.Sprite;
       token.setBounce(Phaser.Math.FloatBetween(0.4, 0.8));
       
@@ -213,7 +213,7 @@ class GameScene extends Phaser.Scene {
     });
   }
 
-  collectToken(player: any, token: any) {
+  collectToken(_player: Phaser.Physics.Arcade.Sprite, token: Phaser.Physics.Arcade.Sprite) {
     token.disableBody(true, true);
     this.tokensCollected++;
     
