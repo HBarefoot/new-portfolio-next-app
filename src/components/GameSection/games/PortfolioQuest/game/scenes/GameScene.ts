@@ -166,7 +166,13 @@ class GameScene extends Phaser.Scene {
 
     // Collider for collecting tokens
     this.physics.add.collider(this.skillTokens, this.platforms);
-    this.physics.add.overlap(this.player, this.skillTokens, this.collectToken, undefined, this);
+    this.physics.add.overlap(
+      this.player,
+      this.skillTokens,
+      (_player, token) => this.collectToken(token as Phaser.Physics.Arcade.Sprite),
+      undefined,
+      this
+    );
   }
 
   setupControls() {
@@ -213,11 +219,7 @@ class GameScene extends Phaser.Scene {
     });
   }
 
-  collectToken(
-    _player: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile,
-    tokenObj: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile
-  ) {
-    const token = tokenObj as Phaser.Physics.Arcade.Sprite;
+  collectToken(token: Phaser.Physics.Arcade.Sprite) {
     token.disableBody(true, true);
     this.tokensCollected++;
     
