@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { kv } from '@vercel/kv';
 import { BlogPost, BlogMeta } from '@/types/blog';
 
-const BLOG_FILE_PATH = path.join(process.cwd(), 'src/data/blog.json');
 const BLOG_SECRET = process.env.BLOG_API_SECRET;
+const BLOG_POSTS_KEY = 'blog:posts';
+const BLOG_META_KEY = 'blog:meta';
 
 interface BlogData {
   posts: BlogPost[];
@@ -13,9 +13,16 @@ interface BlogData {
 
 async function readBlogData(): Promise<BlogData> {
   try {
-    const data = await fs.readFile(BLOG_FILE_PATH, 'utf-8');
-    return JSON.parse(data);
-  } catch {
+    const posts = await kv.get<BlogPost[]>(BLOG_POSTS_KEY) || [];
+    const meta = await kv.get<BlogMeta>(BLOG_META_KEY) || {
+      totalPosts: 0,
+      categories: [],
+      tags: [],
+      lastUpdated: ''
+    };
+    return { posts, meta };
+  } catch (error) {
+    console.error('Error reading from KV:', error);
     return {
       posts: [],
       meta: {
@@ -29,7 +36,8 @@ async function readBlogData(): Promise<BlogData> {
 }
 
 async function writeBlogData(data: BlogData): Promise<void> {
-  await fs.writeFile(BLOG_FILE_PATH, JSON.stringify(data, null, 2));
+  await kv.set(BLOG_POSTS_KEY, data.posts);
+  await kv.set(BLOG_META_KEY, data.meta);
 }
 
 function generateSlug(title: string): string {
