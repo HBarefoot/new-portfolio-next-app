@@ -40,6 +40,7 @@ const Header = () => {
     { label: 'Projects', href: 'projects' },
     { label: 'Gallery', href: 'projects-gallery' },
     { label: 'Game', href: 'game' },
+    { label: 'Blog', href: '/blog', external: true },
     { label: 'Course', href: '/fullStack-course', external: true },
     { label: 'Contact', href: 'contact' },
   ];
