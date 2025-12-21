@@ -302,26 +302,6 @@ export default function BlogPostPage() {
           </motion.section>
         )}
 
-        {/* Source Link */}
-        {post.sourceWikiPage && (
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 mb-8"
-          >
-            <a 
-              href={post.sourceWikiPage}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-slate-400 hover:text-blue-400 transition-colors"
-            >
-              <ExternalLink className="w-4 h-4" />
-              View original documentation
-            </a>
-          </motion.div>
-        )}
-
         {/* Tags */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
