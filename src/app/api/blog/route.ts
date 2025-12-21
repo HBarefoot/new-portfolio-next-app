@@ -130,6 +130,19 @@ export async function POST(request: NextRequest) {
 
     const data = await readBlogData();
     
+    // Check for duplicate by sourceWikiPage (prevent re-blogging same wiki page)
+    if (body.sourceWikiPage) {
+      const existingByPath = data.posts.find(p => p.sourceWikiPage === body.sourceWikiPage);
+      if (existingByPath) {
+        return NextResponse.json({ 
+          success: false, 
+          message: 'Blog post already exists for this wiki page',
+          existingSlug: existingByPath.slug,
+          existingTitle: existingByPath.title
+        }, { status: 409 });
+      }
+    }
+    
     // Generate post data
     const slug = body.slug || generateSlug(body.title);
     
