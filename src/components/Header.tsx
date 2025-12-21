@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import Image from 'next/image';
 import ThemeToggle from './ThemeToggle';
 
 const Header = () => {
@@ -59,9 +60,16 @@ const Header = () => {
           {/* Logo */}
           <button
             onClick={() => scrollToSection('hero')}
-            className="text-xl font-bold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            className="flex items-center hover:opacity-80 transition-opacity"
           >
-            Henry Barefoot
+            <Image
+              src="/HBeat-youtube-logo.png"
+              alt="Henry Barefoot Logo"
+              width={140}
+              height={40}
+              className="h-10 w-auto dark:brightness-110 dark:contrast-110"
+              priority
+            />
           </button>
 
           {/* Desktop Navigation */}
