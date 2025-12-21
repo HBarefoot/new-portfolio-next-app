@@ -5,6 +5,8 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, Tag, ArrowLeft, User, ExternalLink, Copy, Check } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { BlogPost } from '@/types/blog';
 
 export default function BlogPostPage() {
@@ -150,9 +152,25 @@ export default function BlogPostPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="prose prose-invert prose-lg max-w-none mb-8"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
+          className="prose prose-invert prose-lg max-w-none mb-8
+            prose-headings:text-white prose-headings:font-bold
+            prose-h1:text-3xl prose-h1:mt-8 prose-h1:mb-4
+            prose-h2:text-2xl prose-h2:mt-6 prose-h2:mb-3
+            prose-h3:text-xl prose-h3:mt-5 prose-h3:mb-2
+            prose-p:text-slate-300 prose-p:leading-relaxed prose-p:mb-4
+            prose-strong:text-white prose-strong:font-semibold
+            prose-ul:text-slate-300 prose-ul:my-4
+            prose-ol:text-slate-300 prose-ol:my-4
+            prose-li:my-1
+            prose-code:bg-slate-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-blue-400
+            prose-pre:bg-slate-800/80 prose-pre:border prose-pre:border-slate-700/50 prose-pre:rounded-xl
+            prose-a:text-blue-400 prose-a:hover:text-blue-300
+            prose-blockquote:border-l-blue-500 prose-blockquote:bg-slate-800/30 prose-blockquote:py-1"
+        >
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {post.content}
+          </ReactMarkdown>
+        </motion.div>
 
         {/* Code Snippets */}
         {post.codeSnippets && post.codeSnippets.length > 0 && (
