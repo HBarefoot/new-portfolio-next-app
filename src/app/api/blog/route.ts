@@ -208,3 +208,45 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+// DELETE - Remove a blog post by slug
+export async function DELETE(request: NextRequest) {
+  // Verify API secret
+  const authHeader = request.headers.get('x-blog-secret');
+  if (BLOG_SECRET && authHeader !== BLOG_SECRET) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  try {
+    const { slug } = await request.json();
+    
+    if (!slug) {
+      return NextResponse.json({ error: 'Missing slug' }, { status: 400 });
+    }
+
+    const data = await readBlogData();
+    const postIndex = data.posts.findIndex(p => p.slug === slug);
+    
+    if (postIndex === -1) {
+      return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+    }
+
+    data.posts.splice(postIndex, 1);
+    data.meta = updateMeta(data.posts);
+    
+    await writeBlogData(data);
+
+    return NextResponse.json({ 
+      success: true, 
+      message: 'Post deleted'
+    });
+
+  } catch (error) {
+    console.error('Error deleting blog post:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json(
+      { error: 'Failed to delete post', details: errorMessage },
+      { status: 500 }
+    );
+  }
+}
