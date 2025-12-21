@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { kv } from '@vercel/kv';
+import { put, list } from '@vercel/blob';
 import { BlogPost, BlogMeta } from '@/types/blog';
 
 const BLOG_SECRET = process.env.BLOG_API_SECRET;
-const BLOG_POSTS_KEY = 'blog:posts';
-const BLOG_META_KEY = 'blog:meta';
+const BLOG_DATA_FILENAME = 'blog-data.json';
 
 interface BlogData {
   posts: BlogPost[];
@@ -13,16 +12,27 @@ interface BlogData {
 
 async function readBlogData(): Promise<BlogData> {
   try {
-    const posts = await kv.get<BlogPost[]>(BLOG_POSTS_KEY) || [];
-    const meta = await kv.get<BlogMeta>(BLOG_META_KEY) || {
-      totalPosts: 0,
-      categories: [],
-      tags: [],
-      lastUpdated: ''
-    };
-    return { posts, meta };
+    // List blobs to find our blog data file
+    const { blobs } = await list({ prefix: BLOG_DATA_FILENAME });
+    
+    if (blobs.length === 0) {
+      return {
+        posts: [],
+        meta: {
+          totalPosts: 0,
+          categories: [],
+          tags: [],
+          lastUpdated: ''
+        }
+      };
+    }
+
+    // Fetch the blob content
+    const response = await fetch(blobs[0].url);
+    const data = await response.json();
+    return data;
   } catch (error) {
-    console.error('Error reading from KV:', error);
+    console.error('Error reading from Blob:', error);
     return {
       posts: [],
       meta: {
@@ -36,8 +46,10 @@ async function readBlogData(): Promise<BlogData> {
 }
 
 async function writeBlogData(data: BlogData): Promise<void> {
-  await kv.set(BLOG_POSTS_KEY, data.posts);
-  await kv.set(BLOG_META_KEY, data.meta);
+  await put(BLOG_DATA_FILENAME, JSON.stringify(data, null, 2), {
+    access: 'public',
+    addRandomSuffix: false,
+  });
 }
 
 function generateSlug(title: string): string {

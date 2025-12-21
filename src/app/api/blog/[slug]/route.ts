@@ -1,8 +1,35 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { kv } from '@vercel/kv';
-import { BlogPost } from '@/types/blog';
+import { list } from '@vercel/blob';
+import { BlogPost, BlogMeta } from '@/types/blog';
 
-const BLOG_POSTS_KEY = 'blog:posts';
+const BLOG_DATA_FILENAME = 'blog-data.json';
+
+interface BlogData {
+  posts: BlogPost[];
+  meta: BlogMeta;
+}
+
+async function readBlogData(): Promise<BlogData> {
+  try {
+    const { blobs } = await list({ prefix: BLOG_DATA_FILENAME });
+    
+    if (blobs.length === 0) {
+      return {
+        posts: [],
+        meta: { totalPosts: 0, categories: [], tags: [], lastUpdated: '' }
+      };
+    }
+
+    const response = await fetch(blobs[0].url);
+    return await response.json();
+  } catch (error) {
+    console.error('Error reading from Blob:', error);
+    return {
+      posts: [],
+      meta: { totalPosts: 0, categories: [], tags: [], lastUpdated: '' }
+    };
+  }
+}
 
 // GET - Retrieve a single blog post by slug
 export async function GET(
@@ -12,8 +39,8 @@ export async function GET(
   const { slug } = await params;
   
   try {
-    const posts = await kv.get<BlogPost[]>(BLOG_POSTS_KEY) || [];
-    const post = posts.find(p => p.slug === slug);
+    const data = await readBlogData();
+    const post = data.posts.find(p => p.slug === slug);
 
     if (!post) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 });
