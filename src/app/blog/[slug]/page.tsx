@@ -4,10 +4,97 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Tag, ArrowLeft, User, ExternalLink, Copy, Check } from 'lucide-react';
+import { Calendar, Clock, Tag, ArrowLeft, User, ExternalLink, Copy, Check, Briefcase } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { BlogPost } from '@/types/blog';
+
+// Custom components for ReactMarkdown with professional styling
+const MarkdownComponents = {
+  h1: ({ children }: { children?: React.ReactNode }) => (
+    <h1 className="text-3xl font-bold text-white mt-12 mb-6 pb-4 border-b border-slate-700/50 first:mt-0">
+      {children}
+    </h1>
+  ),
+  h2: ({ children }: { children?: React.ReactNode }) => (
+    <h2 className="text-2xl font-bold text-blue-400 mt-12 mb-5 first:mt-0">
+      {children}
+    </h2>
+  ),
+  h3: ({ children }: { children?: React.ReactNode }) => (
+    <h3 className="text-xl font-semibold text-slate-100 mt-10 mb-4">
+      {children}
+    </h3>
+  ),
+  h4: ({ children }: { children?: React.ReactNode }) => (
+    <h4 className="text-lg font-semibold text-slate-200 mt-8 mb-3">
+      {children}
+    </h4>
+  ),
+  p: ({ children }: { children?: React.ReactNode }) => (
+    <p className="text-slate-300 text-[17px] leading-[1.8] mb-6">
+      {children}
+    </p>
+  ),
+  ul: ({ children }: { children?: React.ReactNode }) => (
+    <ul className="my-6 ml-6 space-y-3">
+      {children}
+    </ul>
+  ),
+  ol: ({ children }: { children?: React.ReactNode }) => (
+    <ol className="my-6 ml-6 space-y-3 list-decimal">
+      {children}
+    </ol>
+  ),
+  li: ({ children }: { children?: React.ReactNode }) => (
+    <li className="text-slate-300 text-[17px] leading-[1.8] pl-2 relative before:content-['•'] before:absolute before:-left-4 before:text-blue-400 before:font-bold">
+      {children}
+    </li>
+  ),
+  strong: ({ children }: { children?: React.ReactNode }) => (
+    <strong className="font-semibold text-white">
+      {children}
+    </strong>
+  ),
+  em: ({ children }: { children?: React.ReactNode }) => (
+    <em className="italic text-slate-200">
+      {children}
+    </em>
+  ),
+  code: ({ className, children }: { className?: string; children?: React.ReactNode }) => {
+    const isInline = !className;
+    if (isInline) {
+      return (
+        <code className="bg-slate-800 px-2 py-1 rounded-md text-blue-400 text-sm font-mono border border-slate-700/50">
+          {children}
+        </code>
+      );
+    }
+    return (
+      <code className="text-slate-300 text-sm font-mono">
+        {children}
+      </code>
+    );
+  },
+  pre: ({ children }: { children?: React.ReactNode }) => (
+    <pre className="bg-slate-800/90 border border-slate-700/50 rounded-xl my-8 p-5 overflow-x-auto">
+      {children}
+    </pre>
+  ),
+  blockquote: ({ children }: { children?: React.ReactNode }) => (
+    <blockquote className="border-l-4 border-blue-500 bg-slate-800/30 py-4 px-6 rounded-r-xl my-8 italic text-slate-300">
+      {children}
+    </blockquote>
+  ),
+  a: ({ href, children }: { href?: string; children?: React.ReactNode }) => (
+    <a href={href} className="text-blue-400 hover:text-blue-300 hover:underline transition-colors">
+      {children}
+    </a>
+  ),
+  hr: () => (
+    <hr className="border-slate-700/50 my-12" />
+  ),
+};
 
 export default function BlogPostPage() {
   const params = useParams();
@@ -142,7 +229,10 @@ export default function BlogPostPage() {
             transition={{ delay: 0.15 }}
             className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-xl p-6 mb-8"
           >
-            <h3 className="text-lg font-semibold text-blue-400 mb-2">💼 Business Context</h3>
+            <h3 className="text-lg font-semibold text-blue-400 mb-2 flex items-center gap-2">
+              <Briefcase className="w-5 h-5" />
+              Business Context
+            </h3>
             <p className="text-slate-300">{post.businessContext}</p>
           </motion.div>
         )}
@@ -152,22 +242,12 @@ export default function BlogPostPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="prose prose-invert prose-lg max-w-none mb-8
-            prose-headings:text-white prose-headings:font-bold
-            prose-h1:text-3xl prose-h1:mt-8 prose-h1:mb-4
-            prose-h2:text-2xl prose-h2:mt-6 prose-h2:mb-3
-            prose-h3:text-xl prose-h3:mt-5 prose-h3:mb-2
-            prose-p:text-slate-300 prose-p:leading-relaxed prose-p:mb-4
-            prose-strong:text-white prose-strong:font-semibold
-            prose-ul:text-slate-300 prose-ul:my-4
-            prose-ol:text-slate-300 prose-ol:my-4
-            prose-li:my-1
-            prose-code:bg-slate-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-blue-400
-            prose-pre:bg-slate-800/80 prose-pre:border prose-pre:border-slate-700/50 prose-pre:rounded-xl
-            prose-a:text-blue-400 prose-a:hover:text-blue-300
-            prose-blockquote:border-l-blue-500 prose-blockquote:bg-slate-800/30 prose-blockquote:py-1"
+          className="mb-12"
         >
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          <ReactMarkdown 
+            remarkPlugins={[remarkGfm]}
+            components={MarkdownComponents}
+          >
             {post.content}
           </ReactMarkdown>
         </motion.div>
