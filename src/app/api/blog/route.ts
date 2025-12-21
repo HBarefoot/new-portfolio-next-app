@@ -64,6 +64,7 @@ async function writeBlogData(data: BlogData): Promise<void> {
   await put(BLOG_DATA_FILENAME, JSON.stringify(data, null, 2), {
     access: 'public',
     addRandomSuffix: false,
+    allowOverwrite: true,
   });
 }
 
