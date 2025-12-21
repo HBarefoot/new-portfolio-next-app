@@ -80,7 +80,7 @@ const ExperienceSection = () => {
   ];
 
   return (
-    <section id="experience" className="py-20 bg-white">
+    <section id="experience" className="py-20 bg-white dark:bg-gray-950">
       <div className="container mx-auto px-4 lg:px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -89,11 +89,11 @@ const ExperienceSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Work Experience
           </h2>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <div className="w-24 h-1 bg-blue-600 dark:bg-blue-500 mx-auto mb-6"></div>
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Over 8 years of experience through innovative companies where I&apos;ve contributed to impactful projects and led development teams.
           </p>
         </motion.div>
@@ -101,7 +101,7 @@ const ExperienceSection = () => {
         {/* Experience Timeline */}
         <div className="relative">
           {/* Timeline Line */}
-          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-gray-300 transform md:-translate-x-1/2"></div>
+          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-700 transform md:-translate-x-1/2"></div>
 
           {experiences.map((experience, index) => (
             <motion.div
@@ -123,17 +123,17 @@ const ExperienceSection = () => {
               <div className={`ml-12 md:ml-0 md:w-5/12 ${
                 index % 2 === 0 ? 'md:mr-auto md:pr-8' : 'md:ml-auto md:pl-8'
               }`}>
-                <div className="bg-gray-50 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-6 shadow-lg dark:shadow-gray-900/30 hover:shadow-xl dark:hover:shadow-gray-900/50 transition-shadow duration-300">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center">
-                      <div className="bg-blue-100 rounded-lg p-2 mr-3">
-                        <Building className="w-5 h-5 text-blue-600" />
+                      <div className="bg-blue-100 dark:bg-blue-900/30 rounded-lg p-2 mr-3">
+                        <Building className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold text-gray-900">
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white">
                           {experience.company}
                         </h3>
-                        <div className="flex items-center text-sm text-gray-600 mt-1">
+                        <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mt-1">
                           <Calendar className="w-4 h-4 mr-1" />
                           {experience.period}
                         </div>
@@ -149,9 +149,9 @@ const ExperienceSection = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, delay: (index * 0.2) + (respIndex * 0.1) }}
                         viewport={{ once: true }}
-                        className="flex items-start text-gray-700"
+                        className="flex items-start text-gray-700 dark:text-gray-300"
                       >
-                        <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <div className="w-2 h-2 bg-blue-600 dark:bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                         <span className="text-sm leading-relaxed">{responsibility}</span>
                       </motion.li>
                     ))}
@@ -170,7 +170,7 @@ const ExperienceSection = () => {
           viewport={{ once: true }}
           className="mt-20"
         >
-          <h3 className="text-2xl font-bold text-gray-900 text-center mb-8">
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white text-center mb-8">
             Special Projects
           </h3>
 
@@ -182,18 +182,18 @@ const ExperienceSection = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8 border border-blue-100"
+                className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-8 border border-blue-100 dark:border-blue-800"
               >
-                <h4 className="text-xl font-bold text-gray-900 mb-3">
+                <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
                   {project.title}
                 </h4>
-                <p className="text-gray-700 mb-4 text-lg">
+                <p className="text-gray-700 dark:text-gray-300 mb-4 text-lg">
                   {project.description}
                 </p>
                 <ul className="space-y-2">
                   {project.details.map((detail, detailIndex) => (
-                    <li key={detailIndex} className="flex items-start text-gray-600">
-                      <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <li key={detailIndex} className="flex items-start text-gray-600 dark:text-gray-400">
+                      <div className="w-2 h-2 bg-purple-600 dark:bg-purple-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                       <span className="text-sm">{detail}</span>
                     </li>
                   ))}
@@ -211,20 +211,20 @@ const ExperienceSection = () => {
           viewport={{ once: true }}
           className="mt-20"
         >
-          <h3 className="text-2xl font-bold text-gray-900 text-center mb-8">
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white text-center mb-8">
             Education & Certifications
           </h3>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-gray-50 rounded-xl p-6 shadow-lg">
-              <h4 className="text-lg font-bold text-gray-900 mb-2">
+            <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-6 shadow-lg dark:shadow-gray-900/30">
+              <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
                 CS50X Miami - Computer Science
               </h4>
-              <div className="flex items-center text-gray-600 mb-4">
+              <div className="flex items-center text-gray-600 dark:text-gray-400 mb-4">
                 <MapPin className="w-4 h-4 mr-1" />
                 <span className="text-sm">Miami Dade College, 2015-2017</span>
               </div>
-              <p className="text-sm text-gray-700 leading-relaxed">
+              <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
                 CS50x Miami is a course that teaches you how to design and implement solutions to problems. 
                 But more than that, it teaches you how to think more critically, more methodically and more 
                 algorithmically. It is an adaptation of Harvard University&apos;s CS50 course that provides an 
@@ -233,15 +233,15 @@ const ExperienceSection = () => {
               </p>
             </div>
 
-            <div className="bg-gray-50 rounded-xl p-6 shadow-lg">
-              <h4 className="text-lg font-bold text-gray-900 mb-4">
+            <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-6 shadow-lg dark:shadow-gray-900/30">
+              <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
                 Web Development Certifications
               </h4>
-              <div className="flex items-center text-gray-600 mb-4">
+              <div className="flex items-center text-gray-600 dark:text-gray-400 mb-4">
                 <MapPin className="w-4 h-4 mr-1" />
                 <span className="text-sm">Miami Dade College, 2015-2016</span>
               </div>
-              <ul className="space-y-1 text-sm text-gray-700">
+              <ul className="space-y-1 text-sm text-gray-700 dark:text-gray-300">
                 <li>• Building Responsive UI with Bootstrap</li>
                 <li>• Creating HTML Apps with jQuery</li>
                 <li>• Mastering Node.js</li>

@@ -44,7 +44,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 pt-16 relative overflow-hidden">
+    <section id="hero" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900 pt-16 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 pointer-events-none z-0">
         {/* Central Hub Network - Constrained positioning */}
@@ -227,7 +227,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4"
             >
               Henry Barefoot
             </motion.h1>
@@ -236,7 +236,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-lg sm:text-xl md:text-2xl text-blue-600 font-semibold mb-6"
+              className="text-lg sm:text-xl md:text-2xl text-blue-600 dark:text-blue-400 font-semibold mb-6"
             >
               SR. WEB DEVELOPER
             </motion.p>
@@ -245,7 +245,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-base sm:text-lg text-gray-600 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0"
+              className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0"
             >
               Crafting exceptional digital experiences with modern web technologies. 
               Specializing in React, Next.js, and full-stack development with 8+ years of experience.
@@ -267,7 +267,7 @@ const Hero = () => {
               
               <button
                 onClick={handleDownloadResume}
-                className="inline-flex items-center justify-center px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-blue-600 hover:text-blue-600 transition-colors"
+                className="inline-flex items-center justify-center px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-lg hover:border-blue-600 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-colors"
               >
                 <Download className="mr-2" size={20} />
                 Download Resume
@@ -279,18 +279,18 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.0 }}
-              className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start text-sm text-gray-600"
+              className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start text-sm text-gray-600 dark:text-gray-400"
             >
               <a
                 href="tel:+19545401902"
-                className="flex items-center justify-center lg:justify-start hover:text-blue-600 transition-colors"
+                className="flex items-center justify-center lg:justify-start hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
               >
                 <Phone size={16} className="mr-2" />
                 (954) 540-1902
               </a>
               <a
                 href="mailto:henrybarefoot1987@gmail.com"
-                className="flex items-center justify-center lg:justify-start hover:text-blue-600 transition-colors"
+                className="flex items-center justify-center lg:justify-start hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
               >
                 <Mail size={16} className="mr-2" />
                 henrybarefoot1987@gmail.com

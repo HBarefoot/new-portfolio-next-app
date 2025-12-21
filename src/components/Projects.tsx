@@ -47,29 +47,29 @@ const Projects = () => {
 
   const getTechColor = (tech: string) => {
     const colorMap: { [key: string]: string } = {
-      'React': 'bg-blue-100 text-blue-800',
-      'Next.js': 'bg-black text-white',
-      'Node.js': 'bg-green-100 text-green-800',
-      'WordPress': 'bg-blue-100 text-blue-800',
-      'PHP': 'bg-purple-100 text-purple-800',
-      'JavaScript': 'bg-yellow-100 text-yellow-800',
-      'TypeScript': 'bg-blue-100 text-blue-800',
-      'Python': 'bg-blue-100 text-blue-800',
-      'Tailwind CSS': 'bg-teal-100 text-teal-800',
-      'MongoDB': 'bg-green-100 text-green-800',
-      'MySQL': 'bg-orange-100 text-orange-800',
-      'API Integration': 'bg-purple-100 text-purple-800',
-      'Salesforce': 'bg-blue-100 text-blue-800',
-      'BigQuery': 'bg-blue-100 text-blue-800',
-      'n8n': 'bg-red-100 text-red-800',
-      'VPS': 'bg-gray-100 text-gray-800',
-      'Docker': 'bg-blue-100 text-blue-800',
+      'React': 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+      'Next.js': 'bg-gray-900 dark:bg-gray-700 text-white',
+      'Node.js': 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300',
+      'WordPress': 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+      'PHP': 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300',
+      'JavaScript': 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300',
+      'TypeScript': 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+      'Python': 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+      'Tailwind CSS': 'bg-teal-100 dark:bg-teal-900/30 text-teal-800 dark:text-teal-300',
+      'MongoDB': 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300',
+      'MySQL': 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300',
+      'API Integration': 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300',
+      'Salesforce': 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+      'BigQuery': 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+      'n8n': 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300',
+      'VPS': 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300',
+      'Docker': 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
     };
-    return colorMap[tech] || 'bg-gray-100 text-gray-800';
+    return colorMap[tech] || 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300';
   };
 
   return (
-    <section id="projects" className="py-20 bg-gray-50">
+    <section id="projects" className="py-20 bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4 lg:px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -78,11 +78,11 @@ const Projects = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Featured Projects
           </h2>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <div className="w-24 h-1 bg-blue-600 dark:bg-blue-500 mx-auto mb-6"></div>
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             A showcase of recent projects demonstrating expertise in modern web technologies and automation solutions.
           </p>
         </motion.div>
@@ -95,12 +95,12 @@ const Projects = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="group bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 relative"
+              className="group bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/30 hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 relative"
             >
               {/* Project Content */}
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <div className="bg-blue-100 rounded-lg p-3 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                  <div className="bg-blue-100 dark:bg-blue-900/30 rounded-lg p-3 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
                     {getProjectIcon(project.title)}
                   </div>
                   <div className="flex space-x-2">
@@ -111,7 +111,7 @@ const Projects = () => {
                         href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                        className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
                       >
                         <Github size={20} />
                       </motion.a>
@@ -123,7 +123,7 @@ const Projects = () => {
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                        className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
                       >
                         <ExternalLink size={20} />
                       </motion.a>
@@ -131,11 +131,11 @@ const Projects = () => {
                   </div>
                 </div>
 
-                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
                   {project.title}
                 </h3>
 
-                <p className="text-gray-600 mb-6 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
                   {project.description}
                 </p>
 

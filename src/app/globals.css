@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
-/* CSS Variables */
+/* Tailwind CSS v4 dark mode - class-based strategy */
+@custom-variant dark (&:is(.dark, .dark *));
+
+/* CSS Variables - Light Mode */
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -8,6 +11,22 @@
   --primary-dark: #1d4ed8;
   --secondary: #64748b;
   --accent: #06b6d4;
+  --card-bg: #ffffff;
+  --card-border: #e5e7eb;
+  --muted: #f1f5f9;
+}
+
+/* CSS Variables - Dark Mode */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --primary: #60a5fa;
+  --primary-dark: #3b82f6;
+  --secondary: #94a3b8;
+  --accent: #22d3ee;
+  --card-bg: #1a1a1a;
+  --card-border: #2d2d2d;
+  --muted: #1e293b;
 }
 
 /* Base styles */
@@ -42,13 +61,25 @@ html {
   background: #f1f5f9;
 }
 
+.dark ::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 4px;
 }
 
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
 }
 
 /* Animation utilities */
@@ -95,6 +126,10 @@ html {
 .glass {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
+}
+
+.dark .glass {
+  background: rgba(15, 15, 15, 0.95);
 }
 
 /* n8n Chat Customization */

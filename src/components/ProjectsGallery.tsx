@@ -90,26 +90,26 @@ const ProjectsGallery = () => {
 
   const getTechColor = (tech: string) => {
     const colorMap: { [key: string]: string } = {
-      'n8n': 'bg-red-100 text-red-800',
-      'OpenAI': 'bg-green-100 text-green-800',
-      'Vector Database': 'bg-purple-100 text-purple-800',
-      'Telegram API': 'bg-blue-100 text-blue-800',
-      'RAG Architecture': 'bg-indigo-100 text-indigo-800',
-      'Google Sheets': 'bg-green-100 text-green-800',
-      'Social Media APIs': 'bg-blue-100 text-blue-800',
-      'Content Management': 'bg-orange-100 text-orange-800',
-      'Next.js': 'bg-gray-900 text-white',
-      'TypeScript': 'bg-blue-100 text-blue-800',
-      'PostgreSQL': 'bg-blue-200 text-blue-900',
-      'Prisma': 'bg-indigo-100 text-indigo-800',
-      'DocuSign': 'bg-yellow-100 text-yellow-800',
-      'Mapbox': 'bg-cyan-100 text-cyan-800',
+      'n8n': 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300',
+      'OpenAI': 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300',
+      'Vector Database': 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300',
+      'Telegram API': 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+      'RAG Architecture': 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300',
+      'Google Sheets': 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300',
+      'Social Media APIs': 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+      'Content Management': 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300',
+      'Next.js': 'bg-gray-900 dark:bg-gray-700 text-white',
+      'TypeScript': 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+      'PostgreSQL': 'bg-blue-200 dark:bg-blue-900/40 text-blue-900 dark:text-blue-200',
+      'Prisma': 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300',
+      'DocuSign': 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300',
+      'Mapbox': 'bg-cyan-100 dark:bg-cyan-900/30 text-cyan-800 dark:text-cyan-300',
     };
-    return colorMap[tech] || 'bg-gray-100 text-gray-800';
+    return colorMap[tech] || 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300';
   };
 
   return (
-    <section id="projects-gallery" className="py-20 bg-white">
+    <section id="projects-gallery" className="py-20 bg-white dark:bg-gray-950">
       <div className="container mx-auto px-4 lg:px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -118,11 +118,11 @@ const ProjectsGallery = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Projects Gallery
           </h2>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <div className="w-24 h-1 bg-blue-600 dark:bg-blue-500 mx-auto mb-6"></div>
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Deep dive into my automation workflows and technical implementations. Explore the architecture and features of complex n8n automations.
           </p>
         </motion.div>
@@ -143,7 +143,7 @@ const ProjectsGallery = () => {
               <div className={`${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
                 <motion.div
                   whileHover={{ scale: 1.02 }}
-                  className="relative rounded-2xl overflow-hidden shadow-2xl bg-gray-100 group cursor-pointer"
+                  className="relative rounded-2xl overflow-hidden shadow-2xl bg-gray-100 dark:bg-gray-800 group cursor-pointer"
                 >
                   <Image
                     src={project.image}
@@ -189,23 +189,23 @@ const ProjectsGallery = () => {
                       {getCategoryIcon(project.category)}
                     </div>
                     <div>
-                      <span className="text-sm text-blue-600 font-semibold uppercase tracking-wide">
+                      <span className="text-sm text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wide">
                         {project.category}
                       </span>
-                      <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mt-1">
+                      <h3 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mt-1">
                         {project.title}
                       </h3>
                     </div>
                   </div>
                   
-                  <p className="text-lg text-gray-600 leading-relaxed">
+                  <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                     {project.description}
                   </p>
                 </div>
 
                 {/* Technologies */}
                 <div>
-                  <h4 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">
+                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 uppercase tracking-wide">
                     Technologies Used
                   </h4>
                   <div className="flex flex-wrap gap-2">
@@ -226,7 +226,7 @@ const ProjectsGallery = () => {
 
                 {/* Key Features */}
                 <div>
-                  <h4 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">
+                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 uppercase tracking-wide">
                     Key Features
                   </h4>
                   <ul className="space-y-2">
@@ -237,9 +237,9 @@ const ProjectsGallery = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, delay: featureIndex * 0.1 }}
                         viewport={{ once: true }}
-                        className="flex items-start text-gray-700"
+                        className="flex items-start text-gray-700 dark:text-gray-300"
                       >
-                        <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <div className="w-2 h-2 bg-blue-600 dark:bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                         <span className="text-sm leading-relaxed">{feature}</span>
                       </motion.li>
                     ))}
