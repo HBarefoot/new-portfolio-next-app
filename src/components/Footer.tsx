@@ -119,9 +119,18 @@ const Footer = () => {
           className="border-t border-gray-800 mt-8 pt-8 text-center"
         >
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-400 text-sm">
-              © {currentYear} Henry Barefoot. All rights reserved.
-            </p>
+            <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-gray-400 text-sm">
+              <p>
+                © {currentYear} Henry Barefoot. All rights reserved.
+              </p>
+              <span className="hidden md:inline">•</span>
+              <a 
+                href="/privacy" 
+                className="hover:text-white transition-colors duration-300 font-medium"
+              >
+                Privacy Policy
+              </a>
+            </div>
             
             <div className="flex items-center text-gray-400 text-sm">
               <span>Made with</span>
