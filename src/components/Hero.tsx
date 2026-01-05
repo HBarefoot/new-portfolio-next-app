@@ -133,7 +133,7 @@ const Hero = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.2 }}
           transition={{ duration: 3, delay: 2 }}
-          className="absolute top-3/4 left-1/2 transform -translate-x-1/2 lg:top-1/2 lg:right-1/6 lg:left-auto lg:transform-none"
+          className="absolute bottom-1/4 right-4 lg:top-1/3 lg:right-8 z-10"
           style={{ maxWidth: '200px', maxHeight: '200px' }}
         >
           <svg width="200" height="200" viewBox="0 0 200 200" className="w-32 h-32 md:w-40 md:h-40 lg:w-44 lg:h-44 max-w-full max-h-full">
