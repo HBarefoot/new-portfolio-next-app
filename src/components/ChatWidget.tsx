@@ -38,7 +38,7 @@ const ChatWidget = () => {
       setMessages([
         {
           id: '1',
-          text: "👋 Welcome to Henry's AI Assistant! I'm here to help answer questions about Henry's experience, skills, and projects. What would you like to know?",
+          text: "👋 Welcome to Henry's AI Assistant! I'm a self-hosted model running locally on Henry's infrastructure. I'm here to answer questions about his experience, skills, and projects. What would you like to know?",
           sender: 'bot',
           timestamp: new Date(),
         },
