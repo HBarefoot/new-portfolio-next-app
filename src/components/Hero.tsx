@@ -36,7 +36,7 @@ const Hero = () => {
   const handleDownloadResume = () => {
     // Create a link to download resume
     const link = document.createElement('a');
-    link.href = '/henry-barefoot-resume.pdf'; // You'll need to add this file to public folder
+    link.href = '/Resume_HB.pdf';
     link.download = 'Henry-Barefoot-Resume.pdf';
     document.body.appendChild(link);
     link.click();
