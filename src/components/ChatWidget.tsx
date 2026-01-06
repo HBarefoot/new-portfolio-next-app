@@ -262,7 +262,7 @@ const ChatWidget = () => {
                     }`}
                   >
                     {message.sender === 'bot' ? (
-                      <div className="text-sm prose prose-sm dark:prose-invert max-w-none prose-p:my-2 prose-headings:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5">
+                      <div className="text-sm prose prose-sm dark:prose-invert max-w-none prose-p:my-2 prose-headings:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5 prose-pre:my-2 prose-pre:max-w-full prose-pre:overflow-x-auto prose-code:break-words prose-pre:text-xs">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                           {message.text}
                         </ReactMarkdown>
