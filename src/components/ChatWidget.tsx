@@ -19,6 +19,7 @@ const ChatWidget = () => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -26,9 +27,14 @@ const ChatWidget = () => {
   // Use Next.js API route as proxy to avoid CORS issues
   const WEBHOOK_URL = '/api/chat';
 
+  // Handle client-side mounting
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   // Initialize with welcome messages
   useEffect(() => {
-    if (messages.length === 0) {
+    if (isMounted && messages.length === 0) {
       setMessages([
         {
           id: '1',
@@ -38,7 +44,7 @@ const ChatWidget = () => {
         },
       ]);
     }
-  }, [messages.length]);
+  }, [isMounted, messages.length]);
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -158,16 +164,26 @@ const ChatWidget = () => {
     });
   };
 
+  // Don't render until mounted on client to avoid hydration errors
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <>
       {/* Chat Toggle Button */}
-      <motion.button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 p-3 sm:p-4 bg-gradient-to-r from-primary to-accent rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        aria-label="Toggle chat"
-      >
+      <AnimatePresence>
+        {!isOpen && (
+          <motion.button
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            onClick={() => setIsOpen(!isOpen)}
+            className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 p-3 sm:p-4 bg-gradient-to-r from-primary to-accent rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            aria-label="Toggle chat"
+          >
         <AnimatePresence mode="wait">
           {isOpen ? (
             <motion.div
@@ -194,6 +210,8 @@ const ChatWidget = () => {
           )}
         </AnimatePresence>
       </motion.button>
+      )}
+      </AnimatePresence>
 
       {/* Chat Window */}
       <AnimatePresence>
@@ -203,28 +221,35 @@ const ChatWidget = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-0 right-0 left-0 z-40 w-full h-[calc(100vh-env(safe-area-inset-bottom))] sm:bottom-24 sm:right-6 sm:left-auto sm:w-[400px] sm:h-[600px] sm:max-h-[calc(100vh-200px)] sm:rounded-2xl bg-white dark:bg-gray-900 shadow-2xl flex flex-col overflow-hidden border-t border-gray-200 dark:border-gray-800 sm:border sm:border-gray-200 sm:dark:border-gray-800"
+            className="fixed bottom-0 right-0 left-0 z-40 w-full h-[100dvh] pt-16 sm:pt-0 sm:bottom-24 sm:right-6 sm:left-auto sm:w-[400px] sm:h-[600px] sm:max-h-[calc(100vh-200px)] sm:rounded-2xl bg-white dark:bg-gray-900 shadow-2xl flex flex-col overflow-hidden border-t border-gray-200 dark:border-gray-800 sm:border sm:border-gray-200 sm:dark:border-gray-800"
           >
             {/* Chat Header */}
-            <div className="bg-gradient-to-r from-primary to-accent p-3 sm:p-4 text-white">
+            <div className="bg-gradient-to-r from-primary to-accent p-3 sm:p-4 text-white flex-shrink-0">
               <div className="flex items-center gap-2 sm:gap-3">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
                   <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-base sm:text-lg">Henry&apos;s AI Assistant</h3>
                   <p className="text-xs text-white/90 flex items-center gap-1">
                     <span className="w-2 h-2 bg-green-300 rounded-full animate-pulse"></span>
                     Online - Ready to help
                   </p>
                 </div>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="ml-2 p-2 hover:bg-white/10 rounded-lg transition-colors sm:hidden"
+                  aria-label="Close chat"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
             </div>
 
             {/* Messages Container */}
             <div
               ref={chatContainerRef}
-              className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 bg-gray-50 dark:bg-gray-950 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent"
+              className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 bg-gray-50 dark:bg-gray-950 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent min-h-0"
             >
               {messages.map((message) => (
                 <motion.div
@@ -294,7 +319,7 @@ const ChatWidget = () => {
             </div>
 
             {/* Input Area */}
-            <div className="p-3 sm:p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 pb-safe">
+            <div className="p-3 sm:p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 flex-shrink-0">
               <form 
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -302,32 +327,32 @@ const ChatWidget = () => {
                     sendMessage();
                   }
                 }}
-                className="flex gap-2"
+                className="flex gap-2 items-end"
               >
                 <input
                   ref={inputRef}
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  placeholder="Ask me anything about Henry..."
+                  placeholder="Ask me anything..."
                   disabled={isLoading}
                   autoComplete="off"
-                  className="flex-1 px-3 py-2 sm:px-4 sm:py-2.5 text-sm sm:text-base bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="flex-1 px-3 py-3 sm:px-4 sm:py-2.5 text-base bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 />
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="p-2 sm:p-2.5 bg-gradient-to-r from-primary to-accent text-white rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 group"
+                  className="p-3 sm:p-2.5 bg-gradient-to-r from-primary to-accent text-white rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 group flex-shrink-0"
                   aria-label="Send message"
                 >
                   {isLoading ? (
-                    <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
+                    <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
-                    <Send className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    <Send className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   )}
                 </button>
               </form>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center hidden sm:block">
                 Powered by AI • Press Enter to send
               </p>
             </div>
