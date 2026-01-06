@@ -172,18 +172,15 @@ const ChatWidget = () => {
   return (
     <>
       {/* Chat Toggle Button */}
-      <AnimatePresence>
-        {!isOpen && (
-          <motion.button
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0 }}
-            onClick={() => setIsOpen(!isOpen)}
-            className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 p-3 sm:p-4 bg-gradient-to-r from-primary to-accent rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            aria-label="Toggle chat"
-          >
+      <motion.button
+        onClick={() => setIsOpen(!isOpen)}
+        className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 p-3 sm:p-4 bg-gradient-to-r from-primary to-accent rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group ${
+          isOpen ? 'max-sm:hidden' : ''
+        }`}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        aria-label="Toggle chat"
+      >
         <AnimatePresence mode="wait">
           {isOpen ? (
             <motion.div
@@ -210,8 +207,6 @@ const ChatWidget = () => {
           )}
         </AnimatePresence>
       </motion.button>
-      )}
-      </AnimatePresence>
 
       {/* Chat Window */}
       <AnimatePresence>
