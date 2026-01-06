@@ -1,57 +1,341 @@
 'use client';
 
-// Extend Window interface to include Vue.js feature flags
-declare global {
-  interface Window {
-    __VUE_OPTIONS_API__?: boolean;
-    __VUE_PROD_DEVTOOLS__?: boolean;
-    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__?: boolean;
-  }
-}
+import { useState, useRef, useEffect } from 'react';
+import { MessageCircle, X, Send, Loader2, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
-// Define Vue.js feature flags before importing n8n chat
-if (typeof window !== 'undefined') {
-  window.__VUE_OPTIONS_API__ = true;
-  window.__VUE_PROD_DEVTOOLS__ = false;
-  window.__VUE_PROD_HYDRATION_MISMATCH_DETAILS__ = false;
+interface Message {
+  id: string;
+  text: string;
+  sender: 'user' | 'bot';
+  timestamp: Date;
 }
-
-import { createChat } from '@n8n/chat';
-import '@n8n/chat/style.css';
-import { useEffect } from 'react';
 
 const ChatWidget = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  // Use Next.js API route as proxy to avoid CORS issues
+  const WEBHOOK_URL = '/api/chat';
+
+  // Initialize with welcome messages
   useEffect(() => {
-    createChat({
-      webhookUrl: 'https://n8n.srv1197436.hstgr.cloud/webhook/4091fa09-fb9a-4039-9411-7104d213f601/chat',
-      webhookConfig: {
+    if (messages.length === 0) {
+      setMessages([
+        {
+          id: '1',
+          text: "👋 Welcome to Henry's AI Assistant! I'm here to help answer questions about Henry's experience, skills, and projects. What would you like to know?",
+          sender: 'bot',
+          timestamp: new Date(),
+        },
+      ]);
+    }
+  }, [messages.length]);
+
+  // Auto-scroll to bottom when messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, isTyping]);
+
+  // Focus input when chat opens
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
+
+  const sendMessage = async () => {
+    const trimmedValue = inputValue.trim();
+    if (!trimmedValue || isLoading) return;
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      text: trimmedValue,
+      sender: 'user',
+      timestamp: new Date(),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setIsLoading(true);
+    setInputValue('');
+    setIsTyping(true);
+
+    try {
+      const response = await fetch(WEBHOOK_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-      },
-      mode: 'window',
-      showWelcomeScreen: true,
-      loadPreviousSession: false,
-      initialMessages: [
-        "👋 Welcome to Henry's AI Assistant!",
-        "I'm here to help answer questions about Henry's experience, skills, and projects.",
-        "What would you like to know?"
-      ],
-      i18n: {
-        en: {
-          title: "Henry's AI Assistant",
-          subtitle: 'Professional portfolio assistant powered by AI',
-          footer: 'Built with ❤️ using n8n',
-          getStarted: 'Get Started',
-          inputPlaceholder: 'Ask me anything about Henry...',
-          closeButtonTooltip: 'Close chat',
-        },
-      },
-    });
-  }, []);
+        body: JSON.stringify({
+          message: trimmedValue,
+          sessionId: getSessionId(),
+          timestamp: new Date().toISOString(),
+        }),
+      });
 
-  return null; // The chat widget is rendered by the n8n library
+      console.log('Webhook response status:', response.status);
+
+      if (!response.ok) {
+        throw new Error(`Failed to send message: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log('Webhook response data:', data);
+      
+      // Handle different n8n response formats
+      let botResponse: string;
+      
+      if (typeof data === 'string') {
+        // Direct string response
+        botResponse = data;
+      } else if (data.output) {
+        // Standard output field
+        botResponse = typeof data.output === 'string' ? data.output : JSON.stringify(data.output);
+      } else if (data.response) {
+        // Alternative response field
+        botResponse = typeof data.response === 'string' ? data.response : JSON.stringify(data.response);
+      } else if (data.message) {
+        // Message field
+        botResponse = typeof data.message === 'string' ? data.message : JSON.stringify(data.message);
+      } else if (data.text) {
+        // Text field
+        botResponse = typeof data.text === 'string' ? data.text : JSON.stringify(data.text);
+      } else {
+        // Fallback for unexpected formats
+        botResponse = "I'm sorry, I couldn't process that request. Please try again.";
+      }
+
+      setIsTyping(false);
+
+      const botMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: botResponse,
+        sender: 'bot',
+        timestamp: new Date(),
+      };
+
+      setMessages((prev) => [...prev, botMessage]);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setIsTyping(false);
+
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: "I'm sorry, I encountered an error. Please try again later.",
+        sender: 'bot',
+        timestamp: new Date(),
+      };
+
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Generate or retrieve session ID
+  const getSessionId = () => {
+    let sessionId = sessionStorage.getItem('chat-session-id');
+    if (!sessionId) {
+      sessionId = `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      sessionStorage.setItem('chat-session-id', sessionId);
+    }
+    return sessionId;
+  };
+
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
+  };
+
+  return (
+    <>
+      {/* Chat Toggle Button */}
+      <motion.button
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed bottom-6 right-6 z-50 p-4 bg-gradient-to-r from-primary to-accent rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        aria-label="Toggle chat"
+      >
+        <AnimatePresence mode="wait">
+          {isOpen ? (
+            <motion.div
+              key="close"
+              initial={{ rotate: -90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: 90, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <X className="w-6 h-6 text-white" />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="open"
+              initial={{ rotate: -90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: 90, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="relative"
+            >
+              <MessageCircle className="w-6 h-6 text-white" />
+              <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.button>
+
+      {/* Chat Window */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="fixed bottom-24 right-6 z-40 w-[380px] max-w-[calc(100vw-3rem)] h-[600px] max-h-[calc(100vh-200px)] sm:bottom-24 sm:right-6 sm:w-[380px] sm:h-[600px] max-sm:bottom-0 max-sm:right-0 max-sm:left-0 max-sm:w-full max-sm:h-full max-sm:rounded-none bg-white dark:bg-gray-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200 dark:border-gray-800"
+          >
+            {/* Chat Header */}
+            <div className="bg-gradient-to-r from-primary to-accent p-4 text-white">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-lg">Henry&apos;s AI Assistant</h3>
+                  <p className="text-xs text-white/90 flex items-center gap-1">
+                    <span className="w-2 h-2 bg-green-300 rounded-full animate-pulse"></span>
+                    Online - Ready to help
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Messages Container */}
+            <div
+              ref={chatContainerRef}
+              className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-950 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent"
+            >
+              {messages.map((message) => (
+                <motion.div
+                  key={message.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`max-w-[90%] rounded-2xl px-4 py-2.5 ${
+                      message.sender === 'user'
+                        ? 'bg-gradient-to-r from-primary to-accent text-white rounded-br-sm'
+                        : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-bl-sm shadow-sm border border-gray-200 dark:border-gray-700'
+                    }`}
+                  >
+                    {message.sender === 'bot' ? (
+                      <div className="text-sm prose prose-sm dark:prose-invert max-w-none prose-p:my-2 prose-headings:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {message.text}
+                        </ReactMarkdown>
+                      </div>
+                    ) : (
+                      <p className="text-sm whitespace-pre-wrap break-words">{message.text}</p>
+                    )}
+                    <p
+                      className={`text-xs mt-1 ${
+                        message.sender === 'user' ? 'text-white/70' : 'text-gray-500 dark:text-gray-400'
+                      }`}
+                    >
+                      {formatTime(message.timestamp)}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+
+              {/* Typing Indicator */}
+              {isTyping && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex justify-start"
+                >
+                  <div className="bg-white dark:bg-gray-800 rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div className="flex gap-1">
+                      <motion.span
+                        className="w-2 h-2 bg-gray-400 rounded-full"
+                        animate={{ y: [0, -8, 0] }}
+                        transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
+                      />
+                      <motion.span
+                        className="w-2 h-2 bg-gray-400 rounded-full"
+                        animate={{ y: [0, -8, 0] }}
+                        transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
+                      />
+                      <motion.span
+                        className="w-2 h-2 bg-gray-400 rounded-full"
+                        animate={{ y: [0, -8, 0] }}
+                        transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Input Area */}
+            <div className="p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+              <form 
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (!isLoading && inputValue.trim()) {
+                    sendMessage();
+                  }
+                }}
+                className="flex gap-2"
+              >
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  placeholder="Ask me anything about Henry..."
+                  disabled={isLoading}
+                  autoComplete="off"
+                  className="flex-1 px-4 py-2.5 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                />
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="p-2.5 bg-gradient-to-r from-primary to-accent text-white rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 group"
+                  aria-label="Send message"
+                >
+                  {isLoading ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <Send className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  )}
+                </button>
+              </form>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
+                Powered by AI • Press Enter to send
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
 };
 
 export default ChatWidget;

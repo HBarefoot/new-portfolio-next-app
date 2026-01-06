@@ -231,6 +231,16 @@ const PortfolioQuest = () => {
 
     // Enhanced input handling for menu and game
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't intercept keys if user is typing in an input, textarea, or contenteditable element
+      const target = e.target as HTMLElement;
+      if (
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable
+      ) {
+        return;
+      }
+
       if (gameState.screen === 'menu') {
         if (e.code === 'Space' || e.code === 'Enter') {
           gameState.screen = 'playing';
@@ -271,6 +281,16 @@ const PortfolioQuest = () => {
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
+      // Don't intercept keys if user is typing in an input, textarea, or contenteditable element
+      const target = e.target as HTMLElement;
+      if (
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable
+      ) {
+        return;
+      }
+
       if (gameState.screen === 'menu') return;
 
       switch(e.code) {
