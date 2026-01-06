@@ -163,7 +163,7 @@ const ChatWidget = () => {
       {/* Chat Toggle Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 p-4 bg-gradient-to-r from-primary to-accent rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 p-3 sm:p-4 bg-gradient-to-r from-primary to-accent rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         aria-label="Toggle chat"
@@ -177,7 +177,7 @@ const ChatWidget = () => {
               exit={{ rotate: 90, opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <X className="w-6 h-6 text-white" />
+              <X className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </motion.div>
           ) : (
             <motion.div
@@ -188,7 +188,7 @@ const ChatWidget = () => {
               transition={{ duration: 0.2 }}
               className="relative"
             >
-              <MessageCircle className="w-6 h-6 text-white" />
+              <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse" />
             </motion.div>
           )}
@@ -203,16 +203,16 @@ const ChatWidget = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 right-6 z-40 w-[380px] max-w-[calc(100vw-3rem)] h-[600px] max-h-[calc(100vh-200px)] sm:bottom-24 sm:right-6 sm:w-[380px] sm:h-[600px] max-sm:bottom-0 max-sm:right-0 max-sm:left-0 max-sm:w-full max-sm:h-full max-sm:rounded-none bg-white dark:bg-gray-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200 dark:border-gray-800"
+            className="fixed bottom-0 right-0 left-0 z-40 w-full h-[calc(100vh-env(safe-area-inset-bottom))] sm:bottom-24 sm:right-6 sm:left-auto sm:w-[400px] sm:h-[600px] sm:max-h-[calc(100vh-200px)] sm:rounded-2xl bg-white dark:bg-gray-900 shadow-2xl flex flex-col overflow-hidden border-t border-gray-200 dark:border-gray-800 sm:border sm:border-gray-200 sm:dark:border-gray-800"
           >
             {/* Chat Header */}
-            <div className="bg-gradient-to-r from-primary to-accent p-4 text-white">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                  <Sparkles className="w-5 h-5" />
+            <div className="bg-gradient-to-r from-primary to-accent p-3 sm:p-4 text-white">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                  <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-lg">Henry&apos;s AI Assistant</h3>
+                  <h3 className="font-semibold text-base sm:text-lg">Henry&apos;s AI Assistant</h3>
                   <p className="text-xs text-white/90 flex items-center gap-1">
                     <span className="w-2 h-2 bg-green-300 rounded-full animate-pulse"></span>
                     Online - Ready to help
@@ -224,7 +224,7 @@ const ChatWidget = () => {
             {/* Messages Container */}
             <div
               ref={chatContainerRef}
-              className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-950 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent"
+              className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 bg-gray-50 dark:bg-gray-950 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent"
             >
               {messages.map((message) => (
                 <motion.div
@@ -235,7 +235,7 @@ const ChatWidget = () => {
                   className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[90%] rounded-2xl px-4 py-2.5 ${
+                    className={`max-w-[85%] sm:max-w-[90%] rounded-2xl px-3 py-2 sm:px-4 sm:py-2.5 ${
                       message.sender === 'user'
                         ? 'bg-gradient-to-r from-primary to-accent text-white rounded-br-sm'
                         : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-bl-sm shadow-sm border border-gray-200 dark:border-gray-700'
@@ -294,7 +294,7 @@ const ChatWidget = () => {
             </div>
 
             {/* Input Area */}
-            <div className="p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+            <div className="p-3 sm:p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 pb-safe">
               <form 
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -312,18 +312,18 @@ const ChatWidget = () => {
                   placeholder="Ask me anything about Henry..."
                   disabled={isLoading}
                   autoComplete="off"
-                  className="flex-1 px-4 py-2.5 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="flex-1 px-3 py-2 sm:px-4 sm:py-2.5 text-sm sm:text-base bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 />
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="p-2.5 bg-gradient-to-r from-primary to-accent text-white rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 group"
+                  className="p-2 sm:p-2.5 bg-gradient-to-r from-primary to-accent text-white rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 group"
                   aria-label="Send message"
                 >
                   {isLoading ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                   ) : (
-                    <Send className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    <Send className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   )}
                 </button>
               </form>
