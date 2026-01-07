@@ -102,7 +102,7 @@ export interface StrapiExperience {
   isCurrent: boolean;
   location?: string;
   description?: string;
-  responsibilities?: Array<{ description: string }>;
+  responsibilities?: Array<{ id?: number; description: string }>;
   companyLogo?: { data: StrapiEntity<StrapiImage> | null };
   order: number;
   createdAt: string;
