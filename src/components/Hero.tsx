@@ -56,7 +56,9 @@ const Hero = () => {
 
   const handleDownloadResume = () => {
     // Create a link to download resume
-    const resumeUrl = heroData?.resumeFile?.url || '/Resume_HB.pdf';
+    const resumeUrl = heroData?.resumeFile?.data?.attributes?.url 
+      ? `${process.env.NEXT_PUBLIC_STRAPI_MEDIA_URL}${heroData.resumeFile.data.attributes.url}` 
+      : '/Resume_HB.pdf';
     const link = document.createElement('a');
     link.href = resumeUrl;
     link.download = 'Henry-Barefoot-Resume.pdf';
