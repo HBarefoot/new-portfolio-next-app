@@ -52,6 +52,7 @@ export interface StrapiAbout {
   bio?: string; // Alternative field name
   yearsExperience?: number;
   location?: string;
+  tags?: string[];
   highlights?: Array<{
     title: string;
     description: string;
