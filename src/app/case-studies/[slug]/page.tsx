@@ -109,7 +109,7 @@ export default async function CaseStudyDetailPage({ params }: Props) {
         <section className="bg-gray-50 dark:bg-gray-900 py-16">
           <div className="container mx-auto px-4 lg:px-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-              {caseStudy.metrics.map((metric, idx) => (
+              {caseStudy.metrics.map((metric: { label: string; value: string; icon?: string; description?: string }, idx: number) => (
                 <div key={idx} className="text-center">
                   <div className="text-4xl md:text-5xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                     {metric.value}
@@ -208,7 +208,7 @@ export default async function CaseStudyDetailPage({ params }: Props) {
                   Technologies Used
                 </h3>
                 <div className="flex flex-wrap gap-3">
-                  {caseStudy.technologies.map((tech) => (
+                  {caseStudy.technologies.map((tech: any) => (
                     <span
                       key={tech.id}
                       className="px-4 py-2 bg-white dark:bg-gray-800 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 rounded-lg font-medium"
@@ -227,7 +227,7 @@ export default async function CaseStudyDetailPage({ params }: Props) {
                   Development Methodology
                 </h3>
                 <div className="space-y-3">
-                  {caseStudy.methodologies.map((method, idx) => (
+                  {caseStudy.methodologies.map((method: { name: string; description?: string }, idx: number) => (
                     <div key={idx} className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
                       <h4 className="font-semibold text-blue-700 dark:text-blue-300 mb-1">
                         {method.name}
@@ -253,8 +253,8 @@ export default async function CaseStudyDetailPage({ params }: Props) {
             </h2>
             <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
               {caseStudy.screenshots
-                .sort((a, b) => a.order - b.order)
-                .map((screenshot, idx) => {
+                .sort((a: any, b: any) => a.order - b.order)
+                .map((screenshot: any, idx: number) => {
                   const imageUrl = getStrapiImageUrl(screenshot.image);
                   return imageUrl ? (
                     <div key={idx} className="space-y-3">
@@ -335,7 +335,7 @@ export default async function CaseStudyDetailPage({ params }: Props) {
                   
                   {/* Rating */}
                   <div className="flex gap-1 mt-2">
-                    {Array.from({ length: caseStudy.clientTestimonial.rating }).map((_, i) => (
+                    {Array.from({ length: caseStudy.clientTestimonial.rating }).map((_: any, i: number) => (
                       <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                     ))}
                   </div>
