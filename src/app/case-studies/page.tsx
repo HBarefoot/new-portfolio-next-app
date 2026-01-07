@@ -39,8 +39,8 @@ export default async function CaseStudiesPage() {
   const caseStudies = await getCaseStudiesData();
 
   // Separate featured and regular case studies
-  const featuredStudy = caseStudies.find((study) => study.attributes.featured);
-  const regularStudies = caseStudies.filter((study) => !study.attributes.featured);
+  const featuredStudy = caseStudies.find((study: any) => study.attributes.featured);
+  const regularStudies = caseStudies.filter((study: any) => !study.attributes.featured);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
