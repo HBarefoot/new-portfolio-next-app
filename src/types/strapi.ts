@@ -51,6 +51,10 @@ export interface StrapiAbout {
   biography: string;
   yearsExperience?: number;
   location?: string;
+  highlights?: Array<{
+    title: string;
+    description: string;
+  }>;
   highlightImage?: { data: StrapiEntity<StrapiImage> | null };
   createdAt: string;
   updatedAt: string;
