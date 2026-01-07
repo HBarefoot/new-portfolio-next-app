@@ -68,6 +68,7 @@ export interface StrapiAbout {
 }
 
 export interface StrapiSkill {
+  id: number;
   name: string;
   category: 'Languages' | 'Frameworks & Libraries' | 'Tools' | 'Other';
   proficiencyLevel?: number;
@@ -93,6 +94,7 @@ export interface StrapiTechnology {
 }
 
 export interface StrapiExperience {
+  id: number;
   company: string;
   position: string;
   startDate: string;
@@ -108,6 +110,7 @@ export interface StrapiExperience {
 }
 
 export interface StrapiProject {
+  id: number;
   title: string;
   slug: string;
   description: string;
