@@ -100,6 +100,7 @@ export interface StrapiExperience {
   startDate: string;
   endDate?: string | null;
   isCurrent: boolean;
+  location?: string;
   description?: string;
   responsibilities?: Array<{ description: string }>;
   companyLogo?: { data: StrapiEntity<StrapiImage> | null };
