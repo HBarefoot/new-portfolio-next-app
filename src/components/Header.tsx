@@ -40,6 +40,7 @@ const Header = () => {
     { label: 'Skills', href: 'skills' },
     { label: 'Experience', href: 'experience' },
     { label: 'Projects', href: 'projects' },
+    { label: 'Case Studies', href: '/case-studies', external: true },
     { label: 'Gallery', href: 'projects-gallery' },
     { label: 'Game', href: 'game' },
     { label: 'Blog', href: '/blog', external: true },
