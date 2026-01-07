@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { getHero } from '@/lib/strapi-api';
 import type { StrapiHero } from '@/types/strapi';
+import { getStrapiImageUrl } from '@/types/strapi';
 
 const Hero = () => {
   const [heroData, setHeroData] = useState<StrapiHero | null>(null);
@@ -364,7 +365,7 @@ const Hero = () => {
                     <div className="w-full h-full bg-gray-300 dark:bg-gray-600 animate-pulse"></div>
                   ) : (
                     <Image
-                      src={heroData?.profileImage?.url || '/henry-profile.jpeg'}
+                      src={getStrapiImageUrl(heroData?.profileImage) || '/henry-profile.jpeg'}
                       alt={`${displayData.name} - ${displayData.title}`}
                       width={320}
                       height={320}

@@ -33,6 +33,9 @@ const Projects = () => {
       id: 1,
       title: "n8n Automation Platform",
       description: "Self-hosted n8n instance with custom nodes for API integrations",
+      image: undefined,
+      githubUrl: undefined,
+      liveUrl: undefined,
       technologies: [
         { id: 1, name: "n8n" },
         { id: 2, name: "Node.js" },
@@ -43,6 +46,9 @@ const Projects = () => {
       id: 2,
       title: "WordPress Custom Plugins",
       description: "Developed custom WordPress plugins with advanced functionality",
+      image: undefined,
+      githubUrl: undefined,
+      liveUrl: undefined,
       technologies: [
         { id: 1, name: "WordPress" },
         { id: 2, name: "PHP" },
@@ -53,6 +59,9 @@ const Projects = () => {
       id: 3,
       title: "React Landing Pages",
       description: "Created responsive landing pages using React and modern CSS frameworks",
+      image: undefined,
+      githubUrl: undefined,
+      liveUrl: undefined,
       technologies: [
         { id: 1, name: "React" },
         { id: 2, name: "Next.js" },
@@ -190,18 +199,25 @@ const Projects = () => {
 
                     {/* Technologies */}
                     <div className="flex flex-wrap gap-2">
-                      {project.technologies?.map((tech, techIndex) => (
-                        <motion.span
-                          key={tech.id || techIndex}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.3, delay: (index * 0.1) + (techIndex * 0.05) }}
-                          viewport={{ once: true }}
-                          className={`px-3 py-1 rounded-full text-xs font-medium ${getTechColor(tech.name)} transition-transform hover:scale-105`}
-                        >
-                          {tech.name}
-                        </motion.span>
-                      ))}
+                      {(() => {
+                        // Handle both Strapi structure { data: [...] } and fallback array [...]
+                        const techs = project.technologies && 'data' in project.technologies 
+                          ? project.technologies.data.map((t: any) => ({ id: t.id, name: t.attributes.name }))
+                          : project.technologies;
+                        
+                        return techs?.map((tech: any, techIndex: number) => (
+                          <motion.span
+                            key={tech.id || techIndex}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.3, delay: (index * 0.1) + (techIndex * 0.05) }}
+                            viewport={{ once: true }}
+                            className={`px-3 py-1 rounded-full text-xs font-medium ${getTechColor(tech.name)} transition-transform hover:scale-105`}
+                          >
+                            {tech.name}
+                          </motion.span>
+                        ));
+                      })()}
                     </div>
                   </>
                 )}

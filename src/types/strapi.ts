@@ -37,6 +37,9 @@ export interface StrapiHero {
   title: string;
   subtitle?: string;
   description?: string;
+  email?: string;
+  phone?: string;
+  phoneNumber?: string; // Alternative field name in Strapi
   profileImage?: { data: StrapiEntity<StrapiImage> | null };
   ctaButtonText?: string;
   ctaButtonLink?: string;
