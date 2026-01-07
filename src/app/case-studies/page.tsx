@@ -89,7 +89,7 @@ export default async function CaseStudiesPage() {
                   {featuredStudy ? 'More Case Studies' : 'All Case Studies'}
                 </h2>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {regularStudies.map((study, index) => (
+                  {regularStudies.map((study: any, index: number) => (
                     <CaseStudyCard
                       key={study.id}
                       caseStudy={study.attributes}
