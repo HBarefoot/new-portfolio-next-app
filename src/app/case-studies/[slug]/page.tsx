@@ -399,7 +399,7 @@ export default async function CaseStudyDetailPage({ params }: Props) {
               More Case Studies
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {caseStudy.relatedCaseStudies.map((related, index) => (
+              {caseStudy.relatedCaseStudies.map((related: any, index: number) => (
                 <CaseStudyCard
                   key={related.id}
                   caseStudy={related.attributes || related}
