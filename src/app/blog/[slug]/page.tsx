@@ -193,27 +193,17 @@ export default function BlogPostPage() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
-      <article className="max-w-4xl mx-auto px-4 py-12">
+      <article className="max-w-4xl mx-auto px-4 py-12 pt-24">
         {/* Post Header */}
         <motion.header 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <div className="flex items-center gap-2 mb-4">
-            <span className="px-3 py-1 bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 text-sm font-medium rounded-full">
-              {post.category}
-            </span>
-            {post.industry && (
-              <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-sm font-medium rounded-full">
-                {post.industry}
-              </span>
-            )}
-          </div>
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
             {post.title}
           </h1>
-          <div className="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400">
+          <div className="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400 mb-6">
             <div className="flex items-center gap-2">
               <User className="w-5 h-5" />
               <span>{post.author.name}</span>
@@ -226,6 +216,16 @@ export default function BlogPostPage() {
               <Clock className="w-5 h-5" />
               <span>{post.readingTime} min read</span>
             </div>
+          </div>
+          <div className="flex items-center gap-2 pb-6 border-b border-gray-200 dark:border-gray-800">
+            <span className="px-3 py-1 bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 text-sm font-medium rounded-full">
+              {post.category}
+            </span>
+            {post.industry && (
+              <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-sm font-medium rounded-full">
+                {post.industry}
+              </span>
+            )}
           </div>
         </motion.header>
 
