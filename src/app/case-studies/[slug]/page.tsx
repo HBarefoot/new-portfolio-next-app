@@ -282,7 +282,7 @@ export default async function CaseStudyDetailPage({ params }: Props) {
         </section>
       )}
 
-      {/* Gallery - Simple Image Grid */}
+      {/* Gallery - Professional Image Grid */}
       {caseStudy.gallery && (
         (() => {
           // Handle both Strapi v4 (gallery.data) and v5 (direct array) structures
@@ -293,26 +293,63 @@ export default async function CaseStudyDetailPage({ params }: Props) {
             : [];
           
           return galleryImages.length > 0 && (
-            <section className="py-16 bg-gray-50 dark:bg-gray-900">
+            <section className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900">
               <div className="container mx-auto px-4 lg:px-6">
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-12">
-                  Project Gallery ({galleryImages.length} images)
-                </h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
+                <div className="text-center mb-16">
+                  <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                    Project Gallery
+                  </h2>
+                  <div className="w-24 h-1 bg-blue-600 dark:bg-blue-500 mx-auto mb-4"></div>
+                  <p className="text-gray-600 dark:text-gray-400 text-lg">
+                    {galleryImages.length} screenshots showcasing key features and interfaces
+                  </p>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-[1600px] mx-auto">
                   {galleryImages.map((image: any, idx: number) => {
                     const imageUrl = getStrapiImageUrl(image);
                     const imageData = image.attributes || image;
                     return imageUrl ? (
-                      <div key={image.id || idx} className="relative h-64 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer group">
+                      <div 
+                        key={image.id || idx} 
+                        className="group relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-lg hover:shadow-2xl transition-all duration-300"
+                      >
+                        {/* Image */}
                         <Image
                           src={imageUrl}
-                          alt={imageData.alternativeText || `Gallery image ${idx + 1}`}
+                          alt={imageData.alternativeText || `Project screenshot ${idx + 1}`}
                           fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
                         />
+                        
+                        {/* Overlay on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                            <div className="flex items-center justify-between">
+                              <span className="text-white font-semibold text-sm">
+                                {imageData.alternativeText || `Screenshot ${idx + 1}`}
+                              </span>
+                              <div className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
+                                <span className="text-white text-xs font-medium">
+                                  {idx + 1}/{galleryImages.length}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Border accent */}
+                        <div className="absolute inset-0 border-2 border-transparent group-hover:border-blue-500/50 rounded-xl transition-colors duration-300"></div>
                       </div>
                     ) : null;
                   })}
+                </div>
+                
+                {/* Gallery Stats */}
+                <div className="mt-12 text-center">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Hover over images to view details • All screenshots captured from production environment
+                  </p>
                 </div>
               </div>
             </section>
