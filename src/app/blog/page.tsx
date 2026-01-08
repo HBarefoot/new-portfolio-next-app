@@ -26,6 +26,8 @@ export default function BlogPage() {
       console.log('API Response:', postsResponse.data);
       const strapiBlogPosts = postsResponse.data.data as StrapiEntity<StrapiBlogPost>[];
       console.log('Blog posts count:', strapiBlogPosts?.length);
+      console.log('First post structure:', strapiBlogPosts?.[0]);
+      console.log('Has attributes?', strapiBlogPosts?.[0]?.attributes);
       
       // Fetch categories from Strapi
       const categoriesResponse = await getBlogCategories();
@@ -33,7 +35,11 @@ export default function BlogPage() {
 
       // Transform Strapi data to BlogPost format
       const transformedPosts: BlogPost[] = strapiBlogPosts
-        .filter(entity => entity && entity.attributes) // Filter out any invalid entries
+        .filter(entity => {
+          const hasAttributes = entity && entity.attributes;
+          if (!hasAttributes) console.log('Filtered out entity:', entity);
+          return hasAttributes;
+        }) // Filter out any invalid entries
         .map((entity) => {
           const post = entity.attributes;
           
