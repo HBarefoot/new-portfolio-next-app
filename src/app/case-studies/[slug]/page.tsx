@@ -282,6 +282,33 @@ export default async function CaseStudyDetailPage({ params }: Props) {
         </section>
       )}
 
+      {/* Gallery - Simple Image Grid */}
+      {caseStudy.gallery && Array.isArray(caseStudy.gallery.data) && caseStudy.gallery.data.length > 0 && (
+        <section className="py-16 bg-gray-50 dark:bg-gray-900">
+          <div className="container mx-auto px-4 lg:px-6">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-12">
+              Project Gallery
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
+              {caseStudy.gallery.data.map((image: StrapiEntity<StrapiImage>) => {
+                const imageUrl = getStrapiImageUrl(image);
+                const imageData = image.attributes || image;
+                return imageUrl ? (
+                  <div key={image.id} className="relative h-64 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer group">
+                    <Image
+                      src={imageUrl}
+                      alt={imageData.alternativeText || 'Gallery image'}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                ) : null;
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Results */}
       {caseStudy.results && (
         <section className="py-16 bg-green-50 dark:bg-green-950/20">
