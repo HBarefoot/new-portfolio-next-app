@@ -32,8 +32,11 @@ export default function BlogPage() {
       // Transform Strapi data to BlogPost format
       const transformedPosts: BlogPost[] = strapiBlogPosts.map((entity) => {
         const post = entity.attributes;
-        const authorData = post.author?.data?.attributes;
-        const categoryData = post.category?.data?.attributes;
+        
+        // Safe access to nested relations with explicit undefined checks
+        const authorData = post.author && post.author.data ? post.author.data.attributes : null;
+        const categoryData = post.category && post.category.data ? post.category.data.attributes : null;
+        const coverImageData = post.coverImage && post.coverImage.data ? post.coverImage.data.attributes : null;
         
         return {
           id: entity.id.toString(),
@@ -41,7 +44,7 @@ export default function BlogPage() {
           title: post.title,
           excerpt: post.excerpt,
           content: post.content,
-          coverImage: post.coverImage?.data?.attributes?.url,
+          coverImage: coverImageData?.url,
           author: {
             name: authorData?.name || 'Henry Barefoot',
             avatar: authorData?.avatar?.data?.attributes?.url

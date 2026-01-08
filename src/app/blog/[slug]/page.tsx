@@ -117,8 +117,11 @@ export default function BlogPostPage() {
       if (strapiPosts && strapiPosts.length > 0) {
         const entity = strapiPosts[0];
         const strapiPost = entity.attributes;
-        const authorData = strapiPost.author?.data?.attributes;
-        const categoryData = strapiPost.category?.data?.attributes;
+        
+        // Safe access to nested relations with explicit undefined checks
+        const authorData = strapiPost.author && strapiPost.author.data ? strapiPost.author.data.attributes : null;
+        const categoryData = strapiPost.category && strapiPost.category.data ? strapiPost.category.data.attributes : null;
+        const coverImageData = strapiPost.coverImage && strapiPost.coverImage.data ? strapiPost.coverImage.data.attributes : null;
         
         // Transform to BlogPost format
         const transformedPost: BlogPost = {
@@ -127,7 +130,7 @@ export default function BlogPostPage() {
           title: strapiPost.title,
           excerpt: strapiPost.excerpt,
           content: strapiPost.content,
-          coverImage: strapiPost.coverImage?.data?.attributes?.url,
+          coverImage: coverImageData?.url,
           author: {
             name: authorData?.name || 'Henry Barefoot',
             avatar: authorData?.avatar?.data?.attributes?.url
