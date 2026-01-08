@@ -4,25 +4,73 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, Tag, ArrowRight, Search, Filter } from 'lucide-react';
-import { BlogPost, BlogMeta } from '@/types/blog';
+import { BlogPost, BlogMeta, BlogCategory } from '@/types/blog';
+import { getBlogPosts, getBlogCategories } from '@/lib/strapi-api';
+import type { StrapiBlogPost, StrapiBlogCategory, StrapiEntity } from '@/types/strapi';
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [meta, setMeta] = useState<BlogMeta | null>(null);
+  const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   useEffect(() => {
-    fetchPosts();
+    fetchData();
   }, []);
 
-  const fetchPosts = async () => {
+  const fetchData = async () => {
     try {
-      const response = await fetch('/api/blog');
-      const data = await response.json();
-      setPosts(data.posts || []);
-      setMeta(data.meta || null);
+      // Fetch posts from Strapi
+      const postsResponse = await getBlogPosts();
+      const strapiBlogPosts = postsResponse.data.data as StrapiEntity<StrapiBlogPost>[];
+      
+      // Fetch categories from Strapi
+      const categoriesResponse = await getBlogCategories();
+      const strapiCategories = categoriesResponse.data.data as StrapiEntity<StrapiBlogCategory>[];
+
+      // Transform Strapi data to BlogPost format
+      const transformedPosts: BlogPost[] = strapiBlogPosts.map((entity) => {
+        const post = entity.attributes;
+        const authorData = post.author?.data?.attributes;
+        const categoryData = post.category?.data?.attributes;
+        
+        return {
+          id: entity.id.toString(),
+          slug: post.slug,
+          title: post.title,
+          excerpt: post.excerpt,
+          content: post.content,
+          coverImage: post.coverImage?.data?.attributes?.url,
+          author: {
+            name: authorData?.name || 'Henry Barefoot',
+            avatar: authorData?.avatar?.data?.attributes?.url
+          },
+          tags: Array.isArray(post.tags) ? post.tags : [],
+          category: categoryData?.name || 'Development',
+          publishedAt: post.publishedAt,
+          updatedAt: post.updatedAt,
+          readingTime: post.readingTime || 5,
+          sourceWikiPage: post.sourceWikiPage,
+          codeSnippets: post.codeSnippets || [],
+          businessContext: post.businessContext,
+          industry: post.industry
+        };
+      });
+
+      // Transform categories
+      const transformedCategories: BlogCategory[] = strapiCategories.map((entity) => {
+        const cat = entity.attributes;
+        return {
+          name: cat.name,
+          slug: cat.slug,
+          description: cat.description || '',
+          count: cat.blog_posts?.data?.length || 0
+        };
+      });
+
+      setPosts(transformedPosts);
+      setCategories(transformedCategories);
     } catch (error) {
       console.error('Failed to fetch posts:', error);
     } finally {
@@ -98,8 +146,8 @@ export default function BlogPage() {
               className="pl-10 pr-8 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors appearance-none cursor-pointer"
             >
               <option value="all">All Categories</option>
-              {meta?.categories.map(cat => (
-                <option key={cat.slug} value={cat.slug}>{cat.name}</option>
+              {categories.map(cat => (
+                <option key={cat.slug} value={cat.name}>{cat.name}</option>
               ))}
             </select>
           </div>
@@ -193,7 +241,7 @@ export default function BlogPage() {
         )}
 
         {/* Stats */}
-        {meta && meta.totalPosts > 0 && (
+        {posts.length > 0 && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -201,7 +249,7 @@ export default function BlogPage() {
             className="mt-12 pt-8 border-t border-slate-700/50 text-center text-slate-400"
           >
             <p>
-              {meta.totalPosts} posts across {meta.categories.length} categories
+              {posts.length} posts across {categories.length} categories
             </p>
           </motion.div>
         )}

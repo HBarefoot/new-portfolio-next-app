@@ -8,6 +8,8 @@ import { Calendar, Clock, Tag, ArrowLeft, User, ExternalLink, Copy, Check, Brief
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { BlogPost } from '@/types/blog';
+import { getBlogPost } from '@/lib/strapi-api';
+import type { StrapiBlogPost, StrapiEntity } from '@/types/strapi';
 
 // Custom components for ReactMarkdown with professional styling
 const MarkdownComponents = {
@@ -109,10 +111,39 @@ export default function BlogPostPage() {
 
   const fetchPost = async () => {
     try {
-      const response = await fetch(`/api/blog/${slug}`);
-      if (response.ok) {
-        const data = await response.json();
-        setPost(data);
+      const response = await getBlogPost(slug);
+      const strapiPosts = response.data.data as StrapiEntity<StrapiBlogPost>[];
+      
+      if (strapiPosts && strapiPosts.length > 0) {
+        const entity = strapiPosts[0];
+        const strapiPost = entity.attributes;
+        const authorData = strapiPost.author?.data?.attributes;
+        const categoryData = strapiPost.category?.data?.attributes;
+        
+        // Transform to BlogPost format
+        const transformedPost: BlogPost = {
+          id: entity.id.toString(),
+          slug: strapiPost.slug,
+          title: strapiPost.title,
+          excerpt: strapiPost.excerpt,
+          content: strapiPost.content,
+          coverImage: strapiPost.coverImage?.data?.attributes?.url,
+          author: {
+            name: authorData?.name || 'Henry Barefoot',
+            avatar: authorData?.avatar?.data?.attributes?.url
+          },
+          tags: Array.isArray(strapiPost.tags) ? strapiPost.tags : [],
+          category: categoryData?.name || 'Development',
+          publishedAt: strapiPost.publishedAt,
+          updatedAt: strapiPost.updatedAt,
+          readingTime: strapiPost.readingTime || 5,
+          sourceWikiPage: strapiPost.sourceWikiPage,
+          codeSnippets: strapiPost.codeSnippets || [],
+          businessContext: strapiPost.businessContext,
+          industry: strapiPost.industry
+        };
+        
+        setPost(transformedPost);
       }
     } catch (error) {
       console.error('Failed to fetch post:', error);
