@@ -61,7 +61,7 @@ export default async function CaseStudiesPage() {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 lg:px-6 py-16">
+      <div className="container mx-auto px-4 lg:px-6 py-16 pt-24">
         {caseStudies.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-xl text-gray-600 dark:text-gray-400">
