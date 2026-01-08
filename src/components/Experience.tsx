@@ -31,7 +31,7 @@ const ExperienceSection = () => {
     fetchExperiences();
   }, []);
 
-  // Fallback data
+  // Fallback data with complete work history
   const fallbackExperiences = [
     {
       id: 1,
@@ -43,9 +43,9 @@ const ExperienceSection = () => {
       location: "Remote",
       description: "",
       responsibilities: [
-        { id: 1, description: "Led end-to-end architecture and development of an AI-powered yacht transport platform" },
-        { id: 2, description: "Architected complex pricing and routing engines across 15+ international ports" },
-        { id: 3, description: "Established modern development standards using Next.js, TypeScript, and Tailwind CSS" }
+        { id: 1, description: "Led end-to-end architecture and development of an AI-powered yacht transport platform, introducing instant pricing, automated scheduling, and digital booking workflows that reduced processing time from days to minutes" },
+        { id: 2, description: "Architected complex pricing and routing engines across 15+ international ports with dynamic weight, insurance, and compliance logic, enabling scalable global operations" },
+        { id: 3, description: "Established modern development standards using Next.js, TypeScript, and Tailwind CSS, delivering a robust and maintainable codebase" }
       ],
       order: 1
     },
@@ -60,44 +60,79 @@ const ExperienceSection = () => {
       description: "",
       responsibilities: [
         { id: 1, description: "Developed comprehensive reports using Looker Studio and BigQuery" },
-        { id: 2, description: "Built WordPress features including custom plugins" },
-        { id: 3, description: "Created responsive landing pages and campaign templates" }
+        { id: 2, description: "Enhanced user interfaces for better UX" },
+        { id: 3, description: "Built WordPress features including custom plugins" },
+        { id: 4, description: "Created responsive landing pages and campaign templates" },
+        { id: 5, description: "Integrated third-party APIs and tools" },
+        { id: 6, description: "Ensured cross-browser compatibility and mobile responsiveness" }
       ],
       order: 2
     },
     {
       id: 3,
-      company: "FREELANCE",
-      position: "Full Stack Developer & Automation Specialist",
+      company: "VITAL PHARMACEUTICALS",
+      position: "Lead Developer",
       startDate: "2020-01",
       endDate: "2023-01",
       isCurrent: false,
       location: "Remote",
       description: "",
       responsibilities: [
-        { id: 1, description: "Self-hosted n8n instance on cloud VPS for automation workflows" },
-        { id: 2, description: "Built custom n8n nodes for API integrations with various platforms" },
-        { id: 3, description: "Developed WordPress sites and custom plugins for small businesses" },
-        { id: 4, description: "Created automated data processing pipelines and reporting systems" }
+        { id: 1, description: "Led development team and managed project workflows" },
+        { id: 2, description: "Built landing pages using PHP, Node.js, WordPress, JavaScript, React" },
+        { id: 3, description: "Integrated third-party platforms with best practices" },
+        { id: 4, description: "Supported cross-functional teams in fast-paced environment" }
       ],
       order: 3
     },
     {
       id: 4,
-      company: "VARIOUS CLIENTS",
+      company: "AARP",
+      position: "Email Marketing Specialist",
+      startDate: "2022-01",
+      endDate: "2022-12",
+      isCurrent: false,
+      location: "Remote",
+      description: "",
+      responsibilities: [
+        { id: 1, description: "Designed custom email templates in Salesforce Marketing Cloud" },
+        { id: 2, description: "Imported and segmented customer lists" },
+        { id: 3, description: "Set up automation workflows and performance metrics" }
+      ],
+      order: 4
+    },
+    {
+      id: 5,
+      company: "CRYSTAL CRUISES",
       position: "Web Developer",
-      startDate: "2017-01",
+      startDate: "2018-01",
       endDate: "2020-01",
       isCurrent: false,
       location: "Remote",
       description: "",
       responsibilities: [
-        { id: 1, description: "Built responsive websites using HTML, CSS, JavaScript, and PHP" },
-        { id: 2, description: "Maintained and customized WordPress themes and plugins" },
-        { id: 3, description: "Implemented e-commerce solutions and payment integrations" },
-        { id: 4, description: "Provided ongoing support and maintenance for client websites" }
+        { id: 1, description: "Built custom automation tools using Node.js, Cheerio, MongoDB, Axios" },
+        { id: 2, description: "Designed responsive HTML emails" },
+        { id: 3, description: "Performed weekly website updates" }
       ],
-      order: 4
+      order: 5
+    },
+    {
+      id: 6,
+      company: "THE IDEA CENTER",
+      position: "Web Development Instructor",
+      startDate: "2017-01",
+      endDate: "2018-01",
+      isCurrent: false,
+      location: "Fort Lauderdale, FL",
+      description: "",
+      responsibilities: [
+        { id: 1, description: "Prepared and delivered lessons focused on HTML5, CSS3, JavaScript, jQuery, and Bootstrap" },
+        { id: 2, description: "Conducted one-on-one and group review sessions to reinforce concepts" },
+        { id: 3, description: "Assisted students in understanding and applying web development principles" },
+        { id: 4, description: "Created learning materials and exercises for web development fundamentals" }
+      ],
+      order: 6
     }
   ];
 
@@ -204,26 +239,46 @@ const ExperienceSection = () => {
                         </div>
                       </div>
 
-                      {experience.description && (
+                      {experience.description && !experience.responsibilities?.length && (
                         <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
                           {experience.description}
                         </p>
                       )}
 
                       <ul className="space-y-2">
-                        {experience.responsibilities?.map((resp, respIndex) => (
-                          <motion.li
-                            key={resp.id || respIndex}
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.5, delay: (index * 0.2) + (respIndex * 0.1) }}
-                            viewport={{ once: true }}
-                            className="flex items-start text-gray-700 dark:text-gray-300"
-                          >
-                            <div className="w-2 h-2 bg-blue-600 dark:bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                            <span className="text-sm leading-relaxed">{resp.description}</span>
-                          </motion.li>
-                        ))}
+                        {experience.responsibilities?.length ? (
+                          experience.responsibilities.map((resp, respIndex) => (
+                            <motion.li
+                              key={resp.id || respIndex}
+                              initial={{ opacity: 0, x: -20 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.5, delay: (index * 0.2) + (respIndex * 0.1) }}
+                              viewport={{ once: true }}
+                              className="flex items-start text-gray-700 dark:text-gray-300"
+                            >
+                              <div className="w-2 h-2 bg-blue-600 dark:bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                              <span className="text-sm leading-relaxed">{resp.description}</span>
+                            </motion.li>
+                          ))
+                        ) : experience.description ? (
+                          // Parse markdown-style list from description if no responsibilities array
+                          experience.description
+                            .split('\n')
+                            .filter(line => line.trim().startsWith('-'))
+                            .map((line, respIndex) => (
+                              <motion.li
+                                key={respIndex}
+                                initial={{ opacity: 0, x: -20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.5, delay: (index * 0.2) + (respIndex * 0.1) }}
+                                viewport={{ once: true }}
+                                className="flex items-start text-gray-700 dark:text-gray-300"
+                              >
+                                <div className="w-2 h-2 bg-blue-600 dark:bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <span className="text-sm leading-relaxed">{line.replace(/^-\s*/, '')}</span>
+                              </motion.li>
+                            ))
+                        ) : null}
                       </ul>
                     </>
                   )}
