@@ -2,10 +2,47 @@
 
 import { motion } from 'framer-motion';
 import { Code, Database, Wrench, Globe } from 'lucide-react';
-import { Skill } from '@/types';
+import { useEffect, useState } from 'react';
+import { getSkills } from '@/lib/strapi-api';
+import type { StrapiSkill } from '@/types/strapi';
 
 const Skills = () => {
-  const skillCategories: Skill[] = [
+  const [skills, setSkills] = useState<StrapiSkill[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSkills = async () => {
+      try {
+        const response = await getSkills();
+        const fetchedSkills = response.data.data;
+        // Only set skills if we actually got data
+        if (fetchedSkills && fetchedSkills.length > 0) {
+          setSkills(fetchedSkills);
+        }
+      } catch (error) {
+        console.error('Failed to fetch skills:', error);
+        // Ensure skills remains empty array to trigger fallback
+        setSkills([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSkills();
+  }, []);
+
+  // Group skills by category
+  const groupedSkills = skills.reduce((acc: Record<string, StrapiSkill[]>, skill) => {
+    const category = skill.category || 'Other';
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(skill);
+    return acc;
+  }, {});
+
+  // Fallback data
+  const fallbackCategories = [
     {
       category: "Languages",
       technologies: ["JavaScript", "PHP", "NodeJS", "HTML", "CSS", "SASS", "MySQL"]
@@ -23,6 +60,13 @@ const Skills = () => {
       technologies: ["Salesforce", "REST APIs", "n8n", "VPS", "API Integrations"]
     }
   ];
+
+  const displayCategories = loading || Object.keys(groupedSkills).length === 0 
+    ? fallbackCategories 
+    : Object.entries(groupedSkills).map(([category, categorySkills]) => ({
+        category,
+        technologies: categorySkills.map(s => s.name)
+      }));
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
@@ -54,7 +98,18 @@ const Skills = () => {
     }
   };
 
-  const featuredSkills = [
+  const featuredSkills = skills
+    .filter(s => s.isFeatured && s.proficiencyLevel)
+    .slice(0, 6)
+    .map((s, index) => ({
+      name: s.name,
+      level: s.proficiencyLevel || 85,
+      color: ["bg-yellow-500", "bg-blue-500", "bg-purple-500", "bg-blue-600", "bg-green-500", "bg-red-500"][
+        index % 6
+      ]
+    }));
+
+  const displayFeaturedSkills = featuredSkills.length > 0 ? featuredSkills : [
     { name: "JavaScript", level: 95, color: "bg-yellow-500" },
     { name: "React", level: 90, color: "bg-blue-500" },
     { name: "PHP", level: 88, color: "bg-purple-500" },
@@ -84,7 +139,7 @@ const Skills = () => {
 
         {/* Skill Categories Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          {skillCategories.map((skillCategory, index) => (
+          {displayCategories.map((skillCategory, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
@@ -132,7 +187,7 @@ const Skills = () => {
           </h3>
           
           <div className="grid md:grid-cols-2 gap-8">
-            {featuredSkills.map((skill, index) => (
+            {displayFeaturedSkills.map((skill, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -50 }}

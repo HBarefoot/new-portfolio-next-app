@@ -8,31 +8,33 @@ import { Calendar, Clock, Tag, ArrowLeft, User, ExternalLink, Copy, Check, Brief
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { BlogPost } from '@/types/blog';
+import { getBlogPost } from '@/lib/strapi-api';
+import type { StrapiBlogPost, StrapiEntity } from '@/types/strapi';
 
 // Custom components for ReactMarkdown with professional styling
 const MarkdownComponents = {
   h1: ({ children }: { children?: React.ReactNode }) => (
-    <h1 className="text-3xl font-bold text-white mt-12 mb-6 pb-4 border-b border-slate-700/50 first:mt-0">
+    <h1 className="text-3xl font-bold text-gray-900 dark:text-white mt-12 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700/50 first:mt-0">
       {children}
     </h1>
   ),
   h2: ({ children }: { children?: React.ReactNode }) => (
-    <h2 className="text-2xl font-bold text-blue-400 mt-12 mb-5 first:mt-0">
+    <h2 className="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-12 mb-5 first:mt-0">
       {children}
     </h2>
   ),
   h3: ({ children }: { children?: React.ReactNode }) => (
-    <h3 className="text-xl font-semibold text-slate-100 mt-10 mb-4">
+    <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mt-10 mb-4">
       {children}
     </h3>
   ),
   h4: ({ children }: { children?: React.ReactNode }) => (
-    <h4 className="text-lg font-semibold text-slate-200 mt-8 mb-3">
+    <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mt-8 mb-3">
       {children}
     </h4>
   ),
   p: ({ children }: { children?: React.ReactNode }) => (
-    <p className="text-slate-300 text-[17px] leading-[1.8] mb-6">
+    <p className="text-gray-700 dark:text-gray-300 text-[17px] leading-[1.8] mb-6">
       {children}
     </p>
   ),
@@ -47,17 +49,17 @@ const MarkdownComponents = {
     </ol>
   ),
   li: ({ children }: { children?: React.ReactNode }) => (
-    <li className="text-slate-300 text-[17px] leading-[1.8] pl-2 relative before:content-['•'] before:absolute before:-left-4 before:text-blue-400 before:font-bold">
+    <li className="text-gray-700 dark:text-gray-300 text-[17px] leading-[1.8] pl-2 relative before:content-['•'] before:absolute before:-left-4 before:text-blue-600 dark:before:text-blue-400 before:font-bold">
       {children}
     </li>
   ),
   strong: ({ children }: { children?: React.ReactNode }) => (
-    <strong className="font-semibold text-white">
+    <strong className="font-semibold text-gray-900 dark:text-white">
       {children}
     </strong>
   ),
   em: ({ children }: { children?: React.ReactNode }) => (
-    <em className="italic text-slate-200">
+    <em className="italic text-gray-800 dark:text-gray-200">
       {children}
     </em>
   ),
@@ -65,34 +67,34 @@ const MarkdownComponents = {
     const isInline = !className;
     if (isInline) {
       return (
-        <code className="bg-slate-800 px-2 py-1 rounded-md text-blue-400 text-sm font-mono border border-slate-700/50">
+        <code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md text-blue-600 dark:text-blue-400 text-sm font-mono border border-gray-200 dark:border-gray-700/50">
           {children}
         </code>
       );
     }
     return (
-      <code className="text-slate-300 text-sm font-mono">
+      <code className="text-gray-800 dark:text-gray-300 text-sm font-mono">
         {children}
       </code>
     );
   },
   pre: ({ children }: { children?: React.ReactNode }) => (
-    <pre className="bg-slate-800/90 border border-slate-700/50 rounded-xl my-8 p-5 overflow-x-auto">
+    <pre className="bg-gray-100 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700/50 rounded-xl my-8 p-5 overflow-x-auto">
       {children}
     </pre>
   ),
   blockquote: ({ children }: { children?: React.ReactNode }) => (
-    <blockquote className="border-l-4 border-blue-500 bg-slate-800/30 py-4 px-6 rounded-r-xl my-8 italic text-slate-300">
+    <blockquote className="border-l-4 border-blue-500 bg-blue-50 dark:bg-gray-800/30 py-4 px-6 rounded-r-xl my-8 italic text-gray-700 dark:text-gray-300">
       {children}
     </blockquote>
   ),
   a: ({ href, children }: { href?: string; children?: React.ReactNode }) => (
-    <a href={href} className="text-blue-400 hover:text-blue-300 hover:underline transition-colors">
+    <a href={href} className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors">
       {children}
     </a>
   ),
   hr: () => (
-    <hr className="border-slate-700/50 my-12" />
+    <hr className="border-gray-200 dark:border-gray-700/50 my-12" />
   ),
 };
 
@@ -109,10 +111,41 @@ export default function BlogPostPage() {
 
   const fetchPost = async () => {
     try {
-      const response = await fetch(`/api/blog/${slug}`);
-      if (response.ok) {
-        const data = await response.json();
-        setPost(data);
+      const response = await getBlogPost(slug);
+      const strapiPosts = response.data.data;
+      
+      if (strapiPosts && strapiPosts.length > 0) {
+        const strapiPost = strapiPosts[0];
+        
+        // Strapi v5 uses flat structure - no attributes wrapper
+        const authorData = strapiPost?.author;
+        const categoryData = strapiPost?.category;
+        const coverImageData = strapiPost?.coverImage;
+        
+        // Transform to BlogPost format
+        const transformedPost: BlogPost = {
+          id: strapiPost.id?.toString() || strapiPost.documentId,
+          slug: strapiPost.slug,
+          title: strapiPost.title,
+          excerpt: strapiPost.excerpt,
+          content: strapiPost.content,
+          coverImage: coverImageData?.url,
+          author: {
+            name: authorData?.name || 'Henry Barefoot',
+            avatar: authorData?.avatar?.url
+          },
+          tags: Array.isArray(strapiPost.tags) ? strapiPost.tags : [],
+          category: categoryData?.name || 'Development',
+          publishedAt: strapiPost.publishedAt,
+          updatedAt: strapiPost.updatedAt,
+          readingTime: strapiPost.readingTime || 5,
+          sourceWikiPage: strapiPost.sourceWikiPage,
+          codeSnippets: strapiPost.codeSnippets || [],
+          businessContext: strapiPost.businessContext,
+          industry: strapiPost.industry
+        };
+        
+        setPost(transformedPost);
       }
     } catch (error) {
       console.error('Failed to fetch post:', error);
@@ -138,7 +171,7 @@ export default function BlogPostPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-gray-950 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
@@ -146,11 +179,11 @@ export default function BlogPostPage() {
 
   if (!post) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="min-h-screen bg-white dark:bg-gray-950">
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-4xl font-bold text-white mb-4">Post Not Found</h1>
-          <p className="text-slate-400 mb-8">The blog post you&apos;re looking for doesn&apos;t exist.</p>
-          <Link href="/blog" className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Post Not Found</h1>
+          <p className="text-gray-600 dark:text-gray-400 mb-8">The blog post you&apos;re looking for doesn&apos;t exist.</p>
+          <Link href="/blog" className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
             <ArrowLeft className="w-4 h-4" /> Back to Blog
           </Link>
         </div>
@@ -159,37 +192,18 @@ export default function BlogPostPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      {/* Header */}
-      <header className="border-b border-slate-700/50 bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-4 py-4">
-          <Link href="/blog" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Back to Blog
-          </Link>
-        </div>
-      </header>
-
-      <article className="max-w-4xl mx-auto px-4 py-12">
+    <div className="min-h-screen bg-white dark:bg-gray-950">
+      <article className="max-w-4xl mx-auto px-4 py-12 pt-24">
         {/* Post Header */}
         <motion.header 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <div className="flex items-center gap-2 mb-4">
-            <span className="px-3 py-1 bg-blue-500/20 text-blue-400 text-sm font-medium rounded-full">
-              {post.category}
-            </span>
-            {post.industry && (
-              <span className="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-sm font-medium rounded-full">
-                {post.industry}
-              </span>
-            )}
-          </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
             {post.title}
           </h1>
-          <div className="flex flex-wrap items-center gap-6 text-slate-400">
+          <div className="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400 mb-6">
             <div className="flex items-center gap-2">
               <User className="w-5 h-5" />
               <span>{post.author.name}</span>
@@ -203,6 +217,16 @@ export default function BlogPostPage() {
               <span>{post.readingTime} min read</span>
             </div>
           </div>
+          <div className="flex items-center gap-2 pb-6 border-b border-gray-200 dark:border-gray-800">
+            <span className="px-3 py-1 bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 text-sm font-medium rounded-full">
+              {post.category}
+            </span>
+            {post.industry && (
+              <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-sm font-medium rounded-full">
+                {post.industry}
+              </span>
+            )}
+          </div>
         </motion.header>
 
         {/* Cover Image */}
@@ -211,7 +235,7 @@ export default function BlogPostPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="aspect-video bg-slate-800 rounded-xl overflow-hidden mb-8"
+            className="aspect-video bg-gray-200 dark:bg-gray-800 rounded-xl overflow-hidden mb-8"
           >
             <img 
               src={post.coverImage} 
@@ -227,13 +251,13 @@ export default function BlogPostPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-xl p-6 mb-8"
+            className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-500/10 dark:to-purple-500/10 border border-blue-200 dark:border-blue-500/20 rounded-xl p-6 mb-8"
           >
-            <h3 className="text-lg font-semibold text-blue-400 mb-2 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-2 flex items-center gap-2">
               <Briefcase className="w-5 h-5" />
               Business Context
             </h3>
-            <p className="text-slate-300">{post.businessContext}</p>
+            <p className="text-gray-700 dark:text-gray-300">{post.businessContext}</p>
           </motion.div>
         )}
 
@@ -260,20 +284,20 @@ export default function BlogPostPage() {
             transition={{ delay: 0.3 }}
             className="mb-8"
           >
-            <h2 className="text-2xl font-bold text-white mb-6">Code Examples</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Code Examples</h2>
             <div className="space-y-6">
               {post.codeSnippets.map((snippet, index) => (
-                <div key={index} className="bg-slate-800/80 rounded-xl overflow-hidden border border-slate-700/50">
-                  <div className="flex items-center justify-between px-4 py-2 bg-slate-900/50 border-b border-slate-700/50">
+                <div key={index} className="bg-gray-50 dark:bg-gray-800/80 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700/50">
+                  <div className="flex items-center justify-between px-4 py-2 bg-gray-100 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-700/50">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-mono text-slate-400">{snippet.language}</span>
+                      <span className="text-sm font-mono text-gray-600 dark:text-gray-400">{snippet.language}</span>
                       {snippet.filename && (
-                        <span className="text-sm text-slate-500">• {snippet.filename}</span>
+                        <span className="text-sm text-gray-500 dark:text-gray-500">• {snippet.filename}</span>
                       )}
                     </div>
                     <button
                       onClick={() => copyCode(snippet.code, index)}
-                      className="flex items-center gap-1 text-sm text-slate-400 hover:text-white transition-colors"
+                      className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                     >
                       {copiedIndex === index ? (
                         <>
@@ -289,12 +313,12 @@ export default function BlogPostPage() {
                     </button>
                   </div>
                   {snippet.description && (
-                    <div className="px-4 py-2 text-sm text-slate-400 bg-slate-900/30 border-b border-slate-700/50">
+                    <div className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-900/30 border-b border-gray-200 dark:border-gray-700/50">
                       {snippet.description}
                     </div>
                   )}
                   <pre className="p-4 overflow-x-auto">
-                    <code className="text-sm font-mono text-slate-300">{snippet.code}</code>
+                    <code className="text-sm font-mono text-gray-800 dark:text-gray-300">{snippet.code}</code>
                   </pre>
                 </div>
               ))}
@@ -312,7 +336,7 @@ export default function BlogPostPage() {
           {post.tags.map(tag => (
             <span 
               key={tag} 
-              className="flex items-center gap-1 px-3 py-1 bg-slate-800 border border-slate-700 rounded-full text-sm text-slate-400"
+              className="flex items-center gap-1 px-3 py-1 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full text-sm text-gray-600 dark:text-gray-400"
             >
               <Tag className="w-3 h-3" />
               {tag}
@@ -325,11 +349,11 @@ export default function BlogPostPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="pt-8 border-t border-slate-700/50"
+          className="pt-8 border-t border-gray-200 dark:border-gray-700/50"
         >
           <Link 
             href="/blog"
-            className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+            className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to all posts

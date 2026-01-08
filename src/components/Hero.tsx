@@ -3,8 +3,30 @@
 import { motion } from 'framer-motion';
 import { Download, Mail, Phone } from 'lucide-react';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { getHero } from '@/lib/strapi-api';
+import type { StrapiHero } from '@/types/strapi';
+import { getStrapiImageUrl } from '@/types/strapi';
 
 const Hero = () => {
+  const [heroData, setHeroData] = useState<StrapiHero | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchHeroData = async () => {
+      try {
+        const response = await getHero();
+        setHeroData(response.data.data);
+      } catch (error) {
+        console.error('Failed to fetch hero data:', error);
+        // Fallback data will be used below
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHeroData();
+  }, []);
   // Pre-calculate coordinates to avoid hydration mismatch
   const hubConnections = [
     { angle: 0, x: 270, y: 150 },
@@ -35,12 +57,25 @@ const Hero = () => {
 
   const handleDownloadResume = () => {
     // Create a link to download resume
+    const resumeUrl = heroData?.resumeFile?.data?.attributes?.url 
+      ? `${process.env.NEXT_PUBLIC_STRAPI_MEDIA_URL}${heroData.resumeFile.data.attributes.url}` 
+      : '/Resume_HB.pdf';
     const link = document.createElement('a');
-    link.href = '/Resume_HB.pdf';
+    link.href = resumeUrl;
     link.download = 'Henry-Barefoot-Resume.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  // Fallback data for when Strapi is not available
+  const displayData = heroData || {
+    name: 'Henry Barefoot',
+    title: 'SR. WEB DEVELOPER',
+    subtitle: 'n8n Automation & WordPress Specialist',
+    description: 'Crafting exceptional digital experiences with modern web technologies. Specializing in React, Next.js, and full-stack development with 8+ years of experience.',
+    email: 'henrybarefoot1987@gmail.com',
+    phone: '(954) 540-1902'
   };
 
   return (
@@ -229,7 +264,11 @@ const Hero = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4"
             >
-              Henry Barefoot
+              {loading ? (
+                <span className="inline-block bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-12 w-64"></span>
+              ) : (
+                displayData.name
+              )}
             </motion.h1>
             
             <motion.p
@@ -238,7 +277,11 @@ const Hero = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-lg sm:text-xl md:text-2xl text-blue-600 dark:text-blue-400 font-semibold mb-6"
             >
-              SR. WEB DEVELOPER
+              {loading ? (
+                <span className="inline-block bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-8 w-48"></span>
+              ) : (
+                displayData.title
+              )}
             </motion.p>
             
             <motion.p
@@ -247,8 +290,14 @@ const Hero = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0"
             >
-              Crafting exceptional digital experiences with modern web technologies. 
-              Specializing in React, Next.js, and full-stack development with 8+ years of experience.
+              {loading ? (
+                <span className="space-y-2">
+                  <span className="inline-block bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-6 w-full"></span>
+                  <span className="inline-block bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-6 w-3/4"></span>
+                </span>
+              ) : (
+                displayData.description
+              )}
             </motion.p>
             
             <motion.div
@@ -281,20 +330,24 @@ const Hero = () => {
               transition={{ duration: 0.8, delay: 1.0 }}
               className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start text-sm text-gray-600 dark:text-gray-400"
             >
-              <a
-                href="tel:+19545401902"
-                className="flex items-center justify-center lg:justify-start hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                <Phone size={16} className="mr-2" />
-                (954) 540-1902
-              </a>
-              <a
-                href="mailto:henrybarefoot1987@gmail.com"
-                className="flex items-center justify-center lg:justify-start hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                <Mail size={16} className="mr-2" />
-                henrybarefoot1987@gmail.com
-              </a>
+              {!loading && displayData.phone && (
+                <a
+                  href={`tel:${displayData.phone.replace(/[^0-9]/g, '')}`}
+                  className="flex items-center justify-center lg:justify-start hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  <Phone size={16} className="mr-2" />
+                  {displayData.phone}
+                </a>
+              )}
+              {!loading && displayData.email && (
+                <a
+                  href={`mailto:${displayData.email}`}
+                  className="flex items-center justify-center lg:justify-start hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  <Mail size={16} className="mr-2" />
+                  {displayData.email}
+                </a>
+              )}
             </motion.div>
           </motion.div>
 
@@ -307,22 +360,20 @@ const Hero = () => {
           >
             <div className="relative">
               <div className="w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 p-2 shadow-2xl">
-                <div className="w-full h-full rounded-full overflow-hidden">
-                  <Image
-                    src="/henry-profile.jpeg"
-                    alt="Henry Barefoot - Senior Web Developer"
-                    width={320}
-                    height={320}
-                    className="w-full h-full object-cover rounded-full"
-                    priority
-                    unoptimized
-                    onError={(e) => {
-                      console.error('Image failed to load:', e);
-                    }}
-                    onLoad={() => {
-                      console.log('Image loaded successfully');
-                    }}
-                  />
+                <div className="w-full h-full rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700">
+                  {loading ? (
+                    <div className="w-full h-full bg-gray-300 dark:bg-gray-600 animate-pulse"></div>
+                  ) : (
+                    <Image
+                      src={getStrapiImageUrl(heroData?.profileImage) || '/henry-profile.jpeg'}
+                      alt={`${displayData.name} - ${displayData.title}`}
+                      width={320}
+                      height={320}
+                      className="w-full h-full object-cover rounded-full"
+                      priority
+                      unoptimized
+                    />
+                  )}
                 </div>
               </div>
               

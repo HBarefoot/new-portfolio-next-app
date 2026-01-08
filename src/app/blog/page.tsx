@@ -4,25 +4,83 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, Tag, ArrowRight, Search, Filter } from 'lucide-react';
-import { BlogPost, BlogMeta } from '@/types/blog';
+import { BlogPost, BlogMeta, BlogCategory } from '@/types/blog';
+import { getBlogPosts, getBlogCategories } from '@/lib/strapi-api';
+import type { StrapiBlogPost, StrapiBlogCategory, StrapiEntity } from '@/types/strapi';
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [meta, setMeta] = useState<BlogMeta | null>(null);
+  const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   useEffect(() => {
-    fetchPosts();
+    fetchData();
   }, []);
 
-  const fetchPosts = async () => {
+  const fetchData = async () => {
     try {
-      const response = await fetch('/api/blog');
-      const data = await response.json();
-      setPosts(data.posts || []);
-      setMeta(data.meta || null);
+      // Fetch posts from Strapi
+      const postsResponse = await getBlogPosts();
+      console.log('API Response:', postsResponse.data);
+      
+      // Strapi v5 returns flat objects without 'attributes' wrapper
+      const strapiBlogPosts = postsResponse.data.data;
+      console.log('Blog posts count:', strapiBlogPosts?.length);
+      
+      // Fetch categories from Strapi
+      const categoriesResponse = await getBlogCategories();
+      const strapiCategories = categoriesResponse.data.data;
+
+      // Transform Strapi data to BlogPost format
+      const transformedPosts: BlogPost[] = strapiBlogPosts
+        .filter((post: any) => post && post.title) // Filter by required fields
+        .map((post: any) => {
+          // In Strapi v5, all fields are directly on the post object
+          const authorData = post?.author;
+          const categoryData = post?.category;
+          const coverImageData = post?.coverImage;
+          
+          return {
+            id: post.id?.toString() || post.documentId,
+            slug: post.slug,
+            title: post.title,
+            excerpt: post.excerpt,
+            content: post.content,
+            coverImage: coverImageData?.url,
+            author: {
+              name: authorData?.name || 'Henry Barefoot',
+              avatar: authorData?.avatar?.url
+            },
+            tags: Array.isArray(post.tags) ? post.tags : [],
+            category: categoryData?.name || 'Development',
+            publishedAt: post.publishedAt,
+            updatedAt: post.updatedAt,
+            readingTime: post.readingTime || 5,
+            sourceWikiPage: post.sourceWikiPage,
+            codeSnippets: post.codeSnippets || [],
+            businessContext: post.businessContext,
+            industry: post.industry
+          };
+        });
+
+      console.log('Transformed posts:', transformedPosts.length);
+      
+      // Transform categories - Strapi v5 flat structure
+      const transformedCategories: BlogCategory[] = strapiCategories
+        .filter((cat: any) => cat && cat.name) // Filter by required fields
+        .map((cat: any) => {
+          return {
+            name: cat?.name || 'Uncategorized',
+            slug: cat?.slug || 'uncategorized',
+            description: cat?.description || '',
+            count: cat?.blog_posts?.length || 0
+          };
+        });
+
+      setPosts(transformedPosts);
+      setCategories(transformedCategories);
     } catch (error) {
       console.error('Failed to fetch posts:', error);
     } finally {
@@ -47,28 +105,18 @@ export default function BlogPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      {/* Header */}
-      <header className="border-b border-slate-700/50 bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-white hover:text-blue-400 transition-colors">
-            ← Back to Portfolio
-          </Link>
-          <h1 className="text-xl font-semibold text-white">Dev Blog</h1>
-        </div>
-      </header>
-
-      <main className="max-w-6xl mx-auto px-4 py-12">
+    <div className="min-h-screen bg-white dark:bg-gray-950">
+      <main className="max-w-6xl mx-auto px-4 py-12 pt-24">
         {/* Hero Section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Daily Dev Log
           </h1>
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Building solutions for real business problems. Code, insights, and lessons learned from the trenches.
           </p>
         </motion.div>
@@ -81,25 +129,25 @@ export default function BlogPage() {
           className="flex flex-col md:flex-row gap-4 mb-8"
         >
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" />
             <input
               type="text"
               placeholder="Search posts..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors"
+              className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:border-blue-500 dark:focus:border-blue-500 transition-colors"
             />
           </div>
           <div className="relative">
-            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" />
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="pl-10 pr-8 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors appearance-none cursor-pointer"
+              className="pl-10 pr-8 py-3 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 dark:focus:border-blue-500 transition-colors appearance-none cursor-pointer"
             >
               <option value="all">All Categories</option>
-              {meta?.categories.map(cat => (
-                <option key={cat.slug} value={cat.slug}>{cat.name}</option>
+              {categories.map(cat => (
+                <option key={cat.slug} value={cat.name}>{cat.name}</option>
               ))}
             </select>
           </div>
@@ -117,8 +165,8 @@ export default function BlogPage() {
             className="text-center py-20"
           >
             <div className="text-6xl mb-4">📝</div>
-            <h2 className="text-2xl font-semibold text-white mb-2">No Posts Yet</h2>
-            <p className="text-slate-400">
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">No Posts Yet</h2>
+            <p className="text-gray-600 dark:text-gray-400">
               {searchQuery || selectedCategory !== 'all' 
                 ? 'No posts match your search criteria.' 
                 : 'Blog posts will appear here as they are automatically generated from my daily development work.'}
@@ -132,10 +180,10 @@ export default function BlogPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-slate-800/50 border border-slate-700/50 rounded-xl overflow-hidden hover:border-blue-500/50 transition-all duration-300 group"
+                className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl overflow-hidden hover:border-blue-500 dark:hover:border-blue-500/50 transition-all duration-300 group shadow-sm dark:shadow-gray-900/30"
               >
                 {post.coverImage && (
-                  <div className="aspect-video bg-slate-700 overflow-hidden">
+                  <div className="aspect-video bg-gray-200 dark:bg-gray-700 overflow-hidden">
                     <img 
                       src={post.coverImage} 
                       alt={post.title}
@@ -145,22 +193,22 @@ export default function BlogPage() {
                 )}
                 <div className="p-6">
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs font-medium rounded">
+                    <span className="px-2 py-1 bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-medium rounded">
                       {post.category}
                     </span>
                     {post.industry && (
-                      <span className="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-medium rounded">
+                      <span className="px-2 py-1 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-medium rounded">
                         {post.industry}
                       </span>
                     )}
                   </div>
-                  <h2 className="text-xl font-semibold text-white mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
                     {post.title}
                   </h2>
-                  <p className="text-slate-400 text-sm mb-4 line-clamp-3">
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3">
                     {post.excerpt}
                   </p>
-                  <div className="flex items-center justify-between text-sm text-slate-500">
+                  <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-500">
                     <div className="flex items-center gap-4">
                       <span className="flex items-center gap-1">
                         <Calendar className="w-4 h-4" />
@@ -174,7 +222,7 @@ export default function BlogPage() {
                   </div>
                   <div className="flex flex-wrap gap-2 mt-4">
                     {post.tags.slice(0, 3).map(tag => (
-                      <span key={tag} className="flex items-center gap-1 text-xs text-slate-400">
+                      <span key={tag} className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
                         <Tag className="w-3 h-3" />
                         {tag}
                       </span>
@@ -182,7 +230,7 @@ export default function BlogPage() {
                   </div>
                   <Link 
                     href={`/blog/${post.slug}`}
-                    className="inline-flex items-center gap-2 mt-4 text-blue-400 hover:text-blue-300 transition-colors font-medium"
+                    className="inline-flex items-center gap-2 mt-4 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors font-medium"
                   >
                     Read More <ArrowRight className="w-4 h-4" />
                   </Link>
@@ -193,15 +241,15 @@ export default function BlogPage() {
         )}
 
         {/* Stats */}
-        {meta && meta.totalPosts > 0 && (
+        {posts.length > 0 && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="mt-12 pt-8 border-t border-slate-700/50 text-center text-slate-400"
+            className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700/50 text-center text-gray-600 dark:text-gray-400"
           >
             <p>
-              {meta.totalPosts} posts across {meta.categories.length} categories
+              {posts.length} posts across {categories.length} categories
             </p>
           </motion.div>
         )}

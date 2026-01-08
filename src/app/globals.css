@@ -82,6 +82,16 @@ html {
   background: #64748b;
 }
 
+/* Hide scrollbar utility for carousel */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
 /* Animation utilities */
 .animate-fade-up {
   animation: fade-up 0.8s ease-out forwards;

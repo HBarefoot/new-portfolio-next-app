@@ -2,70 +2,39 @@
 
 import { motion } from 'framer-motion';
 import { Building, Calendar, MapPin } from 'lucide-react';
-import { Experience } from '@/types';
+import { useEffect, useState } from 'react';
+import { getExperiences } from '@/lib/strapi-api';
+import type { StrapiExperience } from '@/types/strapi';
 
 const ExperienceSection = () => {
-  const experiences: Experience[] = [
-    {
-      company: "ALLIED YACHT",
-      period: "2025 - Present",
-      responsibilities: [
-        "Led end-to-end architecture and development of an AI-powered yacht transport platform, introducing instant pricing, automated scheduling, and digital booking workflows that reduced processing time from days to minutes",
-        "Architected complex pricing and routing engines across 15+ international ports with dynamic weight, insurance, and compliance logic, enabling scalable global operations",
-        "Established modern development standards using Next.js, TypeScript, and Tailwind CSS, delivering a robust and maintainable codebase"
-      ]
-    },
-    {
-      company: "ADDIGY",
-      period: "2023 - 2025",
-      responsibilities: [
-        "Developed comprehensive reports using Looker Studio and BigQuery",
-        "Enhanced user interfaces for better UX",
-        "Built WordPress features including custom plugins",
-        "Created responsive landing pages and campaign templates",
-        "Integrated third-party APIs and tools",
-        "Ensured cross-browser compatibility and mobile responsiveness"
-      ]
-    },
-    {
-      company: "VITAL PHARMACEUTICALS",
-      period: "2020 - 2023",
-      responsibilities: [
-        "Led development team and managed project workflows",
-        "Built landing pages using PHP, Node.js, WordPress, JavaScript, React",
-        "Integrated third-party platforms with best practices",
-        "Supported cross-functional teams in fast-paced environment"
-      ]
-    },
-    {
-      company: "AARP",
-      period: "2022 - 2022",
-      responsibilities: [
-        "Designed custom email templates in Salesforce Marketing Cloud",
-        "Imported and segmented customer lists",
-        "Set up automation workflows and performance metrics"
-      ]
-    },
-    {
-      company: "CRYSTAL CRUISES",
-      period: "2018 - 2020",
-      responsibilities: [
-        "Built custom automation tools using Node.js, Cheerio, MongoDB, Axios",
-        "Designed responsive HTML emails",
-        "Performed weekly website updates"
-      ]
-    },
-    {
-      company: "THE IDEA CENTER",
-      period: "2017 - 2018",
-      responsibilities: [
-        "Prepared and delivered lessons focused on HTML5, CSS3, JavaScript, jQuery, and Bootstrap",
-        "Conducted one-on-one and group review sessions to reinforce concepts",
-        "Assisted students in understanding and applying web development principles",
-        "Created learning materials and exercises for web development fundamentals"
-      ]
-    }
-  ];
+  const [experiences, setExperiences] = useState<StrapiExperience[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchExperiences = async () => {
+      try {
+        const response = await getExperiences();
+        const fetchedExperiences = response.data.data;
+        // Only set experiences if we actually got data
+        if (fetchedExperiences && fetchedExperiences.length > 0) {
+          setExperiences(fetchedExperiences);
+        }
+      } catch (error) {
+        console.error('Failed to fetch experiences:', error);
+        // Ensure experiences remains empty array to trigger fallback
+        setExperiences([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchExperiences();
+  }, []);
+
+  // Minimal fallback data (since full data is now managed in Strapi)
+  const fallbackExperiences: StrapiExperience[] = [];
+
+  const displayExperiences = loading || experiences.length === 0 ? fallbackExperiences : experiences;
 
   const specialProjects = [
     {
@@ -103,9 +72,14 @@ const ExperienceSection = () => {
           {/* Timeline Line */}
           <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-700 transform md:-translate-x-1/2"></div>
 
-          {experiences.map((experience, index) => (
+          {displayExperiences.map((experience, index) => {
+            const period = experience.isCurrent 
+              ? `${new Date(experience.startDate).getFullYear()} - Present`
+              : `${new Date(experience.startDate).getFullYear()} - ${new Date(experience.endDate || '').getFullYear()}`;
+            
+            return (
             <motion.div
-              key={index}
+              key={experience.id || index}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
@@ -124,42 +98,95 @@ const ExperienceSection = () => {
                 index % 2 === 0 ? 'md:mr-auto md:pr-8' : 'md:ml-auto md:pl-8'
               }`}>
                 <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-6 shadow-lg dark:shadow-gray-900/30 hover:shadow-xl dark:hover:shadow-gray-900/50 transition-shadow duration-300">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center">
-                      <div className="bg-blue-100 dark:bg-blue-900/30 rounded-lg p-2 mr-3">
-                        <Building className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                          {experience.company}
-                        </h3>
-                        <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mt-1">
-                          <Calendar className="w-4 h-4 mr-1" />
-                          {experience.period}
-                        </div>
+                  {loading ? (
+                    <div className="space-y-4">
+                      <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-6 w-3/4"></div>
+                      <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-4 w-1/2"></div>
+                      <div className="space-y-2">
+                        <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-4 w-full"></div>
+                        <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-4 w-5/6"></div>
                       </div>
                     </div>
-                  </div>
+                  ) : (
+                    <>
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center">
+                          <div className="bg-blue-100 dark:bg-blue-900/30 rounded-lg p-2 mr-3">
+                            <Building className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                              {experience.company}
+                            </h3>
+                            {experience.position && (
+                              <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5">
+                                {experience.position}
+                              </p>
+                            )}
+                            <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mt-1">
+                              <Calendar className="w-4 h-4 mr-1" />
+                              {period}
+                            </div>
+                            {experience.location && (
+                              <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                <MapPin className="w-4 h-4 mr-1" />
+                                {experience.location}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
 
-                  <ul className="space-y-2">
-                    {experience.responsibilities.map((responsibility, respIndex) => (
-                      <motion.li
-                        key={respIndex}
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: (index * 0.2) + (respIndex * 0.1) }}
-                        viewport={{ once: true }}
-                        className="flex items-start text-gray-700 dark:text-gray-300"
-                      >
-                        <div className="w-2 h-2 bg-blue-600 dark:bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <span className="text-sm leading-relaxed">{responsibility}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
+                      {/* Only show description as paragraph if it doesn't contain markdown bullets AND no responsibilities array */}
+                      {experience.description && 
+                       !experience.responsibilities?.length && 
+                       !experience.description.includes('\n-') && (
+                        <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+                          {experience.description}
+                        </p>
+                      )}
+
+                      <ul className="space-y-2">
+                        {experience.responsibilities?.length ? (
+                          experience.responsibilities.map((resp, respIndex) => (
+                            <motion.li
+                              key={resp.id || respIndex}
+                              initial={{ opacity: 0, x: -20 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.5, delay: (index * 0.2) + (respIndex * 0.1) }}
+                              viewport={{ once: true }}
+                              className="flex items-start text-gray-700 dark:text-gray-300"
+                            >
+                              <div className="w-2 h-2 bg-blue-600 dark:bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                              <span className="text-sm leading-relaxed">{resp.description}</span>
+                            </motion.li>
+                          ))
+                        ) : experience.description ? (
+                          // Parse markdown-style list from description if no responsibilities array
+                          experience.description
+                            .split('\n')
+                            .filter(line => line.trim().startsWith('-'))
+                            .map((line, respIndex) => (
+                              <motion.li
+                                key={respIndex}
+                                initial={{ opacity: 0, x: -20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.5, delay: (index * 0.2) + (respIndex * 0.1) }}
+                                viewport={{ once: true }}
+                                className="flex items-start text-gray-700 dark:text-gray-300"
+                              >
+                                <div className="w-2 h-2 bg-blue-600 dark:bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <span className="text-sm leading-relaxed">{line.replace(/^-\s*/, '')}</span>
+                              </motion.li>
+                            ))
+                        ) : null}
+                      </ul>
+                    </>
+                  )}
                 </div>
               </div>
             </motion.div>
-          ))}
+          )})}
         </div>
 
         {/* Special Projects Section */}

@@ -2,41 +2,75 @@
 
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, Code, Zap, Database, Globe } from 'lucide-react';
-import { Project } from '@/types';
+import { useEffect, useState } from 'react';
+import { getProjects } from '@/lib/strapi-api';
+import type { StrapiProject } from '@/types/strapi';
+import { getStrapiImageUrl } from '@/types/strapi';
+import Image from 'next/image';
 
 const Projects = () => {
-  const projects: Project[] = [
+  const [projects, setProjects] = useState<StrapiProject[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await getProjects();
+        setProjects(response.data.data);
+      } catch (error) {
+        console.error('Failed to fetch projects:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  // Fallback projects
+  const fallbackProjects = [
     {
+      id: 1,
       title: "n8n Automation Platform",
-      description: "Self-hosted n8n instance with custom nodes for API integrations. Built complex automation workflows for various clients with VPS deployment and monitoring.",
-      technologies: ["n8n", "Node.js", "VPS", "API Integration", "Docker"],
+      description: "Self-hosted n8n instance with custom nodes for API integrations",
+      image: undefined,
+      githubUrl: undefined,
+      liveUrl: undefined,
+      technologies: [
+        { id: 1, name: "n8n" },
+        { id: 2, name: "Node.js" },
+        { id: 3, name: "VPS" }
+      ]
     },
     {
-      title: "Looker Studio Dashboards",
-      description: "Comprehensive reporting system using Looker Studio and BigQuery for data visualization and business intelligence at Addigy.",
-      technologies: ["Looker Studio", "BigQuery", "SQL", "Data Visualization"],
-    },
-    {
+      id: 2,
       title: "WordPress Custom Plugins",
-      description: "Developed custom WordPress plugins and themes with advanced functionality including API integrations and custom post types.",
-      technologies: ["WordPress", "PHP", "JavaScript", "MySQL", "REST API"],
+      description: "Developed custom WordPress plugins with advanced functionality",
+      image: undefined,
+      githubUrl: undefined,
+      liveUrl: undefined,
+      technologies: [
+        { id: 1, name: "WordPress" },
+        { id: 2, name: "PHP" },
+        { id: 3, name: "JavaScript" }
+      ]
     },
     {
+      id: 3,
       title: "React Landing Pages",
-      description: "Created responsive landing pages and campaign templates using React and modern CSS frameworks for marketing campaigns.",
-      technologies: ["React", "Next.js", "Tailwind CSS", "TypeScript"],
-    },
-    {
-      title: "Salesforce Email Templates",
-      description: "Designed custom email templates in Salesforce Marketing Cloud with automation workflows and customer segmentation.",
-      technologies: ["Salesforce", "HTML/CSS", "Marketing Cloud", "Automation"],
-    },
-    {
-      title: "Node.js Automation Tools",
-      description: "Built custom automation tools using Node.js, Cheerio, MongoDB, and Axios for data scraping and processing.",
-      technologies: ["Node.js", "MongoDB", "Cheerio", "Axios", "JavaScript"],
+      description: "Created responsive landing pages using React and modern CSS frameworks",
+      image: undefined,
+      githubUrl: undefined,
+      liveUrl: undefined,
+      technologies: [
+        { id: 1, name: "React" },
+        { id: 2, name: "Next.js" },
+        { id: 3, name: "Tailwind CSS" }
+      ]
     }
   ];
+
+  const displayProjects = loading || projects.length === 0 ? fallbackProjects : projects.slice(0, 6);
 
   const getProjectIcon = (title: string) => {
     if (title.includes('n8n') || title.includes('Automation')) return <Zap className="w-6 h-6" />;
@@ -88,72 +122,105 @@ const Projects = () => {
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
+          {displayProjects.map((project, index) => (
             <motion.div
-              key={index}
+              key={project.id || index}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               className="group bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/30 hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 relative"
             >
+              {/* Project Image */}
+              {project.image && (
+                <div className="relative h-48 w-full overflow-hidden">
+                  <Image
+                    src={getStrapiImageUrl(project.image)}
+                    alt={project.title}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+              )}
+
               {/* Project Content */}
               <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="bg-blue-100 dark:bg-blue-900/30 rounded-lg p-3 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-                    {getProjectIcon(project.title)}
+                {loading ? (
+                  <div className="space-y-4">
+                    <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-6 w-3/4"></div>
+                    <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-4 w-full"></div>
+                    <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-4 w-5/6"></div>
+                    <div className="flex gap-2">
+                      <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded-full h-6 w-16"></div>
+                      <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded-full h-6 w-16"></div>
+                    </div>
                   </div>
-                  <div className="flex space-x-2">
-                    {project.github && (
-                      <motion.a
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
-                      >
-                        <Github size={20} />
-                      </motion.a>
-                    )}
-                    {project.link && (
-                      <motion.a
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
-                      >
-                        <ExternalLink size={20} />
-                      </motion.a>
-                    )}
-                  </div>
-                </div>
+                ) : (
+                  <>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="bg-blue-100 dark:bg-blue-900/30 rounded-lg p-3 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                        {getProjectIcon(project.title)}
+                      </div>
+                      <div className="flex space-x-2">
+                        {project.githubUrl && (
+                          <motion.a
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                          >
+                            <Github size={20} />
+                          </motion.a>
+                        )}
+                        {project.liveUrl && (
+                          <motion.a
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                          >
+                            <ExternalLink size={20} />
+                          </motion.a>
+                        )}
+                      </div>
+                    </div>
 
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
-                  {project.title}
-                </h3>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
+                      {project.title}
+                    </h3>
 
-                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                  {project.description}
-                </p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                      {project.description}
+                    </p>
 
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2">
-                  {project.technologies.map((tech, techIndex) => (
-                    <motion.span
-                      key={techIndex}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.3, delay: (index * 0.1) + (techIndex * 0.05) }}
-                      viewport={{ once: true }}
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${getTechColor(tech)} transition-transform hover:scale-105`}
-                    >
-                      {tech}
-                    </motion.span>
-                  ))}
-                </div>
+                    {/* Technologies */}
+                    <div className="flex flex-wrap gap-2">
+                      {(() => {
+                        // Handle both Strapi structure { data: [...] } and fallback array [...]
+                        const techs = project.technologies && 'data' in project.technologies 
+                          ? project.technologies.data.map((t: any) => ({ id: t.id, name: t.attributes.name }))
+                          : project.technologies;
+                        
+                        return techs?.map((tech: any, techIndex: number) => (
+                          <motion.span
+                            key={tech.id || techIndex}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.3, delay: (index * 0.1) + (techIndex * 0.05) }}
+                            viewport={{ once: true }}
+                            className={`px-3 py-1 rounded-full text-xs font-medium ${getTechColor(tech.name)} transition-transform hover:scale-105`}
+                          >
+                            {tech.name}
+                          </motion.span>
+                        ));
+                      })()}
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* Consistent Bottom Border Animation for ALL cards */}
