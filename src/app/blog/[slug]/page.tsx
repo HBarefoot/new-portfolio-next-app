@@ -112,20 +112,19 @@ export default function BlogPostPage() {
   const fetchPost = async () => {
     try {
       const response = await getBlogPost(slug);
-      const strapiPosts = response.data.data as StrapiEntity<StrapiBlogPost>[];
+      const strapiPosts = response.data.data;
       
       if (strapiPosts && strapiPosts.length > 0) {
-        const entity = strapiPosts[0];
-        const strapiPost = entity.attributes;
+        const strapiPost = strapiPosts[0];
         
-        // Safe access to nested relations with optional chaining
-        const authorData = strapiPost?.author?.data?.attributes;
-        const categoryData = strapiPost?.category?.data?.attributes;
-        const coverImageData = strapiPost?.coverImage?.data?.attributes;
+        // Strapi v5 uses flat structure - no attributes wrapper
+        const authorData = strapiPost?.author;
+        const categoryData = strapiPost?.category;
+        const coverImageData = strapiPost?.coverImage;
         
         // Transform to BlogPost format
         const transformedPost: BlogPost = {
-          id: entity.id.toString(),
+          id: strapiPost.id?.toString() || strapiPost.documentId,
           slug: strapiPost.slug,
           title: strapiPost.title,
           excerpt: strapiPost.excerpt,
@@ -133,7 +132,7 @@ export default function BlogPostPage() {
           coverImage: coverImageData?.url,
           author: {
             name: authorData?.name || 'Henry Barefoot',
-            avatar: authorData?.avatar?.data?.attributes?.url
+            avatar: authorData?.avatar?.url
           },
           tags: Array.isArray(strapiPost.tags) ? strapiPost.tags : [],
           category: categoryData?.name || 'Development',

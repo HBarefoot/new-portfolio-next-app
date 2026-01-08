@@ -24,32 +24,26 @@ export default function BlogPage() {
       // Fetch posts from Strapi
       const postsResponse = await getBlogPosts();
       console.log('API Response:', postsResponse.data);
-      const strapiBlogPosts = postsResponse.data.data as StrapiEntity<StrapiBlogPost>[];
+      
+      // Strapi v5 returns flat objects without 'attributes' wrapper
+      const strapiBlogPosts = postsResponse.data.data;
       console.log('Blog posts count:', strapiBlogPosts?.length);
-      console.log('First post structure:', strapiBlogPosts?.[0]);
-      console.log('Has attributes?', strapiBlogPosts?.[0]?.attributes);
       
       // Fetch categories from Strapi
       const categoriesResponse = await getBlogCategories();
-      const strapiCategories = categoriesResponse.data.data as StrapiEntity<StrapiBlogCategory>[];
+      const strapiCategories = categoriesResponse.data.data;
 
       // Transform Strapi data to BlogPost format
       const transformedPosts: BlogPost[] = strapiBlogPosts
-        .filter(entity => {
-          const hasAttributes = entity && entity.attributes;
-          if (!hasAttributes) console.log('Filtered out entity:', entity);
-          return hasAttributes;
-        }) // Filter out any invalid entries
-        .map((entity) => {
-          const post = entity.attributes;
-          
-          // Safe access to nested relations with explicit undefined checks
-          const authorData = post?.author?.data?.attributes;
-          const categoryData = post?.category?.data?.attributes;
-          const coverImageData = post?.coverImage?.data?.attributes;
+        .filter(post => post && post.title) // Filter by required fields
+        .map((post) => {
+          // In Strapi v5, all fields are directly on the post object
+          const authorData = post?.author;
+          const categoryData = post?.category;
+          const coverImageData = post?.coverImage;
           
           return {
-            id: entity.id.toString(),
+            id: post.id?.toString() || post.documentId,
             slug: post.slug,
             title: post.title,
             excerpt: post.excerpt,
@@ -57,7 +51,7 @@ export default function BlogPage() {
             coverImage: coverImageData?.url,
             author: {
               name: authorData?.name || 'Henry Barefoot',
-              avatar: authorData?.avatar?.data?.attributes?.url
+              avatar: authorData?.avatar?.url
             },
             tags: Array.isArray(post.tags) ? post.tags : [],
             category: categoryData?.name || 'Development',
@@ -73,16 +67,15 @@ export default function BlogPage() {
 
       console.log('Transformed posts:', transformedPosts.length);
       
-      // Transform categories
+      // Transform categories - Strapi v5 flat structure
       const transformedCategories: BlogCategory[] = strapiCategories
-        .filter(entity => entity && entity.attributes) // Filter out any invalid entries
-        .map((entity) => {
-          const cat = entity.attributes;
+        .filter(cat => cat && cat.name) // Filter by required fields
+        .map((cat) => {
           return {
             name: cat?.name || 'Uncategorized',
             slug: cat?.slug || 'uncategorized',
             description: cat?.description || '',
-            count: cat?.blog_posts?.data?.length || 0
+            count: cat?.blog_posts?.length || 0
           };
         });
 
