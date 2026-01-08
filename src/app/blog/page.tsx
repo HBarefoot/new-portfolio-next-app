@@ -23,7 +23,9 @@ export default function BlogPage() {
     try {
       // Fetch posts from Strapi
       const postsResponse = await getBlogPosts();
+      console.log('API Response:', postsResponse.data);
       const strapiBlogPosts = postsResponse.data.data as StrapiEntity<StrapiBlogPost>[];
+      console.log('Blog posts count:', strapiBlogPosts?.length);
       
       // Fetch categories from Strapi
       const categoriesResponse = await getBlogCategories();
@@ -63,6 +65,8 @@ export default function BlogPage() {
           };
         });
 
+      console.log('Transformed posts:', transformedPosts.length);
+      
       // Transform categories
       const transformedCategories: BlogCategory[] = strapiCategories
         .filter(entity => entity && entity.attributes) // Filter out any invalid entries
@@ -103,7 +107,7 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <main className="max-w-6xl mx-auto px-4 py-12">
+      <main className="max-w-6xl mx-auto px-4 py-12 pt-24">
         {/* Hero Section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
