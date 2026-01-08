@@ -9,7 +9,7 @@ import type { StrapiCaseStudy, StrapiEntity } from '@/types/strapi';
 import CaseStudyCard from './CaseStudyCard';
 
 const CaseStudiesSection = () => {
-  const [caseStudies, setCaseStudies] = useState<StrapiEntity<StrapiCaseStudy>[]>([]);
+  const [caseStudies, setCaseStudies] = useState<StrapiCaseStudy[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,8 +17,8 @@ const CaseStudiesSection = () => {
       try {
         const response = await getCaseStudies();
         const data = response.data.data;
-        // Get only featured case studies
-        const featured = data.filter((cs: StrapiEntity<StrapiCaseStudy>) => cs.attributes.featured).slice(0, 3);
+        // Get only featured case studies (Strapi v5 flat structure - no .attributes)
+        const featured = data.filter((cs: any) => cs.featured === true).slice(0, 3);
         setCaseStudies(featured);
       } catch (error) {
         console.error('Failed to fetch case studies:', error);
@@ -78,7 +78,7 @@ const CaseStudiesSection = () => {
             {caseStudies.map((caseStudy, index) => (
               <CaseStudyCard
                 key={caseStudy.id}
-                caseStudy={caseStudy.attributes}
+                caseStudy={caseStudy}
                 index={index}
               />
             ))}

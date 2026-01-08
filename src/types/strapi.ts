@@ -132,6 +132,8 @@ export interface StrapiProject {
 }
 
 export interface StrapiCaseStudy {
+  id: number;
+  documentId?: string;
   title: string;
   slug: string;
   client: string;
