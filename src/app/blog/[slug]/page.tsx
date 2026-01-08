@@ -118,10 +118,10 @@ export default function BlogPostPage() {
         const entity = strapiPosts[0];
         const strapiPost = entity.attributes;
         
-        // Safe access to nested relations with explicit undefined checks
-        const authorData = strapiPost.author && strapiPost.author.data ? strapiPost.author.data.attributes : null;
-        const categoryData = strapiPost.category && strapiPost.category.data ? strapiPost.category.data.attributes : null;
-        const coverImageData = strapiPost.coverImage && strapiPost.coverImage.data ? strapiPost.coverImage.data.attributes : null;
+        // Safe access to nested relations with optional chaining
+        const authorData = strapiPost?.author?.data?.attributes;
+        const categoryData = strapiPost?.category?.data?.attributes;
+        const coverImageData = strapiPost?.coverImage?.data?.attributes;
         
         // Transform to BlogPost format
         const transformedPost: BlogPost = {

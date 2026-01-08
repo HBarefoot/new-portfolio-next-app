@@ -30,36 +30,38 @@ export default function BlogPage() {
       const strapiCategories = categoriesResponse.data.data as StrapiEntity<StrapiBlogCategory>[];
 
       // Transform Strapi data to BlogPost format
-      const transformedPosts: BlogPost[] = strapiBlogPosts.map((entity) => {
-        const post = entity.attributes;
-        
-        // Safe access to nested relations with explicit undefined checks
-        const authorData = post.author && post.author.data ? post.author.data.attributes : null;
-        const categoryData = post.category && post.category.data ? post.category.data.attributes : null;
-        const coverImageData = post.coverImage && post.coverImage.data ? post.coverImage.data.attributes : null;
-        
-        return {
-          id: entity.id.toString(),
-          slug: post.slug,
-          title: post.title,
-          excerpt: post.excerpt,
-          content: post.content,
-          coverImage: coverImageData?.url,
-          author: {
-            name: authorData?.name || 'Henry Barefoot',
-            avatar: authorData?.avatar?.data?.attributes?.url
-          },
-          tags: Array.isArray(post.tags) ? post.tags : [],
-          category: categoryData?.name || 'Development',
-          publishedAt: post.publishedAt,
-          updatedAt: post.updatedAt,
-          readingTime: post.readingTime || 5,
-          sourceWikiPage: post.sourceWikiPage,
-          codeSnippets: post.codeSnippets || [],
-          businessContext: post.businessContext,
-          industry: post.industry
-        };
-      });
+      const transformedPosts: BlogPost[] = strapiBlogPosts
+        .filter(entity => entity && entity.attributes) // Filter out any invalid entries
+        .map((entity) => {
+          const post = entity.attributes;
+          
+          // Safe access to nested relations with explicit undefined checks
+          const authorData = post?.author?.data?.attributes;
+          const categoryData = post?.category?.data?.attributes;
+          const coverImageData = post?.coverImage?.data?.attributes;
+          
+          return {
+            id: entity.id.toString(),
+            slug: post.slug,
+            title: post.title,
+            excerpt: post.excerpt,
+            content: post.content,
+            coverImage: coverImageData?.url,
+            author: {
+              name: authorData?.name || 'Henry Barefoot',
+              avatar: authorData?.avatar?.data?.attributes?.url
+            },
+            tags: Array.isArray(post.tags) ? post.tags : [],
+            category: categoryData?.name || 'Development',
+            publishedAt: post.publishedAt,
+            updatedAt: post.updatedAt,
+            readingTime: post.readingTime || 5,
+            sourceWikiPage: post.sourceWikiPage,
+            codeSnippets: post.codeSnippets || [],
+            businessContext: post.businessContext,
+            industry: post.industry
+          };
+        });
 
       // Transform categories
       const transformedCategories: BlogCategory[] = strapiCategories.map((entity) => {
