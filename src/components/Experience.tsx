@@ -137,7 +137,10 @@ const ExperienceSection = () => {
                         </div>
                       </div>
 
-                      {experience.description && !experience.responsibilities?.length && (
+                      {/* Only show description as paragraph if it doesn't contain markdown bullets AND no responsibilities array */}
+                      {experience.description && 
+                       !experience.responsibilities?.length && 
+                       !experience.description.includes('\n-') && (
                         <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
                           {experience.description}
                         </p>
