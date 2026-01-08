@@ -101,11 +101,11 @@ const Skills = () => {
   const featuredSkills = skills
     .filter(s => s.isFeatured && s.proficiencyLevel)
     .slice(0, 6)
-    .map(s => ({
+    .map((s, index) => ({
       name: s.name,
       level: s.proficiencyLevel || 85,
       color: ["bg-yellow-500", "bg-blue-500", "bg-purple-500", "bg-blue-600", "bg-green-500", "bg-red-500"][
-        Math.floor(Math.random() * 6)
+        index % 6
       ]
     }));
 
