@@ -14,9 +14,15 @@ const ExperienceSection = () => {
     const fetchExperiences = async () => {
       try {
         const response = await getExperiences();
-        setExperiences(response.data.data);
+        const fetchedExperiences = response.data.data;
+        // Only set experiences if we actually got data
+        if (fetchedExperiences && fetchedExperiences.length > 0) {
+          setExperiences(fetchedExperiences);
+        }
       } catch (error) {
         console.error('Failed to fetch experiences:', error);
+        // Ensure experiences remains empty array to trigger fallback
+        setExperiences([]);
       } finally {
         setLoading(false);
       }
@@ -40,7 +46,8 @@ const ExperienceSection = () => {
         { id: 1, description: "Led end-to-end architecture and development of an AI-powered yacht transport platform" },
         { id: 2, description: "Architected complex pricing and routing engines across 15+ international ports" },
         { id: 3, description: "Established modern development standards using Next.js, TypeScript, and Tailwind CSS" }
-      ]
+      ],
+      order: 1
     },
     {
       id: 2,
@@ -55,7 +62,42 @@ const ExperienceSection = () => {
         { id: 1, description: "Developed comprehensive reports using Looker Studio and BigQuery" },
         { id: 2, description: "Built WordPress features including custom plugins" },
         { id: 3, description: "Created responsive landing pages and campaign templates" }
-      ]
+      ],
+      order: 2
+    },
+    {
+      id: 3,
+      company: "FREELANCE",
+      position: "Full Stack Developer & Automation Specialist",
+      startDate: "2020-01",
+      endDate: "2023-01",
+      isCurrent: false,
+      location: "Remote",
+      description: "",
+      responsibilities: [
+        { id: 1, description: "Self-hosted n8n instance on cloud VPS for automation workflows" },
+        { id: 2, description: "Built custom n8n nodes for API integrations with various platforms" },
+        { id: 3, description: "Developed WordPress sites and custom plugins for small businesses" },
+        { id: 4, description: "Created automated data processing pipelines and reporting systems" }
+      ],
+      order: 3
+    },
+    {
+      id: 4,
+      company: "VARIOUS CLIENTS",
+      position: "Web Developer",
+      startDate: "2017-01",
+      endDate: "2020-01",
+      isCurrent: false,
+      location: "Remote",
+      description: "",
+      responsibilities: [
+        { id: 1, description: "Built responsive websites using HTML, CSS, JavaScript, and PHP" },
+        { id: 2, description: "Maintained and customized WordPress themes and plugins" },
+        { id: 3, description: "Implemented e-commerce solutions and payment integrations" },
+        { id: 4, description: "Provided ongoing support and maintenance for client websites" }
+      ],
+      order: 4
     }
   ];
 

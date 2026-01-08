@@ -14,9 +14,15 @@ const Skills = () => {
     const fetchSkills = async () => {
       try {
         const response = await getSkills();
-        setSkills(response.data.data);
+        const fetchedSkills = response.data.data;
+        // Only set skills if we actually got data
+        if (fetchedSkills && fetchedSkills.length > 0) {
+          setSkills(fetchedSkills);
+        }
       } catch (error) {
         console.error('Failed to fetch skills:', error);
+        // Ensure skills remains empty array to trigger fallback
+        setSkills([]);
       } finally {
         setLoading(false);
       }
