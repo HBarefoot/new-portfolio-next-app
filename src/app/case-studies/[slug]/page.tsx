@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getCaseStudy } from '@/lib/strapi-api';
-import { StrapiCaseStudy, StrapiEntity, StrapiResponse, getStrapiImageUrl } from '@/types/strapi';
+import { StrapiCaseStudy, StrapiEntity, StrapiResponse, StrapiImage, getStrapiImageUrl } from '@/types/strapi';
 import CaseStudyCard from '@/components/CaseStudyCard';
 import { Calendar, Clock, ExternalLink, Github, Globe, Quote, Star } from 'lucide-react';
 
