@@ -103,16 +103,6 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      {/* Header */}
-      <header className="border-b border-slate-700/50 bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-white hover:text-blue-400 transition-colors">
-            ← Back to Portfolio
-          </Link>
-          <h1 className="text-xl font-semibold text-white">Dev Blog</h1>
-        </div>
-      </header>
-
       <main className="max-w-6xl mx-auto px-4 py-12">
         {/* Hero Section */}
         <motion.div 
