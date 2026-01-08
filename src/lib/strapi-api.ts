@@ -42,7 +42,7 @@ export const getCaseStudies = (params?: { featured?: boolean }) => {
 };
 
 export const getCaseStudy = (slug: string) => 
-  strapiApi.get(`/case-studies?filters[slug][$eq]=${slug}&populate[0]=heroImage&populate[1]=gallery&populate[2]=screenshots&populate[3]=screenshots.image&populate[4]=technologies&populate[5]=clientTestimonial&populate[6]=clientTestimonial.clientPhoto&populate[7]=beforeAfterImages&populate[8]=beforeAfterImages.beforeImage&populate[9]=beforeAfterImages.afterImage&populate[10]=responsibilities&populate[11]=metrics&populate[12]=methodologies&populate[13]=phases&populate[14]=timeline`);
+  strapiApi.get(`/case-studies?filters[slug][$eq]=${slug}&populate[heroImage]=*&populate[gallery]=*&populate[screenshots][populate]=*&populate[technologies]=*&populate[clientTestimonial][populate]=*&populate[beforeAfterImages][populate]=*&populate[responsibilities]=*&populate[metrics]=*&populate[methodologies]=*&populate[phases]=*&populate[timeline]=*&populate[relatedCaseStudies]=*`);
 
 export const getBlogPosts = (params?: { category?: string; limit?: number }) => {
   let query = '/blog-posts?populate=*&sort=publishedAt:desc';
