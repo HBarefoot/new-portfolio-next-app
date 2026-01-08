@@ -64,15 +64,17 @@ export default function BlogPage() {
         });
 
       // Transform categories
-      const transformedCategories: BlogCategory[] = strapiCategories.map((entity) => {
-        const cat = entity.attributes;
-        return {
-          name: cat.name,
-          slug: cat.slug,
-          description: cat.description || '',
-          count: cat.blog_posts?.data?.length || 0
-        };
-      });
+      const transformedCategories: BlogCategory[] = strapiCategories
+        .filter(entity => entity && entity.attributes) // Filter out any invalid entries
+        .map((entity) => {
+          const cat = entity.attributes;
+          return {
+            name: cat?.name || 'Uncategorized',
+            slug: cat?.slug || 'uncategorized',
+            description: cat?.description || '',
+            count: cat?.blog_posts?.data?.length || 0
+          };
+        });
 
       setPosts(transformedPosts);
       setCategories(transformedCategories);
