@@ -10,6 +10,7 @@ import remarkGfm from 'remark-gfm';
 import { BlogPost } from '@/types/blog';
 import { getBlogPost } from '@/lib/strapi-api';
 import type { StrapiBlogPost, StrapiEntity } from '@/types/strapi';
+import { getStrapiMediaUrl } from '@/types/strapi';
 
 // Custom components for ReactMarkdown with professional styling
 const MarkdownComponents = {
@@ -129,10 +130,10 @@ export default function BlogPostPage() {
           title: strapiPost.title,
           excerpt: strapiPost.excerpt,
           content: strapiPost.content,
-          coverImage: coverImageData?.url,
+          coverImage: getStrapiMediaUrl(coverImageData?.url),
           author: {
             name: authorData?.name || 'Henry Barefoot',
-            avatar: authorData?.avatar?.url,
+            avatar: getStrapiMediaUrl(authorData?.avatar?.url),
             bio: authorData?.bio
           },
           tags: Array.isArray(strapiPost.tags) ? strapiPost.tags : [],

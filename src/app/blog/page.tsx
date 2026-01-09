@@ -7,6 +7,7 @@ import { Calendar, Clock, Tag, ArrowRight, Search, Filter } from 'lucide-react';
 import { BlogPost, BlogMeta, BlogCategory } from '@/types/blog';
 import { getBlogPosts, getBlogCategories } from '@/lib/strapi-api';
 import type { StrapiBlogPost, StrapiBlogCategory, StrapiEntity } from '@/types/strapi';
+import { getStrapiMediaUrl } from '@/types/strapi';
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -48,10 +49,10 @@ export default function BlogPage() {
             title: post.title,
             excerpt: post.excerpt,
             content: post.content,
-            coverImage: coverImageData?.url,
+            coverImage: getStrapiMediaUrl(coverImageData?.url),
             author: {
               name: authorData?.name || 'Henry Barefoot',
-              avatar: authorData?.avatar?.url,
+              avatar: getStrapiMediaUrl(authorData?.avatar?.url),
               bio: authorData?.bio
             },
             tags: Array.isArray(post.tags) ? post.tags : [],
