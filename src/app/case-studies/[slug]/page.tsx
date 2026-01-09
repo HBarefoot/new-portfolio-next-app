@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, draftMode } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getCaseStudy } from '@/lib/strapi-api';
@@ -8,15 +8,33 @@ import CaseStudyCard from '@/components/CaseStudyCard';
 import { Calendar, Clock, ExternalLink, Github, Globe, Quote, Star } from 'lucide-react';
 
 export const revalidate = 60;
+export const dynamic = 'force-dynamic'; // Enable dynamic rendering for draft mode
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-async function getCaseStudyData(slug: string) {
+async function getCaseStudyData(slug: string, isDraftMode: boolean = false) {
   try {
-    const response = await getCaseStudy(slug);
-    const data = response.data;
+    // In draft mode, also fetch unpublished content
+    const endpoint = isDraftMode 
+      ? `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?filters[slug][$eq]=${slug}&populate=deep&publicationState=preview`
+      : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?filters[slug][$eq]=${slug}&populate=deep`;
+    
+    const response = await fetch(endpoint, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cache: isDraftMode ? 'no-store' : 'default', // Don't cache in draft mode
+    });
+    
+    if (!response.ok) {
+      console.error(`Failed to fetch case study: ${response.status} ${response.statusText}`);
+      return null;
+    }
+    
+    const data = await response.json();
+    
     // Strapi v5 returns flat data structure
     if (data.data && data.data[0]) {
       // Wrap in attributes structure if not already present
@@ -38,7 +56,8 @@ async function getCaseStudyData(slug: string) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const caseStudy = await getCaseStudyData(slug);
+  const { isEnabled: isDraftMode } = await draftMode();
+  const caseStudy = await getCaseStudyData(slug, isDraftMode);
 
   if (!caseStudy) {
     return {
@@ -54,17 +73,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CaseStudyDetailPage({ params }: Props) {
   const { slug } = await params;
-  const caseStudyData = await getCaseStudyData(slug);
+  const { isEnabled: isDraftMode } = await draftMode();
+  const caseStudyData = await getCaseStudyData(slug, isDraftMode);
 
   if (!caseStudyData) {
     notFound();
   }
+
+  // Show draft indicator banner if in draft mode
+  const showDraftBanner = isDraftMode;
 
   const caseStudy = caseStudyData.attributes;
   const heroImageUrl = getStrapiImageUrl(caseStudy.heroImage);
 
   return (
     <article className="min-h-screen">
+      {/* Draft Mode Indicator Banner */}
+      {showDraftBanner && (
+        <div className="bg-yellow-500 text-black py-3 px-4 text-center font-semibold sticky top-0 z-50">
+          🔍 Preview Mode: Viewing unpublished content
+        </div>
+      )}
+      
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[500px] bg-gradient-to-br from-blue-600 to-purple-600">
         {heroImageUrl && (
