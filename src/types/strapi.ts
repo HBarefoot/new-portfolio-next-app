@@ -304,6 +304,165 @@ export interface StrapiSiteSettings {
   publishedAt: string;
 }
 
+// Landing Page Types
+export interface LandingPageHeroSection {
+  __component: 'landing-page.hero-section';
+  id: number;
+  headline: string;
+  subheadline?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  secondaryCtaText?: string;
+  secondaryCtaLink?: string;
+  backgroundImage?: StrapiImage;
+  backgroundStyle?: 'gradient-blue' | 'gradient-purple' | 'gradient-dark' | 'image-overlay' | 'solid-dark' | 'solid-light';
+  credibilityIndicators?: string[];
+  techLogos?: StrapiImage[];
+}
+
+export interface LandingPageProblemItem {
+  id: number;
+  text: string;
+  type: 'problem' | 'solution';
+  icon?: string;
+}
+
+export interface LandingPageProblemSolutionSection {
+  __component: 'landing-page.problem-solution-section';
+  id: number;
+  sectionTitle?: string;
+  items: LandingPageProblemItem[];
+}
+
+export interface LandingPageServiceItem {
+  id: number;
+  title: string;
+  description?: string;
+  features?: string[];
+  price?: string;
+  icon?: string;
+  highlighted?: boolean;
+}
+
+export interface LandingPageServicesSection {
+  __component: 'landing-page.services-section';
+  id: number;
+  sectionTitle?: string;
+  sectionSubtitle?: string;
+  services: LandingPageServiceItem[];
+}
+
+export interface LandingPageSocialProofItem {
+  id: number;
+  text: string;
+  icon?: string;
+}
+
+export interface LandingPageSocialProofSection {
+  __component: 'landing-page.social-proof-section';
+  id: number;
+  sectionTitle?: string;
+  sectionSubtitle?: string;
+  items: LandingPageSocialProofItem[];
+  showcaseImages?: StrapiImage[];
+}
+
+export interface LandingPageProcessStep {
+  id: number;
+  stepNumber?: number;
+  title: string;
+  description?: string;
+  duration?: string;
+  badge?: string;
+}
+
+export interface LandingPageProcessSection {
+  __component: 'landing-page.process-section';
+  id: number;
+  sectionTitle?: string;
+  sectionSubtitle?: string;
+  steps: LandingPageProcessStep[];
+}
+
+export interface LandingPageFaqItem {
+  id: number;
+  question: string;
+  answer: string;
+}
+
+export interface LandingPageFaqSection {
+  __component: 'landing-page.faq-section';
+  id: number;
+  sectionTitle?: string;
+  items: LandingPageFaqItem[];
+}
+
+export interface LandingPageCtaSection {
+  __component: 'landing-page.cta-section';
+  id: number;
+  headline: string;
+  subheadline?: string;
+  ctaText: string;
+  ctaLink: string;
+  backgroundStyle?: 'gradient-blue' | 'gradient-purple' | 'gradient-dark' | 'solid-blue' | 'solid-dark';
+  contactEmail?: string;
+  contactPhone?: string;
+}
+
+export interface LandingPageUrgencyBanner {
+  __component: 'landing-page.urgency-banner';
+  id: number;
+  title: string;
+  offers?: string[];
+  deadline?: string;
+  spotsAvailable?: string;
+  ctaText?: string;
+  ctaLink?: string;
+}
+
+export interface LandingPageTextSection {
+  __component: 'landing-page.text-section';
+  id: number;
+  sectionTitle?: string;
+  content?: string;
+  alignment?: 'left' | 'center' | 'right';
+  backgroundColor?: 'white' | 'gray' | 'dark';
+}
+
+export type LandingPageSection =
+  | LandingPageHeroSection
+  | LandingPageProblemSolutionSection
+  | LandingPageServicesSection
+  | LandingPageSocialProofSection
+  | LandingPageProcessSection
+  | LandingPageFaqSection
+  | LandingPageCtaSection
+  | LandingPageUrgencyBanner
+  | LandingPageTextSection;
+
+export interface StrapiLandingPage {
+  id: number;
+  documentId?: string;
+  title: string;
+  slug: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  ogImage?: StrapiImage;
+  campaignName?: string;
+  isActive: boolean;
+  expiresAt?: string;
+  trackingPixels?: {
+    facebookPixel?: string;
+    googleAnalytics?: string;
+    [key: string]: string | undefined;
+  };
+  calendlyUrl?: string;
+  sections: LandingPageSection[];
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
 // Helper function to construct full media URLs
 export const getStrapiMediaUrl = (url: string | undefined): string => {
   if (!url) return '';

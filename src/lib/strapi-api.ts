@@ -73,4 +73,11 @@ export const getGalleryProjects = () =>
 export const getSiteSettings = () => 
   strapiApi.get('/site-setting?populate=*');
 
+// Landing Pages
+export const getLandingPages = () =>
+  strapiApi.get('/landing-pages?populate=deep&filters[isActive][$eq]=true');
+
+export const getLandingPage = (slug: string) =>
+  strapiApi.get(`/landing-pages?filters[slug][$eq]=${slug}&populate=deep`);
+
 export default strapiApi;
