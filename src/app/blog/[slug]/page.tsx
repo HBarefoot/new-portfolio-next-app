@@ -106,6 +106,12 @@ export default function BlogPostPage() {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [shareUrl, setShareUrl] = useState(`https://next.henrybarefoot.com/blog/${slug}`);
+
+  useEffect(() => {
+    // Set the actual browser URL for sharing
+    setShareUrl(window.location.href);
+  }, []);
 
   useEffect(() => {
     fetchPost();
@@ -393,7 +399,7 @@ export default function BlogPostPage() {
               Share this article
             </span>
             <ShareButtons 
-              url={typeof window !== 'undefined' ? window.location.href : `https://next.henrybarefoot.com/blog/${slug}`}
+              url={shareUrl}
               title={post.title}
               description={post.excerpt}
             />

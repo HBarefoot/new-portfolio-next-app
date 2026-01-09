@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import ShareButtons from './ShareButtons';
 
 interface CaseStudyShareProps {
@@ -9,12 +10,12 @@ interface CaseStudyShareProps {
 }
 
 export default function CaseStudyShare({ slug, title, excerpt }: CaseStudyShareProps) {
-  // Build the full URL on the client side
-  const baseUrl = typeof window !== 'undefined' 
-    ? window.location.origin 
-    : process.env.NEXT_PUBLIC_SITE_URL || 'https://next.henrybarefoot.com';
-  
-  const url = `${baseUrl}/case-studies/${slug}`;
+  const [url, setUrl] = useState(`https://next.henrybarefoot.com/case-studies/${slug}`);
+
+  useEffect(() => {
+    // Use the actual browser URL to ensure we share the correct page
+    setUrl(window.location.href);
+  }, []);
 
   return (
     <div className="flex flex-col items-center gap-3">
