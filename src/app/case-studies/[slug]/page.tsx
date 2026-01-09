@@ -23,10 +23,10 @@ async function getCaseStudyData(slug: string, documentId?: string, isDraft: bool
     
     if (documentId && isDraft) {
       // Fetch by documentId for draft mode using Strapi v5 Documents API
-      endpoint = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?filters[documentId][$eq]=${documentId}&populate=deep&status=draft`;
+      endpoint = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?filters[documentId][$eq]=${documentId}&populate=*&status=draft`;
     } else {
       // Fetch by slug for published content
-      endpoint = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?filters[slug][$eq]=${slug}&populate=deep`;
+      endpoint = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?filters[slug][$eq]=${slug}&populate=*`;
     }
     
     console.log('[Draft Preview Debug] Fetching from:', endpoint);
