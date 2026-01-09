@@ -20,8 +20,8 @@ async function getCaseStudyData(slug: string, documentId?: string, isDraft: bool
     let endpoint: string;
     
     if (documentId && isDraft) {
-      // Fetch by documentId for draft mode
-      endpoint = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies/${documentId}?populate=deep&status=draft`;
+      // Fetch by documentId for draft mode using Strapi v5 Documents API
+      endpoint = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?filters[documentId][$eq]=${documentId}&populate=deep&status=draft`;
     } else {
       // Fetch by slug for published content
       endpoint = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?filters[slug][$eq]=${slug}&populate=deep`;
@@ -31,7 +31,7 @@ async function getCaseStudyData(slug: string, documentId?: string, isDraft: bool
       'Content-Type': 'application/json',
     };
     
-    // Add API key for draft content
+    // Add API key for draft content - always use it for draft mode
     if (isDraft && process.env.STRAPI_API_KEY) {
       headers['Authorization'] = `Bearer ${process.env.STRAPI_API_KEY}`;
     }
@@ -49,25 +49,20 @@ async function getCaseStudyData(slug: string, documentId?: string, isDraft: bool
     
     const data = await response.json();
     
-    // Handle direct fetch by documentId (single object response)
-    if (documentId && data.data && !Array.isArray(data.data)) {
+    // Both slug and documentId queries return array responses
+    if (data.data && data.data[0]) {
+      const item = data.data[0];
+      // Handle nested attributes structure (Strapi v4 style)
+      if (item.attributes) {
+        return item;
+      }
+      // Handle flat structure (Strapi v5 style)
       return {
-        id: data.data.id || data.data.documentId,
-        attributes: data.data
+        id: item.id || item.documentId,
+        attributes: item
       };
     }
     
-    // Handle fetch by slug (array response)
-    if (data.data && data.data[0]) {
-      const item = data.data[0];
-      if (!item.attributes) {
-        return {
-          id: item.id,
-          attributes: item
-        };
-      }
-      return item;
-    }
     return null;
   } catch (error) {
     console.error('Error fetching case study:', error);
