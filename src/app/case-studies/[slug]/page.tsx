@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { getCaseStudy } from '@/lib/strapi-api';
 import { StrapiCaseStudy, StrapiEntity, StrapiResponse, StrapiImage, getStrapiImageUrl } from '@/types/strapi';
 import CaseStudyCard from '@/components/CaseStudyCard';
+import MarkdownContent from '@/components/MarkdownContent';
 import { Calendar, Clock, ExternalLink, Github, Globe, Quote, Star } from 'lucide-react';
 
 export const revalidate = 60;
@@ -226,9 +227,9 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
 
           {/* Overview Content */}
           {caseStudy.overview && (
-            <div className="prose prose-lg dark:prose-invert max-w-none mb-12">
+            <div className="mb-12">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Overview</h2>
-              <div dangerouslySetInnerHTML={{ __html: caseStudy.overview }} />
+              <MarkdownContent content={caseStudy.overview} />
             </div>
           )}
         </div>
@@ -238,12 +239,10 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
       {caseStudy.challenge && (
         <section className="py-16 bg-red-50 dark:bg-red-950/20">
           <div className="container mx-auto px-4 lg:px-6 max-w-4xl">
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              <h2 className="text-3xl font-bold text-red-600 dark:text-red-400 mb-6">
-                The Challenge
-              </h2>
-              <div dangerouslySetInnerHTML={{ __html: caseStudy.challenge }} />
-            </div>
+            <h2 className="text-3xl font-bold text-red-600 dark:text-red-400 mb-6">
+              The Challenge
+            </h2>
+            <MarkdownContent content={caseStudy.challenge} />
           </div>
         </section>
       )}
@@ -252,12 +251,10 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
       {caseStudy.solution && (
         <section className="py-16 bg-blue-50 dark:bg-blue-950/20">
           <div className="container mx-auto px-4 lg:px-6 max-w-4xl">
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              <h2 className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-6">
-                The Solution
-              </h2>
-              <div dangerouslySetInnerHTML={{ __html: caseStudy.solution }} />
-            </div>
+            <h2 className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-6">
+              The Solution
+            </h2>
+            <MarkdownContent content={caseStudy.solution} />
 
             {/* Technologies Used */}
             {caseStudy.technologies && Array.isArray(caseStudy.technologies) && caseStudy.technologies.length > 0 && (
@@ -429,12 +426,10 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
       {caseStudy.results && (
         <section className="py-16 bg-green-50 dark:bg-green-950/20">
           <div className="container mx-auto px-4 lg:px-6 max-w-4xl">
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              <h2 className="text-3xl font-bold text-green-600 dark:text-green-400 mb-6">
-                The Results
-              </h2>
-              <div dangerouslySetInnerHTML={{ __html: caseStudy.results }} />
-            </div>
+            <h2 className="text-3xl font-bold text-green-600 dark:text-green-400 mb-6">
+              The Results
+            </h2>
+            <MarkdownContent content={caseStudy.results} />
           </div>
         </section>
       )}
