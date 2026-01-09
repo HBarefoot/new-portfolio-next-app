@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { notFound, draftMode } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getCaseStudy } from '@/lib/strapi-api';
@@ -8,24 +8,20 @@ import CaseStudyCard from '@/components/CaseStudyCard';
 import { Calendar, Clock, ExternalLink, Github, Globe, Quote, Star } from 'lucide-react';
 
 export const revalidate = 60;
-export const dynamic = 'force-dynamic'; // Enable dynamic rendering for draft mode
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-async function getCaseStudyData(slug: string, isDraftMode: boolean = false) {
+async function getCaseStudyData(slug: string) {
   try {
-    // In draft mode, also fetch unpublished content
-    const endpoint = isDraftMode 
-      ? `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?filters[slug][$eq]=${slug}&populate=deep&publicationState=preview`
-      : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?filters[slug][$eq]=${slug}&populate=deep`;
+    const endpoint = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?filters[slug][$eq]=${slug}&populate=deep`;
     
     const response = await fetch(endpoint, {
       headers: {
         'Content-Type': 'application/json',
       },
-      cache: isDraftMode ? 'no-store' : 'default', // Don't cache in draft mode
+      next: { revalidate: 60 },
     });
     
     if (!response.ok) {
@@ -56,8 +52,7 @@ async function getCaseStudyData(slug: string, isDraftMode: boolean = false) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const { isEnabled: isDraftMode } = await draftMode();
-  const caseStudy = await getCaseStudyData(slug, isDraftMode);
+  const caseStudy = await getCaseStudyData(slug);
 
   if (!caseStudy) {
     return {
@@ -73,28 +68,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CaseStudyDetailPage({ params }: Props) {
   const { slug } = await params;
-  const { isEnabled: isDraftMode } = await draftMode();
-  const caseStudyData = await getCaseStudyData(slug, isDraftMode);
+  const caseStudyData = await getCaseStudyData(slug);
 
   if (!caseStudyData) {
     notFound();
   }
-
-  // Show draft indicator banner if in draft mode
-  const showDraftBanner = isDraftMode;
 
   const caseStudy = caseStudyData.attributes;
   const heroImageUrl = getStrapiImageUrl(caseStudy.heroImage);
 
   return (
     <article className="min-h-screen">
-      {/* Draft Mode Indicator Banner */}
-      {showDraftBanner && (
-        <div className="bg-yellow-500 text-black py-3 px-4 text-center font-semibold sticky top-0 z-50">
-          🔍 Preview Mode: Viewing unpublished content
-        </div>
-      )}
-      
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[500px] bg-gradient-to-br from-blue-600 to-purple-600">
         {heroImageUrl && (
