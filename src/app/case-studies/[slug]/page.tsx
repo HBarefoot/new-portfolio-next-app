@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { draftMode } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getCaseStudy } from '@/lib/strapi-api';
@@ -11,17 +12,34 @@ export const revalidate = 60;
 
 interface Props {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ documentId?: string }>;
 }
 
-async function getCaseStudyData(slug: string) {
+async function getCaseStudyData(slug: string, documentId?: string, isDraft: boolean = false) {
   try {
-    const endpoint = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?filters[slug][$eq]=${slug}&populate=deep`;
+    let endpoint: string;
+    
+    if (documentId && isDraft) {
+      // Fetch by documentId for draft mode
+      endpoint = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies/${documentId}?populate=deep&status=draft`;
+    } else {
+      // Fetch by slug for published content
+      endpoint = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?filters[slug][$eq]=${slug}&populate=deep`;
+    }
+    
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    };
+    
+    // Add API key for draft content
+    if (isDraft && process.env.STRAPI_API_KEY) {
+      headers['Authorization'] = `Bearer ${process.env.STRAPI_API_KEY}`;
+    }
     
     const response = await fetch(endpoint, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      next: { revalidate: 60 },
+      headers,
+      next: { revalidate: isDraft ? 0 : 60 },
+      cache: isDraft ? 'no-store' : 'default',
     });
     
     if (!response.ok) {
@@ -31,9 +49,16 @@ async function getCaseStudyData(slug: string) {
     
     const data = await response.json();
     
-    // Strapi v5 returns flat data structure
+    // Handle direct fetch by documentId (single object response)
+    if (documentId && data.data && !Array.isArray(data.data)) {
+      return {
+        id: data.data.id || data.data.documentId,
+        attributes: data.data
+      };
+    }
+    
+    // Handle fetch by slug (array response)
     if (data.data && data.data[0]) {
-      // Wrap in attributes structure if not already present
       const item = data.data[0];
       if (!item.attributes) {
         return {
@@ -50,9 +75,12 @@ async function getCaseStudyData(slug: string) {
   }
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const caseStudy = await getCaseStudyData(slug);
+  const { documentId } = await searchParams;
+  const { isEnabled } = await draftMode();
+  
+  const caseStudy = await getCaseStudyData(slug, documentId, isEnabled);
 
   if (!caseStudy) {
     return {
@@ -66,9 +94,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function CaseStudyDetailPage({ params }: Props) {
+export default async function CaseStudyDetailPage({ params, searchParams }: Props) {
   const { slug } = await params;
-  const caseStudyData = await getCaseStudyData(slug);
+  const { documentId } = await searchParams;
+  const { isEnabled: isDraftMode } = await draftMode();
+  
+  const caseStudyData = await getCaseStudyData(slug, documentId, isDraftMode);
 
   if (!caseStudyData) {
     notFound();
