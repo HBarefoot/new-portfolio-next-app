@@ -132,7 +132,8 @@ export default function BlogPostPage() {
           coverImage: coverImageData?.url,
           author: {
             name: authorData?.name || 'Henry Barefoot',
-            avatar: authorData?.avatar?.url
+            avatar: authorData?.avatar?.url,
+            bio: authorData?.bio
           },
           tags: Array.isArray(strapiPost.tags) ? strapiPost.tags : [],
           category: categoryData?.name || 'Development',
@@ -204,9 +205,43 @@ export default function BlogPostPage() {
             {post.title}
           </h1>
           <div className="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400 mb-6">
-            <div className="flex items-center gap-2">
-              <User className="w-5 h-5" />
-              <span>{post.author.name}</span>
+            <div className="flex items-center gap-3 group relative">
+              {post.author.avatar ? (
+                <img 
+                  src={post.author.avatar} 
+                  alt={post.author.name}
+                  className="w-10 h-10 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
+                  {post.author.name.charAt(0)}
+                </div>
+              )}
+              <span className="font-medium">{post.author.name}</span>
+              {/* Author hover card */}
+              {post.author.bio && (
+                <div className="absolute left-0 top-full mt-2 w-64 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+                  <div className="flex items-start gap-3">
+                    {post.author.avatar ? (
+                      <img 
+                        src={post.author.avatar} 
+                        alt={post.author.name}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold text-lg">
+                        {post.author.name.charAt(0)}
+                      </div>
+                    )}
+                    <div>
+                      <p className="font-semibold text-gray-900 dark:text-white">{post.author.name}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        {post.author.bio}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="w-5 h-5" />

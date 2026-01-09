@@ -8,6 +8,7 @@ export interface BlogPost {
   author: {
     name: string;
     avatar?: string;
+    bio?: string;
   };
   tags: string[];
   category: string;

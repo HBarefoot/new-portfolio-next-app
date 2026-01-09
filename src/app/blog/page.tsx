@@ -51,7 +51,8 @@ export default function BlogPage() {
             coverImage: coverImageData?.url,
             author: {
               name: authorData?.name || 'Henry Barefoot',
-              avatar: authorData?.avatar?.url
+              avatar: authorData?.avatar?.url,
+              bio: authorData?.bio
             },
             tags: Array.isArray(post.tags) ? post.tags : [],
             category: categoryData?.name || 'Development',
@@ -208,6 +209,22 @@ export default function BlogPage() {
                   <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3">
                     {post.excerpt}
                   </p>
+                  <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-500 mb-3">
+                    <div className="flex items-center gap-3">
+                      {post.author.avatar ? (
+                        <img 
+                          src={post.author.avatar} 
+                          alt={post.author.name}
+                          className="w-6 h-6 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-semibold">
+                          {post.author.name.charAt(0)}
+                        </div>
+                      )}
+                      <span className="text-xs font-medium">{post.author.name}</span>
+                    </div>
+                  </div>
                   <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-500">
                     <div className="flex items-center gap-4">
                       <span className="flex items-center gap-1">
