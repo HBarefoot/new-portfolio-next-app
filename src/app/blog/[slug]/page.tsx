@@ -11,6 +11,7 @@ import { BlogPost } from '@/types/blog';
 import { getBlogPost } from '@/lib/strapi-api';
 import type { StrapiBlogPost, StrapiEntity } from '@/types/strapi';
 import { getStrapiMediaUrl } from '@/types/strapi';
+import ShareButtons from '@/components/ShareButtons';
 
 // Custom components for ReactMarkdown with professional styling
 const MarkdownComponents = {
@@ -378,6 +379,25 @@ export default function BlogPostPage() {
               {tag}
             </span>
           ))}
+        </motion.div>
+
+        {/* Share Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55 }}
+          className="py-8 border-t border-gray-200 dark:border-gray-700/50"
+        >
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
+              Share this article
+            </span>
+            <ShareButtons 
+              url={typeof window !== 'undefined' ? window.location.href : `https://next.henrybarefoot.com/blog/${slug}`}
+              title={post.title}
+              description={post.excerpt}
+            />
+          </div>
         </motion.div>
 
         {/* Navigation */}

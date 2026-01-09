@@ -7,6 +7,7 @@ import { getCaseStudy } from '@/lib/strapi-api';
 import { StrapiCaseStudy, StrapiEntity, StrapiResponse, StrapiImage, getStrapiImageUrl } from '@/types/strapi';
 import CaseStudyCard from '@/components/CaseStudyCard';
 import MarkdownContent from '@/components/MarkdownContent';
+import CaseStudyShare from '@/components/CaseStudyShare';
 import { Calendar, Clock, ExternalLink, Github, Globe, Quote, Star } from 'lucide-react';
 
 export const revalidate = 60;
@@ -549,15 +550,25 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
         </section>
       )}
 
-      {/* Back to Case Studies */}
-      <section className="py-12 bg-white dark:bg-gray-950">
-        <div className="container mx-auto px-4 lg:px-6 text-center">
-          <Link
-            href="/case-studies"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors"
-          >
-            ← Back to All Case Studies
-          </Link>
+      {/* Share & Back Navigation */}
+      <section className="py-12 bg-white dark:bg-gray-950 border-t border-gray-100 dark:border-gray-800">
+        <div className="container mx-auto px-4 lg:px-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8 max-w-4xl mx-auto">
+            {/* Share Buttons */}
+            <CaseStudyShare 
+              slug={slug}
+              title={caseStudy.title}
+              excerpt={caseStudy.excerpt || caseStudy.heroTagline || ''}
+            />
+            
+            {/* Back Link */}
+            <Link
+              href="/case-studies"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors"
+            >
+              ← Back to All Case Studies
+            </Link>
+          </div>
         </div>
       </section>
     </article>
