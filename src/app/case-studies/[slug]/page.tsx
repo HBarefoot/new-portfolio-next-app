@@ -19,6 +19,8 @@ async function getCaseStudyData(slug: string, documentId?: string, isDraft: bool
   try {
     let endpoint: string;
     
+    console.log('[Draft Preview Debug]', { slug, documentId, isDraft });
+    
     if (documentId && isDraft) {
       // Fetch by documentId for draft mode using Strapi v5 Documents API
       endpoint = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?filters[documentId][$eq]=${documentId}&populate=deep&status=draft`;
@@ -27,6 +29,8 @@ async function getCaseStudyData(slug: string, documentId?: string, isDraft: bool
       endpoint = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?filters[slug][$eq]=${slug}&populate=deep`;
     }
     
+    console.log('[Draft Preview Debug] Fetching from:', endpoint);
+    
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
     };
@@ -34,6 +38,7 @@ async function getCaseStudyData(slug: string, documentId?: string, isDraft: bool
     // Add API key for draft content - always use it for draft mode
     if (isDraft && process.env.STRAPI_API_KEY) {
       headers['Authorization'] = `Bearer ${process.env.STRAPI_API_KEY}`;
+      console.log('[Draft Preview Debug] Using API key for authentication');
     }
     
     const response = await fetch(endpoint, {
@@ -42,16 +47,28 @@ async function getCaseStudyData(slug: string, documentId?: string, isDraft: bool
       cache: isDraft ? 'no-store' : 'default',
     });
     
+    console.log('[Draft Preview Debug] Response status:', response.status);
+    
+    console.log('[Draft Preview Debug] Response status:', response.status);
+    
     if (!response.ok) {
-      console.error(`Failed to fetch case study: ${response.status} ${response.statusText}`);
+      console.error(`[Draft Preview Debug] Failed to fetch case study: ${response.status} ${response.statusText}`);
+      const errorText = await response.text();
+      console.error('[Draft Preview Debug] Error response:', errorText);
       return null;
     }
     
     const data = await response.json();
+    console.log('[Draft Preview Debug] Data received:', { 
+      hasData: !!data.data, 
+      isArray: Array.isArray(data.data),
+      length: Array.isArray(data.data) ? data.data.length : 'N/A'
+    });
     
     // Both slug and documentId queries return array responses
     if (data.data && data.data[0]) {
       const item = data.data[0];
+      console.log('[Draft Preview Debug] Found item, has attributes:', !!item.attributes);
       // Handle nested attributes structure (Strapi v4 style)
       if (item.attributes) {
         return item;
@@ -63,6 +80,7 @@ async function getCaseStudyData(slug: string, documentId?: string, isDraft: bool
       };
     }
     
+    console.log('[Draft Preview Debug] No data found in response');
     return null;
   } catch (error) {
     console.error('Error fetching case study:', error);
