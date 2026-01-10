@@ -50,9 +50,15 @@ const nextConfig: NextConfig = {
     ],
   },
   
-  // Target modern browsers to reduce polyfill bundle size
-  // Removes ~14KB of unnecessary polyfills (Array.prototype.at, Object.fromEntries, etc.)
+  // Target modern browsers only - removes ~14KB of unnecessary polyfills
+  // This tells Next.js to not include polyfills for Array.prototype.at, Object.fromEntries, etc.
   transpilePackages: [],
+  
+  // Exclude legacy browser support to reduce bundle size
+  compiler: {
+    // Remove console.log in production
+    removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
+  },
   
   // Cache headers for static assets
   async headers() {

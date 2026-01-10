@@ -6,6 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
+// Import chat-specific CSS (loaded only when this component mounts)
+import './chat-widget.css';
+
 interface Message {
   id: string;
   text: string;

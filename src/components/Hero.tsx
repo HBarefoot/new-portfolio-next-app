@@ -16,9 +16,19 @@ const Hero = () => {
     const fetchHeroData = async () => {
       try {
         const response = await getHero();
-        setHeroData(response.data.data);
+        const data = response.data.data;
+        setHeroData(data);
+        
+        // Preload the CMS image once we know the URL - starts loading before React renders it
+        const imageUrl = getStrapiImageUrl(data?.profileImage);
+        if (imageUrl) {
+          const link = document.createElement('link');
+          link.rel = 'preload';
+          link.as = 'image';
+          link.href = imageUrl;
+          document.head.appendChild(link);
+        }
       } catch (error) {
-        console.error('Failed to fetch hero data:', error);
         // Fallback data will be used below
       } finally {
         setLoading(false);

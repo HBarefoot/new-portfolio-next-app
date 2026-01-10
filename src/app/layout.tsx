@@ -134,11 +134,21 @@ export default function RootLayout({
           .to-purple-500{--tw-gradient-to:#a855f7}
         `}} />
         
-        {/* Preconnect hints for faster resource loading */}
+        {/* Preconnect hints for faster resource loading - establish connection early */}
         <link rel="preconnect" href="https://cms.henrybarefoot.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://cms.henrybarefoot.com" />
-        <link rel="preconnect" href="https://connect.facebook.net" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+        
+        {/* Preload the hero API call to reduce LCP delay */}
+        <link 
+          rel="preload" 
+          href="https://cms.henrybarefoot.com/api/hero?populate=*" 
+          as="fetch" 
+          crossOrigin="anonymous"
+        />
+        
+        {/* Defer third-party connections until after critical content */}
+        <link rel="dns-prefetch" href="https://connect.facebook.net" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         
         {/* Google Tag Manager - delayed until user interaction to avoid blocking LCP */}
         <Script

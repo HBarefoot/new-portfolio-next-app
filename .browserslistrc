@@ -1,0 +1,13 @@
+# Target only modern browsers to reduce polyfill bundle size
+# This removes ~14KB of unnecessary polyfills (Array.at, Object.fromEntries, etc.)
+
+# Production: last 2 versions of modern browsers, no IE
+last 2 Chrome versions
+last 2 Firefox versions
+last 2 Safari versions
+last 2 Edge versions
+
+# Exclude browsers with < 0.5% global usage
+not dead
+not IE 11
+not op_mini all
