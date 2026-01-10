@@ -117,10 +117,10 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         {/* Preconnect hints for faster resource loading */}
-        <link rel="preconnect" href="https://cms.henrybarefoot.com" />
+        <link rel="preconnect" href="https://cms.henrybarefoot.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://cms.henrybarefoot.com" />
         <link rel="preconnect" href="https://connect.facebook.net" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
         
         {/* Google Tag Manager - lazy loaded after page is idle */}
         <Script
