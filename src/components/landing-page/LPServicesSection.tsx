@@ -48,7 +48,7 @@ export default function LPServicesSection({ section, calendlyUrl }: Props) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className={`relative rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 ${
+              className={`relative rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 flex flex-col h-full ${
                 service.highlighted
                   ? 'bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow-xl'
                   : 'bg-gray-50 dark:bg-gray-800 hover:shadow-lg'
@@ -93,7 +93,7 @@ export default function LPServicesSection({ section, calendlyUrl }: Props) {
                         service.highlighted ? 'text-blue-100' : 'text-gray-600 dark:text-gray-400'
                       }`}
                     >
-                      <span className={`w-1.5 h-1.5 rounded-full ${
+                      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
                         service.highlighted ? 'bg-blue-200' : 'bg-blue-500'
                       }`} />
                       {feature}
@@ -102,9 +102,12 @@ export default function LPServicesSection({ section, calendlyUrl }: Props) {
                 </ul>
               )}
 
-              {/* Price */}
+              {/* Spacer to push price to bottom */}
+              <div className="flex-grow" />
+
+              {/* Price - always at bottom */}
               {service.price && (
-                <div className={`mt-auto pt-4 border-t ${
+                <div className={`pt-4 border-t ${
                   service.highlighted ? 'border-blue-400/30' : 'border-gray-200 dark:border-gray-700'
                 }`}>
                   <p className={`text-lg font-bold ${
