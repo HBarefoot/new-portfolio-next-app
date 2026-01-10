@@ -361,17 +361,12 @@ const Hero = () => {
             </motion.div>
           </motion.div>
 
-          {/* Profile Image - Always render immediately with fallback for LCP optimization */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex justify-center lg:justify-end order-1 lg:order-2"
-          >
+          {/* Profile Image - NO animation delay for LCP optimization */}
+          <div className="flex justify-center lg:justify-end order-1 lg:order-2">
             <div className="relative">
               <div className="w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 p-2 shadow-2xl">
                 <div className="w-full h-full rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700">
-                  {/* Always render image immediately - don't wait for loading state */}
+                  {/* LCP image - renders immediately without JS blocking */}
                   <Image
                     src={getStrapiImageUrl(heroData?.profileImage) || '/henry-profile.webp'}
                     alt={`${displayData.name} - ${displayData.title}`}
@@ -379,7 +374,9 @@ const Hero = () => {
                     height={320}
                     className="w-full h-full object-cover rounded-full"
                     priority
+                    loading="eager"
                     fetchPriority="high"
+                    quality={75}
                     sizes="(max-width: 640px) 256px, (max-width: 1024px) 288px, 320px"
                     placeholder="blur"
                     blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAYH/8QAIhAAAgIBAwQDAAAAAAAAAAAAAQIDBAAFESEGEhMxQVGB/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgADESH/2gAMAwEAAhEDEEA/ANB6c6oh1qW/DPHLBZqSGKeCUAOh+H4QQCCCOQcUl2WMRx7J9mcYx0CrU7SY5sT/2Q=="
@@ -406,7 +403,7 @@ const Hero = () => {
                 <div className="text-blue-600 font-bold text-xs sm:text-sm">5+</div>
               </motion.div>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Scroll Indicator */}

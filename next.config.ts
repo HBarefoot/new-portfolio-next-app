@@ -79,6 +79,9 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  
+  // Enable Turbopack for Next.js 16 (required when using experimental features)
+  turbopack: {},
 };
 
 export default nextConfig;
