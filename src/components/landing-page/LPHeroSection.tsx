@@ -24,6 +24,8 @@ export default function LPHeroSection({ section, calendlyUrl }: Props) {
   const isLight = section.backgroundStyle === 'solid-light';
   const imageUrl = getStrapiImageUrl(section.backgroundImage);
   const ctaLink = section.ctaLink || calendlyUrl || '#contact';
+  // Skip Next.js image optimization for localhost URLs (dev mode)
+  const isLocalhost = imageUrl.includes('localhost');
 
   return (
     <section className={`relative min-h-[90vh] flex items-center ${bgStyle}`}>
@@ -35,6 +37,7 @@ export default function LPHeroSection({ section, calendlyUrl }: Props) {
           fill
           className="object-cover opacity-20"
           priority
+          unoptimized={isLocalhost}
         />
       )}
       
@@ -137,7 +140,7 @@ export default function LPHeroSection({ section, calendlyUrl }: Props) {
                   const logoUrl = getStrapiImageUrl(logo);
                   return logoUrl ? (
                     <div key={idx} className="w-10 h-10 relative opacity-70 hover:opacity-100 transition-opacity">
-                      <Image src={logoUrl} alt="" fill className="object-contain" />
+                      <Image src={logoUrl} alt="" fill className="object-contain" unoptimized={logoUrl.includes('localhost')} />
                     </div>
                   ) : null;
                 })}

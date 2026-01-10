@@ -15,7 +15,13 @@ const nextConfig: NextConfig = {
         hostname: 'postgres.railway.internal',
         port: '',
         pathname: '/**',
-      }
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '1337',
+        pathname: '/**',
+      },
     ],
   },
 };

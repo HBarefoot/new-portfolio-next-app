@@ -40,6 +40,8 @@ export async function GET(request: Request) {
       previewUrl = `/blog/${slug}`;
     } else if (contentType === "api::project.project") {
       previewUrl = `/projects/${slug}`;
+    } else if (contentType === "api::landing-page.landing-page") {
+      previewUrl = `/lp/${slug}`;
     }
   } else if (slug) {
     // Fallback: try case studies first (most common)

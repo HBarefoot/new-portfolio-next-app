@@ -71,21 +71,60 @@ export default function LPSocialProofSection({ section }: Props) {
             <p className="text-center text-sm text-gray-500 dark:text-gray-400 mb-6">
               Recent Work & Projects
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              {section.showcaseImages.map((image, idx) => {
-                const imageUrl = getStrapiImageUrl(image);
-                return imageUrl ? (
+            
+            {/* Mobile: Horizontal scroll carousel */}
+            <div className="md:hidden -mx-4 px-4">
+              <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+                {section.showcaseImages.slice(0, 6).map((image, idx) => {
+                  const imageUrl = getStrapiImageUrl(image);
+                  return imageUrl ? (
+                    <div
+                      key={idx}
+                      className="relative flex-shrink-0 w-72 h-44 rounded-xl overflow-hidden shadow-lg snap-center"
+                    >
+                      <Image
+                        src={imageUrl}
+                        alt={`Showcase ${idx + 1}`}
+                        fill
+                        className="object-cover"
+                        unoptimized={imageUrl.includes('localhost')}
+                      />
+                    </div>
+                  ) : null;
+                })}
+              </div>
+              {/* Scroll indicator */}
+              <div className="flex justify-center gap-1.5 mt-3">
+                {section.showcaseImages.slice(0, 6).map((_, idx) => (
                   <div
                     key={idx}
-                    className="relative w-64 h-40 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                    className="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600"
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Desktop: Grid layout */}
+            <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+              {section.showcaseImages.slice(0, 8).map((image, idx) => {
+                const imageUrl = getStrapiImageUrl(image);
+                return imageUrl ? (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: idx * 0.05 }}
+                    className="relative h-40 rounded-xl overflow-hidden shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
                   >
                     <Image
                       src={imageUrl}
                       alt={`Showcase ${idx + 1}`}
                       fill
                       className="object-cover"
+                      unoptimized={imageUrl.includes('localhost')}
                     />
-                  </div>
+                  </motion.div>
                 ) : null;
               })}
             </div>

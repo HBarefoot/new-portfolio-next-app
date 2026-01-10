@@ -75,9 +75,18 @@ export const getSiteSettings = () =>
 
 // Landing Pages
 export const getLandingPages = () =>
-  strapiApi.get('/landing-pages?populate=deep&filters[isActive][$eq]=true');
+  strapiApi.get('/landing-pages?populate[sections][populate]=*&filters[isActive][$eq]=true');
 
 export const getLandingPage = (slug: string) =>
-  strapiApi.get(`/landing-pages?filters[slug][$eq]=${slug}&populate=deep`);
+  strapiApi.get(`/landing-pages?filters[slug][$eq]=${slug}&populate[sections][populate]=*&populate[ogImage]=*`);
+
+// Fetch landing page by documentId (for draft preview)
+// Note: Strapi v5 single document endpoint requires URL-encoded nested populate for dynamic zones
+export const getLandingPageByDocumentId = (documentId: string, isDraft: boolean = false) => {
+  const statusParam = isDraft ? '&status=draft' : '';
+  // Use nested populate to get component items within sections dynamic zone
+  // Note: ogImage uses simple populate (=true) instead of populate=* to avoid validation errors
+  return strapiApi.get(`/landing-pages/${documentId}?populate[sections][populate]=*&populate[ogImage]=true${statusParam}`);
+};
 
 export default strapiApi;
