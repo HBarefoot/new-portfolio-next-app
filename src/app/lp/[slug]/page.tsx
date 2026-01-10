@@ -37,13 +37,14 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   try {
     let pageData: StrapiLandingPage | null = null;
     
-    // In draft mode with documentId, fetch by documentId
-    if (isDraft && documentId) {
-      const response = await getLandingPageByDocumentId(documentId, true);
-      pageData = response.data?.data || null;
-    } else {
-      const response = await getLandingPage(slug);
-      pageData = response.data?.data?.[0] || null;
+    // First, try to fetch by slug
+    const response = await getLandingPage(slug);
+    pageData = response.data?.data?.[0] || null;
+    
+    // Fallback to documentId if slug doesn't match
+    if (!pageData && documentId) {
+      const docResponse = await getLandingPageByDocumentId(documentId, isDraft);
+      pageData = docResponse.data?.data || null;
     }
     
     if (!pageData) {
@@ -86,16 +87,28 @@ export default async function LandingPage({ params, searchParams }: PageProps) {
   let pageData: StrapiLandingPage | null = null;
 
   try {
-    // In draft mode with documentId, fetch by documentId
-    if (isDraft && documentId) {
-      const response = await getLandingPageByDocumentId(documentId, true);
-      pageData = response.data?.data || null;
-    } else {
-      const response = await getLandingPage(slug);
-      pageData = response.data?.data?.[0] || null;
+    // First, try to fetch by slug (works for published pages)
+    const response = await getLandingPage(slug);
+    pageData = response.data?.data?.[0] || null;
+    
+    // If not found and we have documentId, try fetching by documentId
+    // This handles preview mode and cases where slug might differ
+    if (!pageData && documentId) {
+      const docResponse = await getLandingPageByDocumentId(documentId, isDraft);
+      pageData = docResponse.data?.data || null;
     }
   } catch (error) {
     console.error('Failed to fetch landing page:', error);
+    
+    // Fallback: try documentId if available
+    if (documentId) {
+      try {
+        const docResponse = await getLandingPageByDocumentId(documentId, isDraft);
+        pageData = docResponse.data?.data || null;
+      } catch (docError) {
+        console.error('Failed to fetch landing page by documentId:', docError);
+      }
+    }
   }
 
   if (!pageData) {

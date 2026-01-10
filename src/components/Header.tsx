@@ -77,7 +77,8 @@ const Header = () => {
               alt="Henry Barefoot Logo"
               width={140}
               height={40}
-              className="h-10 w-auto dark:brightness-110 dark:contrast-110"
+              className="h-10 dark:brightness-110 dark:contrast-110"
+              style={{ width: 'auto' }}
               priority
             />
           </Link>

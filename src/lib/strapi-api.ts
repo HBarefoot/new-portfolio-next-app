@@ -78,7 +78,8 @@ export const getLandingPages = () =>
   strapiApi.get('/landing-pages?populate[sections][populate]=*&filters[isActive][$eq]=true');
 
 export const getLandingPage = (slug: string) =>
-  strapiApi.get(`/landing-pages?filters[slug][$eq]=${slug}&populate[sections][populate]=*&populate[ogImage]=*`);
+  // Use simple populate for ogImage to avoid Strapi v5 validation errors
+  strapiApi.get(`/landing-pages?filters[slug][$eq]=${slug}&populate[sections][populate]=*&populate[ogImage]=true`);
 
 // Fetch landing page by documentId (for draft preview)
 // Note: Strapi v5 single document endpoint requires URL-encoded nested populate for dynamic zones
