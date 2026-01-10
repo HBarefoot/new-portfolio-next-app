@@ -116,42 +116,14 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        {/* Critical CSS for above-the-fold content - inlined to avoid render blocking */}
+        {/* Minimal critical CSS - only layout-critical styles that won't conflict with Tailwind */}
         <style dangerouslySetInnerHTML={{ __html: `
-          /* Critical base styles */
-          *,*::before,*::after{box-sizing:border-box}
-          body{margin:0;font-family:var(--font-inter),system-ui,sans-serif;background:#fff;color:#171717;overflow-x:hidden}
-          .dark body,.dark{background:#0a0a0a;color:#ededed}
-          html{scroll-behavior:smooth;overflow-x:hidden}
-          /* Critical layout */
-          .min-h-screen{min-height:100vh}
-          .flex{display:flex}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}
-          .text-center{text-align:center}.relative{position:relative}.absolute{position:absolute}.fixed{position:fixed}
-          .inset-0{top:0;right:0;bottom:0;left:0}
-          .container{width:100%;margin-left:auto;margin-right:auto;padding-left:1rem;padding-right:1rem}
-          @media(min-width:1024px){.container{max-width:1280px;padding-left:1.5rem;padding-right:1.5rem}}
-          /* LCP image container */
-          .rounded-full{border-radius:9999px}.overflow-hidden{overflow:hidden}
-          .w-64{width:16rem}.h-64{height:16rem}.w-full{width:100%}.h-full{height:100%}
-          .object-cover{object-fit:cover}
-          /* Gradient backgrounds */
-          .bg-gradient-to-br{background:linear-gradient(to bottom right,var(--tw-gradient-stops))}
-          .from-blue-400{--tw-gradient-from:#60a5fa;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
-          .to-purple-500{--tw-gradient-to:#a855f7}
-          .from-gray-50{--tw-gradient-from:#f9fafb;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
-          .to-gray-100{--tw-gradient-to:#f3f4f6}
-          /* Header critical */
-          .z-50{z-index:50}.bg-white{background:#fff}.shadow-sm{box-shadow:0 1px 2px 0 rgb(0 0 0/.05)}
-          .dark .bg-gray-950{background:#030712}
-          /* Typography critical */
-          .text-4xl{font-size:2.25rem;line-height:2.5rem}.text-xl{font-size:1.25rem;line-height:1.75rem}
-          .font-bold{font-weight:700}.font-semibold{font-weight:600}
-          /* Spacing */
-          .p-2{padding:.5rem}.p-4{padding:1rem}.py-4{padding-top:1rem;padding-bottom:1rem}.px-4{padding-left:1rem;padding-right:1rem}
-          .pt-16{padding-top:4rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}
-          /* Skeleton loading */
-          .animate-pulse{animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}
-          @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+          /* Prevent FOUC - minimal safe styles */
+          html{scroll-behavior:smooth}
+          body{margin:0}
+          /* Prevent layout shift for hero image container */
+          .hero-image-placeholder{width:320px;height:320px;border-radius:9999px}
+          @media(max-width:640px){.hero-image-placeholder{width:256px;height:256px}}
         `}} />
         
         {/* Preconnect hints for faster resource loading - establish connection early */}
