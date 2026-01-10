@@ -50,6 +50,10 @@ const nextConfig: NextConfig = {
     ],
   },
   
+  // Target modern browsers to reduce polyfill bundle size
+  // Removes ~14KB of unnecessary polyfills (Array.prototype.at, Object.fromEntries, etc.)
+  transpilePackages: [],
+  
   // Cache headers for static assets
   async headers() {
     return [

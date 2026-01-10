@@ -137,6 +137,7 @@ const Footer = () => {
               <motion.div
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
+                style={{ willChange: 'transform' }}
                 className="mx-1"
               >
                 <Heart size={14} className="text-red-500 fill-current" />

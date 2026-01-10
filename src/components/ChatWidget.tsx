@@ -292,18 +292,21 @@ const ChatWidget = () => {
                     <div className="flex gap-1">
                       <motion.span
                         className="w-2 h-2 bg-gray-400 rounded-full"
-                        animate={{ y: [0, -8, 0] }}
+                        animate={{ translateY: [0, -8, 0] }}
                         transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
+                        style={{ willChange: 'transform' }}
                       />
                       <motion.span
                         className="w-2 h-2 bg-gray-400 rounded-full"
-                        animate={{ y: [0, -8, 0] }}
+                        animate={{ translateY: [0, -8, 0] }}
                         transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
+                        style={{ willChange: 'transform' }}
                       />
                       <motion.span
                         className="w-2 h-2 bg-gray-400 rounded-full"
-                        animate={{ y: [0, -8, 0] }}
+                        animate={{ translateY: [0, -8, 0] }}
                         transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
+                        style={{ willChange: 'transform' }}
                       />
                     </div>
                   </div>

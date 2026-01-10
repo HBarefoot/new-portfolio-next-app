@@ -122,10 +122,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://connect.facebook.net" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         
-        {/* Google Tag Manager - deferred to not block rendering */}
+        {/* Google Tag Manager - lazy loaded after page is idle */}
         <Script
           id="gtm-script"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

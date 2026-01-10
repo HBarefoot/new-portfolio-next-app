@@ -380,16 +380,18 @@ const Hero = () => {
               
               {/* Floating Elements */}
               <motion.div
-                animate={{ y: [0, -10, 0] }}
+                animate={{ translateY: [0, -10, 0] }}
                 transition={{ duration: 3, repeat: Infinity }}
+                style={{ willChange: 'transform' }}
                 className="absolute -top-4 -right-4 bg-white rounded-full p-2 sm:p-3 shadow-lg"
               >
                 <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
               </motion.div>
               
               <motion.div
-                animate={{ y: [0, 10, 0] }}
+                animate={{ translateY: [0, 10, 0] }}
                 transition={{ duration: 3, repeat: Infinity, delay: 1 }}
+                style={{ willChange: 'transform' }}
                 className="absolute -bottom-4 -left-4 bg-white rounded-full p-3 sm:p-4 shadow-lg"
               >
                 <div className="text-blue-600 font-bold text-xs sm:text-sm">5+</div>
@@ -407,8 +409,9 @@ const Hero = () => {
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block"
         >
           <motion.div
-            animate={{ y: [0, 10, 0] }}
+            animate={{ translateY: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
+            style={{ willChange: 'transform' }}
             className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center cursor-pointer hover:border-blue-500 transition-colors"
             onClick={() => {
               const aboutSection = document.getElementById('about');
