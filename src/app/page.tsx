@@ -1,9 +1,12 @@
 import dynamic from 'next/dynamic';
 import Hero from '@/components/Hero';
-import About from '@/components/About';
 
 // Lazy load below-the-fold components to reduce initial JS bundle
 // These don't need to be in the critical rendering path
+const About = dynamic(() => import('@/components/About'), {
+  loading: () => <section className="py-20 bg-white dark:bg-gray-950"><div className="container mx-auto px-4"><div className="animate-pulse h-96"></div></div></section>,
+});
+
 const Skills = dynamic(() => import('@/components/Skills'), {
   loading: () => <section className="py-20 bg-gray-50 dark:bg-gray-900"><div className="container mx-auto px-4"><div className="animate-pulse h-96"></div></div></section>,
 });

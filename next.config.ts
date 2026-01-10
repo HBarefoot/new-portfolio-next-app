@@ -1,5 +1,10 @@
 import type { NextConfig } from "next";
 
+// Bundle analyzer setup - run with ANALYZE=true to see bundle visualization
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 const nextConfig: NextConfig = {
   // Enable SWC minification (faster than Terser)
   // swcMinify is enabled by default in Next.js 15+
@@ -51,6 +56,9 @@ const nextConfig: NextConfig = {
       '@vercel/analytics',
       'axios',
       'next-themes',
+      'phaser',        // Game engine - heavy package, only tree-shake what's used
+      '@n8n/chat',     // Chat widget package
+      '@formspree/react', // Contact form package
     ],
   },
   
@@ -104,4 +112,5 @@ const nextConfig: NextConfig = {
   turbopack: {},
 };
 
-export default nextConfig;
+// Export with bundle analyzer wrapper
+export default withBundleAnalyzer(nextConfig);
