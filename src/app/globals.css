@@ -3,6 +3,16 @@
 /* Tailwind CSS v4 dark mode - class-based strategy */
 @custom-variant dark (&:is(.dark, .dark *));
 
+/* Header responsive navigation - ensure proper hiding */
+@media (min-width: 1280px) {
+  .desktop-nav { display: flex !important; }
+  .mobile-nav { display: none !important; }
+}
+@media (max-width: 1279px) {
+  .desktop-nav { display: none !important; }
+  .mobile-nav { display: flex !important; }
+}
+
 /* CSS Variables - Light Mode */
 :root {
   --background: #ffffff;

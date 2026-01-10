@@ -113,8 +113,8 @@ const Header = () => {
             />
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          {/* Desktop Navigation - Only visible on xl (1280px+) */}
+          <nav className="desktop-nav items-center space-x-5">
             {navItems.map((item) => (
               item.isSection ? (
                 <button
@@ -138,8 +138,8 @@ const Header = () => {
             <ThemeToggle />
           </nav>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center gap-2">
+          {/* Mobile Menu Button - Hidden on xl (1280px+) */}
+          <div className="mobile-nav items-center gap-2">
             <ThemeToggle />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -171,7 +171,7 @@ const Header = () => {
 
         {/* Mobile Navigation - Animated Dropdown */}
         <div 
-          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          className={`xl:hidden overflow-hidden transition-all duration-300 ease-in-out ${
             isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
