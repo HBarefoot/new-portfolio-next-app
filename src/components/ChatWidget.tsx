@@ -174,7 +174,7 @@ const ChatWidget = () => {
       {/* Chat Toggle Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 p-3 sm:p-4 bg-gradient-to-r from-primary to-accent rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group ${
+        className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 p-3 sm:p-4 bg-gradient-to-r from-blue-600 to-blue-500 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 group ring-4 ring-blue-600/20 ${
           isOpen ? 'max-sm:hidden' : ''
         }`}
         whileHover={{ scale: 1.1 }}
@@ -202,7 +202,7 @@ const ChatWidget = () => {
               className="relative"
             >
               <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse" />
+              <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-green-500 rounded-full animate-pulse border-2 border-white shadow-lg" />
             </motion.div>
           )}
         </AnimatePresence>
@@ -219,7 +219,7 @@ const ChatWidget = () => {
             className="fixed bottom-0 right-0 left-0 z-40 w-full h-[100dvh] pt-16 sm:pt-0 sm:bottom-24 sm:right-6 sm:left-auto sm:w-[400px] sm:h-[600px] sm:max-h-[calc(100vh-200px)] sm:rounded-2xl bg-white dark:bg-gray-900 shadow-2xl flex flex-col overflow-hidden border-t border-gray-200 dark:border-gray-800 sm:border sm:border-gray-200 sm:dark:border-gray-800"
           >
             {/* Chat Header */}
-            <div className="bg-gradient-to-r from-primary to-accent p-3 sm:p-4 text-white flex-shrink-0">
+            <div className="bg-gradient-to-r from-blue-600 to-blue-500 p-3 sm:p-4 text-white flex-shrink-0">
               <div className="flex items-center gap-2 sm:gap-3">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
                   <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />

@@ -35,14 +35,14 @@ export default function LPHeroSection({ section, calendlyUrl }: Props) {
           src={imageUrl}
           alt=""
           fill
-          className="object-cover opacity-20"
+          className="object-cover blur-[2px]"
           priority
           unoptimized={isLocalhost}
         />
       )}
       
-      {/* Overlay */}
-      {!isLight && <div className="absolute inset-0 bg-black/30" />}
+      {/* Overlay - darker with blur for better text readability */}
+      <div className="absolute inset-0 bg-gray-900/80 backdrop-blur-sm" />
       
       <div className="relative container mx-auto px-4 lg:px-6 py-20">
         <div className="max-w-4xl mx-auto text-center">
