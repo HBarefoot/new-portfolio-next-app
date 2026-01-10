@@ -1,16 +1,23 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
+import dynamic from "next/dynamic";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import ChatWidget from "@/components/ChatWidget";
 import "./globals.css";
+
+// Lazy load ChatWidget - it's not needed for initial page render
+const ChatWidget = dynamic(() => import("@/components/ChatWidget"), {
+  loading: () => null, // Don't show anything while loading
+});
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+  preload: true,
 });
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-MGZ8LLPP';
