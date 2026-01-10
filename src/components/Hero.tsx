@@ -266,7 +266,7 @@ const Hero = () => {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center lg:text-left order-2 lg:order-1"
+            className="text-center lg:text-left order-2 lg:order-1 flex flex-col items-center lg:items-start"
           >
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
@@ -298,7 +298,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0"
+              className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed max-w-lg"
             >
               {loading ? (
                 <span className="space-y-2">
@@ -314,7 +314,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              className="flex flex-col sm:flex-row gap-4"
             >
               <button
                 onClick={() => scrollToSection('contact')}
@@ -338,12 +338,12 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.0 }}
-              className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start text-sm text-gray-600 dark:text-gray-400"
+              className="mt-8 flex flex-col sm:flex-row gap-4 text-sm text-gray-600 dark:text-gray-400"
             >
               {!loading && displayData.phone && (
                 <a
                   href={`tel:${displayData.phone.replace(/[^0-9]/g, '')}`}
-                  className="flex items-center justify-center lg:justify-start hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  className="flex items-center hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
                   <Phone size={16} className="mr-2" />
                   {displayData.phone}
@@ -352,7 +352,7 @@ const Hero = () => {
               {!loading && displayData.email && (
                 <a
                   href={`mailto:${displayData.email}`}
-                  className="flex items-center justify-center lg:justify-start hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  className="flex items-center hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
                   <Mail size={16} className="mr-2" />
                   {displayData.email}
@@ -361,14 +361,14 @@ const Hero = () => {
             </motion.div>
           </motion.div>
 
-          {/* Profile Image - LCP optimization: Always use local image first */}
+          {/* Profile Image - Use CMS image with local fallback for LCP */}
           <div className="flex justify-center lg:justify-end order-1 lg:order-2">
             <div className="relative">
               <div className="w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 p-2 shadow-2xl">
                 <div className="w-full h-full rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700">
-                  {/* LCP image - ALWAYS use local image to avoid CMS latency */}
+                  {/* Profile image - CMS with local fallback */}
                   <Image
-                    src="/henry-profile.webp"
+                    src={getStrapiImageUrl(heroData?.profileImage) || '/henry-profile.webp'}
                     alt={`${displayData.name} - ${displayData.title}`}
                     width={320}
                     height={320}
