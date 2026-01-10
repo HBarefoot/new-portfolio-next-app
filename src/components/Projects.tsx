@@ -181,9 +181,10 @@ const Projects = () => {
                             href={project.liveUrl}
                             target="_blank"
                             rel="noopener noreferrer"
+                            aria-label={`Visit ${project.title} live site`}
                             className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
                           >
-                            <ExternalLink size={20} />
+                            <ExternalLink size={20} aria-hidden="true" />
                           </motion.a>
                         )}
                       </div>
