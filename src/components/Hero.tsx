@@ -377,24 +377,21 @@ const Hero = () => {
               <div className="w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 p-2 shadow-2xl">
                 <div className="w-full h-full rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700">
                   {/* Show skeleton while loading, then ONE image (CMS or fallback) */}
-                  {loading ? (
-                    <div className="w-full h-full animate-pulse bg-gradient-to-br from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700 rounded-full" />
-                  ) : (
-                    <Image
-                      src={getStrapiImageUrl(heroData?.profileImage) || '/henry-profile.webp'}
-                      alt={`${displayData.name} - ${displayData.title}`}
-                      width={320}
-                      height={320}
-                      className="w-full h-full object-cover rounded-full"
-                      priority
-                      loading="eager"
-                      fetchPriority="high"
-                      quality={75}
-                      sizes="(max-width: 640px) 256px, (max-width: 1024px) 288px, 320px"
-                      placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAYH/8QAIhAAAgIBAwQDAAAAAAAAAAAAAQIDBAAFESEGEhMxQVGB/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgADESH/2gAMAwEAAhEDEEA/ANB6c6oh1qW/DPHLBZqSGKeCUAOh+H4QQCCCOQcUl2WMRx7J9mcYx0CrU7SY5sT/2Q=="
-                    />
-                  )}
+                  {/* Always render an image immediately for LCP - use fallback, swap to CMS when ready */}
+                  <Image
+                    src={(!loading && heroData?.profileImage) ? getStrapiImageUrl(heroData.profileImage) : '/henry-profile.webp'}
+                    alt={`${displayData.name} - ${displayData.title}`}
+                    width={320}
+                    height={320}
+                    className="w-full h-full object-cover rounded-full"
+                    priority
+                    loading="eager"
+                    fetchPriority="high"
+                    quality={75}
+                    sizes="(max-width: 640px) 256px, (max-width: 1024px) 288px, 320px"
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAYH/8QAIhAAAgIBAwQDAAAAAAAAAAAAAQIDBAAFESEGEhMxQVGB/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgADESH/2gAMAwEAAhEDEEA/ANB6c6oh1qW/DPHLBZqSGKeCUAOh+H4QQCCCOQcUl2WMRx7J9mcYx0CrU7SY5sT/2Q=="
+                  />
                 </div>
               </div>
               

@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import "./globals.css";
 
 // Lazy load ChatWidget - it's not needed for initial page render
@@ -13,11 +12,21 @@ const ChatWidget = dynamic(() => import("@/components/ChatWidget"), {
   loading: () => null, // Don't show anything while loading
 });
 
+// Lazy load Footer - it's at the bottom of the page, not needed for initial render
+// Using the lighter version without framer-motion
+const Footer = dynamic(() => import("@/components/FooterLight"), {
+  loading: () => <footer className="bg-gray-950 text-white py-12"><div className="container mx-auto px-4 h-64"></div></footer>,
+});
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
   preload: true,
+  // Only load the weights we actually use to reduce font file size
+  weight: ["400", "500", "600", "700"],
+  // Subset to only Latin characters (removes unnecessary glyphs)
+  fallback: ["system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
 });
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-MGZ8LLPP';
