@@ -19,7 +19,7 @@ const ProjectsGallery = () => {
     {
       title: "Yacht Transport AI Platform",
       description: "A comprehensive B2B maritime shipping platform that transforms yacht transportation. Built for Allied Yacht Transport, this production-ready application converts a traditionally manual, multi-day quote process into an instant, AI-powered experience delivering accurate quotes in minutes.",
-      image: "/yachttransport.png",
+      image: "/yachttransport.webp",
       category: "Full-Stack Platform",
       technologies: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "OpenAI", "DocuSign", "Mapbox"],
       features: [
@@ -35,7 +35,7 @@ const ProjectsGallery = () => {
     {
       title: "RAG (Retrieval-Augmented Generation) AI Workflow",
       description: "Advanced n8n workflow implementing RAG architecture for intelligent document processing and AI-powered responses. Features real-time data retrieval, vector embeddings, and context-aware AI responses.",
-      image: "/rag-project.png",
+      image: "/rag-project.webp",
       category: "AI Automation",
       technologies: ["n8n", "OpenAI", "Vector Database", "Telegram API", "RAG Architecture"],
       features: [
@@ -49,7 +49,7 @@ const ProjectsGallery = () => {
     {
       title: "Social Media Marketing Automation",
       description: "Comprehensive n8n workflow for automated social media content management. Integrates Google Sheets, AI content generation, and multi-platform posting with intelligent scheduling and optimization.",
-      image: "/social-media-workflow.png",
+      image: "/social-media-workflow.webp",
       category: "Marketing Automation",
       technologies: ["n8n", "Google Sheets", "OpenAI", "Social Media APIs", "Content Management"],
       features: [
@@ -151,8 +151,8 @@ const ProjectsGallery = () => {
                     width={800}
                     height={500}
                     className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
-                    priority={index === 0} // Add priority for first image (LCP optimization)
-                    unoptimized
+                    priority={index === 0}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                   />
                   
                   {/* Image Overlay */}

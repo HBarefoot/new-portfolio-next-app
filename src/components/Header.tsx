@@ -102,13 +102,14 @@ const Header = () => {
             className="flex items-center hover:opacity-80 transition-opacity"
           >
             <Image
-              src="/HBeat-youtube-logo.png"
+              src="/HBeat-youtube-logo.webp"
               alt="Henry Barefoot Logo"
               width={140}
               height={40}
               className="h-10 dark:brightness-110 dark:contrast-110"
               style={{ width: 'auto' }}
               priority
+              sizes="140px"
             />
           </Link>
 

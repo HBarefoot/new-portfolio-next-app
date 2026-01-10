@@ -365,7 +365,7 @@ const Hero = () => {
                     <div className="w-full h-full bg-gray-300 dark:bg-gray-600 animate-pulse"></div>
                   ) : (
                     <Image
-                      src={getStrapiImageUrl(heroData?.profileImage) || '/henry-profile.jpeg'}
+                      src={getStrapiImageUrl(heroData?.profileImage) || '/henry-profile.webp'}
                       alt={`${displayData.name} - ${displayData.title}`}
                       width={320}
                       height={320}
@@ -373,7 +373,6 @@ const Hero = () => {
                       priority
                       fetchPriority="high"
                       sizes="(max-width: 640px) 256px, (max-width: 1024px) 288px, 320px"
-                      unoptimized={!!getStrapiImageUrl(heroData?.profileImage)}
                     />
                   )}
                 </div>
