@@ -371,7 +371,9 @@ const Hero = () => {
                       height={320}
                       className="w-full h-full object-cover rounded-full"
                       priority
-                      unoptimized
+                      fetchPriority="high"
+                      sizes="(max-width: 640px) 256px, (max-width: 1024px) 288px, 320px"
+                      unoptimized={!!getStrapiImageUrl(heroData?.profileImage)}
                     />
                   )}
                 </div>

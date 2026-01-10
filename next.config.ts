@@ -23,6 +23,13 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+    // Optimize images for faster loading
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 31536000, // 1 year cache for optimized images
+  },
+  // Enable experimental features for better performance
+  experimental: {
+    optimizeCss: true, // Minimize CSS
   },
 };
 

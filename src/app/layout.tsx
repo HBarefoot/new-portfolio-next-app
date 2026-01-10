@@ -109,7 +109,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        {/* Google Tag Manager */}
+        {/* Preconnect hints for faster resource loading */}
+        <link rel="preconnect" href="https://cms.henrybarefoot.com" />
+        <link rel="dns-prefetch" href="https://cms.henrybarefoot.com" />
+        <link rel="preconnect" href="https://connect.facebook.net" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        
+        {/* Google Tag Manager - deferred to not block rendering */}
         <Script
           id="gtm-script"
           strategy="afterInteractive"
