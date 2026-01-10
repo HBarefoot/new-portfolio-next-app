@@ -1,11 +1,16 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getLandingPage, getLandingPages } from '@/lib/strapi-api';
+import { draftMode } from 'next/headers';
+import { getLandingPage, getLandingPages, getLandingPageByDocumentId } from '@/lib/strapi-api';
 import { StrapiLandingPage, LandingPageSection, getStrapiImageUrl } from '@/types/strapi';
 import LandingPageRenderer from './LandingPageRenderer';
 
+// Enable dynamic rendering for preview/draft support
+export const dynamic = 'force-dynamic';
+
 interface PageProps {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ documentId?: string }>;
 }
 
 // Generate static paths for active landing pages
@@ -24,12 +29,22 @@ export async function generateStaticParams() {
 }
 
 // Generate dynamic metadata
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const { slug } = await params;
+  const { documentId } = await searchParams;
+  const { isEnabled: isDraft } = await draftMode();
   
   try {
-    const response = await getLandingPage(slug);
-    const pageData = response.data?.data?.[0];
+    let pageData: StrapiLandingPage | null = null;
+    
+    // In draft mode with documentId, fetch by documentId
+    if (isDraft && documentId) {
+      const response = await getLandingPageByDocumentId(documentId, true);
+      pageData = response.data?.data || null;
+    } else {
+      const response = await getLandingPage(slug);
+      pageData = response.data?.data?.[0] || null;
+    }
     
     if (!pageData) {
       return {
@@ -63,14 +78,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
-export default async function LandingPage({ params }: PageProps) {
+export default async function LandingPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
+  const { documentId } = await searchParams;
+  const { isEnabled: isDraft } = await draftMode();
   
   let pageData: StrapiLandingPage | null = null;
 
   try {
-    const response = await getLandingPage(slug);
-    pageData = response.data?.data?.[0] || null;
+    // In draft mode with documentId, fetch by documentId
+    if (isDraft && documentId) {
+      const response = await getLandingPageByDocumentId(documentId, true);
+      pageData = response.data?.data || null;
+    } else {
+      const response = await getLandingPage(slug);
+      pageData = response.data?.data?.[0] || null;
+    }
   } catch (error) {
     console.error('Failed to fetch landing page:', error);
   }
@@ -79,18 +102,23 @@ export default async function LandingPage({ params }: PageProps) {
     notFound();
   }
 
-  // Check if page is active
-  if (!pageData.isActive) {
+  // In draft mode, allow viewing inactive pages
+  if (!isDraft && !pageData.isActive) {
     notFound();
   }
 
-  // Check expiry
-  if (pageData.expiresAt && new Date(pageData.expiresAt) < new Date()) {
+  // Check expiry (skip in draft mode)
+  if (!isDraft && pageData.expiresAt && new Date(pageData.expiresAt) < new Date()) {
     notFound();
   }
 
   return (
     <main className="min-h-screen">
+      {isDraft && (
+        <div className="bg-yellow-500 text-black text-center py-2 text-sm font-medium">
+          Preview Mode - This page is not published yet
+        </div>
+      )}
       <LandingPageRenderer 
         sections={pageData.sections || []} 
         calendlyUrl={pageData.calendlyUrl}
