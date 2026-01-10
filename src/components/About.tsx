@@ -89,20 +89,20 @@ const About = () => {
               </div>
             ) : (
               <div 
-                className="prose prose-lg text-gray-600 dark:text-gray-300"
+                className="prose prose-lg dark:prose-invert max-w-none"
                 dangerouslySetInnerHTML={{ __html: aboutData?.bio || `
-                  <p class="text-lg leading-relaxed">
+                  <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
                     Web Developer with 8+ years of experience building responsive websites and web applications. 
                     Proficient in JavaScript, PHP, React, and WordPress, with strong UI/UX sensibilities and 
                     back-end integration expertise.
                   </p>
                   
-                  <p class="text-lg leading-relaxed">
+                  <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
                     Proven ability to lead teams, manage workflows, and deliver results in fast-paced environments. 
                     I specialize in creating modern, scalable solutions that bridge the gap between design and functionality.
                   </p>
                   
-                  <p class="text-lg leading-relaxed">
+                  <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
                     Fluent in English and Spanish, I bring both technical expertise and cross-cultural communication 
                     skills to every project. My passion lies in solving complex problems through clean, efficient code 
                     and innovative thinking.
