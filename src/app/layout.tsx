@@ -116,23 +116,52 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
+        {/* Critical CSS for above-the-fold content - inlined to avoid render blocking */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          /* Critical hero styles */
+          body{margin:0;font-family:var(--font-inter),system-ui,sans-serif;background:#fff;color:#171717}
+          .dark body{background:#0a0a0a;color:#ededed}
+          /* Hero layout critical path */
+          .min-h-screen{min-height:100vh}
+          .flex{display:flex}.items-center{align-items:center}.justify-center{justify-content:center}
+          .text-center{text-align:center}.relative{position:relative}
+          /* LCP image container */
+          .rounded-full{border-radius:9999px}.overflow-hidden{overflow:hidden}
+          .w-64{width:16rem}.h-64{height:16rem}.object-cover{object-fit:cover}
+          /* Gradient background */
+          .bg-gradient-to-br{background:linear-gradient(to bottom right,var(--tw-gradient-stops))}
+          .from-blue-400{--tw-gradient-from:#60a5fa;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)}
+          .to-purple-500{--tw-gradient-to:#a855f7}
+        `}} />
+        
         {/* Preconnect hints for faster resource loading */}
         <link rel="preconnect" href="https://cms.henrybarefoot.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://cms.henrybarefoot.com" />
         <link rel="preconnect" href="https://connect.facebook.net" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
         
-        {/* Google Tag Manager - lazy loaded after page is idle */}
+        {/* Google Tag Manager - delayed until user interaction to avoid blocking LCP */}
         <Script
           id="gtm-script"
           strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','${GTM_ID}');
+              // Defer GTM until user interacts or 5 seconds pass
+              function loadGTM() {
+                if (window.gtmLoaded) return;
+                window.gtmLoaded = true;
+                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                })(window,document,'script','dataLayer','${GTM_ID}');
+              }
+              // Load on first interaction
+              ['scroll','click','touchstart','keydown'].forEach(function(e){
+                window.addEventListener(e, loadGTM, {once:true,passive:true});
+              });
+              // Fallback: load after 5 seconds
+              setTimeout(loadGTM, 5000);
             `,
           }}
         />

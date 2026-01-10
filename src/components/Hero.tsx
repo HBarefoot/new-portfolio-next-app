@@ -361,14 +361,14 @@ const Hero = () => {
             </motion.div>
           </motion.div>
 
-          {/* Profile Image - NO animation delay for LCP optimization */}
+          {/* Profile Image - LCP optimization: Always use local image first */}
           <div className="flex justify-center lg:justify-end order-1 lg:order-2">
             <div className="relative">
               <div className="w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 p-2 shadow-2xl">
                 <div className="w-full h-full rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700">
-                  {/* LCP image - renders immediately without JS blocking */}
+                  {/* LCP image - ALWAYS use local image to avoid CMS latency */}
                   <Image
-                    src={getStrapiImageUrl(heroData?.profileImage) || '/henry-profile.webp'}
+                    src="/henry-profile.webp"
                     alt={`${displayData.name} - ${displayData.title}`}
                     width={320}
                     height={320}
