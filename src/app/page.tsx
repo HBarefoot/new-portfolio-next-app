@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic';
 import Hero from '@/components/Hero';
+import { fetchHeroServer } from '@/lib/strapi-api';
 
 // Lazy load below-the-fold components to reduce initial JS bundle
 // These don't need to be in the critical rendering path
@@ -48,10 +49,13 @@ const GameSection = dynamic(
   }
 );
 
-export default function Home() {
+export default async function Home() {
+  // Fetch Hero data server-side to avoid image flash
+  const heroData = await fetchHeroServer();
+  
   return (
     <main>
-      <Hero />
+      <Hero initialData={heroData} />
       <About />
       <Skills />
       <Experience />

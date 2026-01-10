@@ -8,26 +8,23 @@ import { getHero } from '@/lib/strapi-api';
 import type { StrapiHero } from '@/types/strapi';
 import { getStrapiImageUrl } from '@/types/strapi';
 
-const Hero = () => {
-  const [heroData, setHeroData] = useState<StrapiHero | null>(null);
-  const [loading, setLoading] = useState(true);
+interface HeroProps {
+  initialData?: StrapiHero | null;
+}
+
+const Hero = ({ initialData }: HeroProps) => {
+  const [heroData, setHeroData] = useState<StrapiHero | null>(initialData || null);
+  const [loading, setLoading] = useState(!initialData);
 
   useEffect(() => {
+    // Skip fetch if we already have server-side data
+    if (initialData) return;
+    
     const fetchHeroData = async () => {
       try {
         const response = await getHero();
         const data = response.data.data;
         setHeroData(data);
-        
-        // Preload the CMS image once we know the URL - starts loading before React renders it
-        const imageUrl = getStrapiImageUrl(data?.profileImage);
-        if (imageUrl) {
-          const link = document.createElement('link');
-          link.rel = 'preload';
-          link.as = 'image';
-          link.href = imageUrl;
-          document.head.appendChild(link);
-        }
       } catch (error) {
         // Fallback data will be used below
       } finally {
@@ -36,7 +33,7 @@ const Hero = () => {
     };
 
     fetchHeroData();
-  }, []);
+  }, [initialData]);
   // Pre-calculate coordinates to avoid hydration mismatch
   const hubConnections = [
     { angle: 0, x: 270, y: 150 },

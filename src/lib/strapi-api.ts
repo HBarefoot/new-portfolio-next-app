@@ -13,6 +13,27 @@ const strapiApi = axios.create({
 // Helper functions for API calls
 export const getHero = () => strapiApi.get('/hero?populate=*');
 
+// Server-side fetch for Hero (no axios wrapper for server components)
+export async function fetchHeroServer() {
+  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
+  try {
+    const res = await fetch(`${baseUrl}/hero?populate=*`, {
+      next: { revalidate: 60 }, // Cache for 60 seconds
+      headers: {
+        'Content-Type': 'application/json',
+        ...(process.env.STRAPI_API_KEY && {
+          'Authorization': `Bearer ${process.env.STRAPI_API_KEY}`
+        }),
+      },
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.data || null;
+  } catch {
+    return null;
+  }
+}
+
 export const getAbout = () => strapiApi.get('/about?populate=*');
 
 export const getSkills = () => 
