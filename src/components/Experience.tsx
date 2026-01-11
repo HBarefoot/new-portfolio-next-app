@@ -5,15 +5,20 @@ import { Building, Calendar, MapPin } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { getExperiences } from '@/lib/strapi-api';
 import type { StrapiExperience } from '@/types/strapi';
+import type { Locale } from '@/lib/i18n';
 
-const ExperienceSection = () => {
+interface ExperienceSectionProps {
+  locale?: Locale;
+}
+
+const ExperienceSection = ({ locale = 'en' }: ExperienceSectionProps) => {
   const [experiences, setExperiences] = useState<StrapiExperience[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchExperiences = async () => {
       try {
-        const response = await getExperiences();
+        const response = await getExperiences(locale);
         const fetchedExperiences = response.data.data;
         // Only set experiences if we actually got data
         if (fetchedExperiences && fetchedExperiences.length > 0) {
@@ -29,7 +34,7 @@ const ExperienceSection = () => {
     };
 
     fetchExperiences();
-  }, []);
+  }, [locale]);
 
   // Minimal fallback data (since full data is now managed in Strapi)
   const fallbackExperiences: StrapiExperience[] = [];

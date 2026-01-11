@@ -2,20 +2,20 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { draftMode } from 'next/headers';
 import { getLandingPage, getLandingPages, getLandingPageByDocumentId } from '@/lib/strapi-api';
-import { StrapiLandingPage, LandingPageSection, getStrapiImageUrl } from '@/types/strapi';
-import LandingPageRenderer from './LandingPageRenderer';
+import { StrapiLandingPage, getStrapiImageUrl } from '@/types/strapi';
+import LandingPageRenderer from '@/app/lp/[slug]/LandingPageRenderer';
 
 // Enable dynamic rendering for preview/draft support
 export const dynamic = 'force-dynamic';
 
-const LOCALE = 'en';
+const LOCALE = 'es';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ documentId?: string }>;
 }
 
-// Generate static paths for active landing pages
+// Generate static paths for active Spanish landing pages
 export async function generateStaticParams() {
   try {
     const response = await getLandingPages(LOCALE);
@@ -25,7 +25,7 @@ export async function generateStaticParams() {
       slug: page.slug,
     }));
   } catch (error) {
-    console.error('Failed to generate landing page params:', error);
+    console.error('Failed to generate Spanish landing page params:', error);
     return [];
   }
 }
@@ -51,7 +51,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
     
     if (!pageData) {
       return {
-        title: 'Page Not Found',
+        title: 'Página No Encontrada',
       };
     }
 
@@ -65,6 +65,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
         description: pageData.metaDescription || undefined,
         images: ogImage ? [ogImage] : undefined,
         type: 'website',
+        locale: 'es_ES',
       },
       twitter: {
         card: 'summary_large_image',
@@ -73,7 +74,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
         images: ogImage ? [ogImage] : undefined,
       },
       alternates: {
-        canonical: `https://next.henrybarefoot.com/lp/${slug}`,
+        canonical: `https://next.henrybarefoot.com/es/lp/${slug}`,
         languages: {
           'en': `https://next.henrybarefoot.com/lp/${slug}`,
           'es': `https://next.henrybarefoot.com/es/lp/${slug}`,
@@ -81,14 +82,14 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
       },
     };
   } catch (error) {
-    console.error('Failed to generate landing page metadata:', error);
+    console.error('Failed to generate Spanish landing page metadata:', error);
     return {
-      title: 'Landing Page',
+      title: 'Página de Aterrizaje',
     };
   }
 }
 
-export default async function LandingPage({ params, searchParams }: PageProps) {
+export default async function SpanishLandingPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
   const { documentId } = await searchParams;
   const { isEnabled: isDraft } = await draftMode();
@@ -107,7 +108,7 @@ export default async function LandingPage({ params, searchParams }: PageProps) {
       pageData = docResponse.data?.data || null;
     }
   } catch (error) {
-    console.error('Failed to fetch landing page:', error);
+    console.error('Failed to fetch Spanish landing page:', error);
     
     // Fallback: try documentId if available
     if (documentId) {
@@ -115,7 +116,7 @@ export default async function LandingPage({ params, searchParams }: PageProps) {
         const docResponse = await getLandingPageByDocumentId(documentId, isDraft, LOCALE);
         pageData = docResponse.data?.data || null;
       } catch (docError) {
-        console.error('Failed to fetch landing page by documentId:', docError);
+        console.error('Failed to fetch Spanish landing page by documentId:', docError);
       }
     }
   }
@@ -138,7 +139,7 @@ export default async function LandingPage({ params, searchParams }: PageProps) {
     <main className="min-h-screen">
       {isDraft && (
         <div className="bg-yellow-500 text-black text-center py-2 text-sm font-medium">
-          Preview Mode - This page is not published yet
+          Modo de Vista Previa - Esta página aún no está publicada
         </div>
       )}
       <LandingPageRenderer 

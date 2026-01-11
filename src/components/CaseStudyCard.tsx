@@ -5,14 +5,32 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { StrapiCaseStudy, getStrapiImageUrl } from '@/types/strapi';
 import { Calendar, Clock, ExternalLink } from 'lucide-react';
+import type { Locale } from '@/lib/i18n';
+import { localizePathname } from '@/lib/i18n';
+
+const translations = {
+  en: {
+    featured: 'Featured',
+    readCaseStudy: 'Read Case Study',
+    more: 'more',
+  },
+  es: {
+    featured: 'Destacado',
+    readCaseStudy: 'Leer Caso de Estudio',
+    more: 'más',
+  },
+};
 
 interface CaseStudyCardProps {
   caseStudy: StrapiCaseStudy;
   index: number;
+  locale?: Locale;
 }
 
-const CaseStudyCard = ({ caseStudy, index }: CaseStudyCardProps) => {
+const CaseStudyCard = ({ caseStudy, index, locale = 'en' }: CaseStudyCardProps) => {
+  const t = translations[locale];
   const heroImageUrl = getStrapiImageUrl(caseStudy.heroImage);
+  const caseStudyPath = localizePathname(`/case-studies/${caseStudy.slug}`, locale);
 
   return (
     <motion.div
@@ -22,7 +40,7 @@ const CaseStudyCard = ({ caseStudy, index }: CaseStudyCardProps) => {
       viewport={{ once: true }}
       className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl dark:shadow-gray-900/30 transition-all duration-300 group"
     >
-      <Link href={`/case-studies/${caseStudy.slug}`}>
+      <Link href={caseStudyPath}>
         {/* Hero Image */}
         <div className="relative h-64 overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600">
           {heroImageUrl ? (
@@ -47,7 +65,7 @@ const CaseStudyCard = ({ caseStudy, index }: CaseStudyCardProps) => {
           {/* Featured Badge */}
           {caseStudy.featured && (
             <div className="absolute top-4 left-4 bg-yellow-500 px-3 py-1 rounded-full text-white text-xs font-bold">
-              Featured
+              {t.featured}
             </div>
           )}
         </div>
@@ -113,7 +131,7 @@ const CaseStudyCard = ({ caseStudy, index }: CaseStudyCardProps) => {
               ))}
               {caseStudy.technologies.length > 4 && (
                 <span className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full text-xs font-medium">
-                  +{caseStudy.technologies.length - 4} more
+                  +{caseStudy.technologies.length - 4} {t.more}
                 </span>
               )}
             </div>
@@ -122,7 +140,7 @@ const CaseStudyCard = ({ caseStudy, index }: CaseStudyCardProps) => {
           {/* CTA */}
           <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
             <span className="text-blue-600 dark:text-blue-400 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-2">
-              Read Case Study
+              {t.readCaseStudy}
               <ExternalLink className="w-4 h-4" />
             </span>
             {caseStudy.role && (

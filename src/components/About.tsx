@@ -5,15 +5,20 @@ import { Code, Users, Globe, Award } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { getAbout } from '@/lib/strapi-api';
 import type { StrapiAbout } from '@/types/strapi';
+import type { Locale } from '@/lib/i18n';
 
-const About = () => {
+interface AboutProps {
+  locale?: Locale;
+}
+
+const About = ({ locale = 'en' }: AboutProps) => {
   const [aboutData, setAboutData] = useState<StrapiAbout | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAboutData = async () => {
       try {
-        const response = await getAbout();
+        const response = await getAbout(locale);
         setAboutData(response.data.data);
       } catch (error) {
         console.error('Failed to fetch about data:', error);
@@ -23,7 +28,7 @@ const About = () => {
     };
 
     fetchAboutData();
-  }, []);
+  }, [locale]);
 
   // Fallback highlights
   const defaultHighlights = [

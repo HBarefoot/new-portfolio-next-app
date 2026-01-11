@@ -7,15 +7,20 @@ import { getProjects } from '@/lib/strapi-api';
 import type { StrapiProject } from '@/types/strapi';
 import { getStrapiImageUrl } from '@/types/strapi';
 import Image from 'next/image';
+import type { Locale } from '@/lib/i18n';
 
-const Projects = () => {
+interface ProjectsProps {
+  locale?: Locale;
+}
+
+const Projects = ({ locale = 'en' }: ProjectsProps) => {
   const [projects, setProjects] = useState<StrapiProject[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await getProjects();
+        const response = await getProjects({ locale });
         setProjects(response.data.data);
       } catch (error) {
         console.error('Failed to fetch projects:', error);
@@ -25,7 +30,7 @@ const Projects = () => {
     };
 
     fetchProjects();
-  }, []);
+  }, [locale]);
 
   // Fallback projects
   const fallbackProjects = [

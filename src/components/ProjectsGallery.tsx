@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { ExternalLink, Code, Workflow, Zap, Database } from 'lucide-react';
 import Image from 'next/image';
+import type { Locale } from '@/lib/i18n';
 
 interface GalleryProject {
   title: string;
@@ -14,7 +15,11 @@ interface GalleryProject {
   link?: string;
 }
 
-const ProjectsGallery = () => {
+interface ProjectsGalleryProps {
+  locale?: Locale;
+}
+
+const ProjectsGallery = ({ locale = 'en' }: ProjectsGalleryProps) => {
   const galleryProjects: GalleryProject[] = [
     {
       title: "Yacht Transport AI Platform",

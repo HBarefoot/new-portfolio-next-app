@@ -7,15 +7,45 @@ import { useEffect, useState } from 'react';
 import { getCaseStudies } from '@/lib/strapi-api';
 import type { StrapiCaseStudy, StrapiEntity } from '@/types/strapi';
 import CaseStudyCard from './CaseStudyCard';
+import type { Locale } from '@/lib/i18n';
+import { localizePathname } from '@/lib/i18n';
 
-const CaseStudiesSection = () => {
+// Translations
+const translations = {
+  en: {
+    badge: 'Featured Work',
+    title: 'Case Studies',
+    subtitle: 'Real-world projects showcasing measurable results and innovative solutions that drive business success.',
+    viewAll: 'View All Case Studies',
+    efficiencyGain: 'Average Efficiency Gain',
+    satisfaction: 'Client Satisfaction Rate',
+    savings: 'In Cost Savings Generated',
+  },
+  es: {
+    badge: 'Trabajo Destacado',
+    title: 'Casos de Estudio',
+    subtitle: 'Proyectos del mundo real que muestran resultados medibles y soluciones innovadoras que impulsan el éxito empresarial.',
+    viewAll: 'Ver Todos los Casos de Estudio',
+    efficiencyGain: 'Ganancia de Eficiencia Promedio',
+    satisfaction: 'Tasa de Satisfacción del Cliente',
+    savings: 'En Ahorros de Costos Generados',
+  },
+};
+
+interface CaseStudiesSectionProps {
+  locale?: Locale;
+}
+
+const CaseStudiesSection = ({ locale = 'en' }: CaseStudiesSectionProps) => {
+  const t = translations[locale];
+  const caseStudiesPath = localizePathname('/case-studies', locale);
   const [caseStudies, setCaseStudies] = useState<StrapiCaseStudy[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCaseStudies = async () => {
       try {
-        const response = await getCaseStudies();
+        const response = await getCaseStudies({ locale });
         const data = response.data.data;
         // Get only featured case studies (Strapi v5 flat structure - no .attributes)
         const featured = data.filter((cs: any) => cs.featured === true).slice(0, 3);
@@ -28,7 +58,7 @@ const CaseStudiesSection = () => {
     };
 
     fetchCaseStudies();
-  }, []);
+  }, [locale]);
 
   // Don't render if no case studies and not loading
   if (!loading && caseStudies.length === 0) {
@@ -47,15 +77,15 @@ const CaseStudiesSection = () => {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-full text-sm font-medium mb-4">
             <Award className="w-4 h-4" />
-            <span>Featured Work</span>
+            <span>{t.badge}</span>
           </div>
           
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Case Studies
+            {t.title}
           </h2>
           <div className="w-24 h-1 bg-blue-600 dark:bg-blue-500 mx-auto mb-6"></div>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Real-world projects showcasing measurable results and innovative solutions that drive business success.
+            {t.subtitle}
           </p>
         </motion.div>
 
@@ -80,6 +110,7 @@ const CaseStudiesSection = () => {
                 key={caseStudy.id}
                 caseStudy={caseStudy}
                 index={index}
+                locale={locale}
               />
             ))}
           </div>
@@ -95,10 +126,10 @@ const CaseStudiesSection = () => {
             className="text-center mt-12"
           >
             <Link
-              href="/case-studies"
+              href={caseStudiesPath}
               className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl group"
             >
-              View All Case Studies
+              {t.viewAll}
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
@@ -118,21 +149,21 @@ const CaseStudiesSection = () => {
                 <TrendingUp className="w-6 h-6" />
               </div>
               <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">95%</div>
-              <div className="text-gray-600 dark:text-gray-400">Average Efficiency Gain</div>
+              <div className="text-gray-600 dark:text-gray-400">{t.efficiencyGain}</div>
             </div>
             <div>
               <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-600 text-white rounded-lg mb-4">
                 <Award className="w-6 h-6" />
               </div>
               <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">100%</div>
-              <div className="text-gray-600 dark:text-gray-400">Client Satisfaction Rate</div>
+              <div className="text-gray-600 dark:text-gray-400">{t.satisfaction}</div>
             </div>
             <div>
               <div className="inline-flex items-center justify-center w-12 h-12 bg-green-600 text-white rounded-lg mb-4">
                 <TrendingUp className="w-6 h-6" />
               </div>
               <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">$500K+</div>
-              <div className="text-gray-600 dark:text-gray-400">In Cost Savings Generated</div>
+              <div className="text-gray-600 dark:text-gray-400">{t.savings}</div>
             </div>
           </div>
         </motion.div>

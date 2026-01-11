@@ -5,15 +5,20 @@ import { Code, Database, Wrench, Globe } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { getSkills } from '@/lib/strapi-api';
 import type { StrapiSkill } from '@/types/strapi';
+import type { Locale } from '@/lib/i18n';
 
-const Skills = () => {
+interface SkillsProps {
+  locale?: Locale;
+}
+
+const Skills = ({ locale = 'en' }: SkillsProps) => {
   const [skills, setSkills] = useState<StrapiSkill[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSkills = async () => {
       try {
-        const response = await getSkills();
+        const response = await getSkills(locale);
         const fetchedSkills = response.data.data;
         // Only set skills if we actually got data
         if (fetchedSkills && fetchedSkills.length > 0) {
@@ -29,7 +34,7 @@ const Skills = () => {
     };
 
     fetchSkills();
-  }, []);
+  }, [locale]);
 
   // Group skills by category
   const groupedSkills = skills.reduce((acc: Record<string, StrapiSkill[]>, skill) => {

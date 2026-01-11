@@ -1,17 +1,22 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import ThemeToggle from './ThemeToggle';
+import { localizePathname, getLocaleFromPathname, type Locale } from '@/lib/i18n';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const isHomePage = pathname === '/';
+  const locale = getLocaleFromPathname(pathname) as Locale;
+  const isHomePage = pathname === '/' || pathname === '/es';
+  
+  // Memoize localized paths to avoid recalculating on every render
+  const homePath = useMemo(() => localizePathname('/', locale), [locale]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,7 +62,7 @@ const Header = () => {
         scrollToSection(item.href);
       } else {
         // On other page - navigate to home with anchor
-        window.location.href = `/#${item.href}`;
+        window.location.href = `${homePath}#${item.href}`;
       }
     }
     setIsMenuOpen(false);
@@ -71,19 +76,20 @@ const Header = () => {
     }
   };
 
-  const navItems = [
+  // Memoize navItems to prevent recalculation on every render
+  const navItems = useMemo(() => [
     { label: 'Home', href: 'hero', isSection: true },
     { label: 'About', href: 'about', isSection: true },
     { label: 'Skills', href: 'skills', isSection: true },
     { label: 'Experience', href: 'experience', isSection: true },
     { label: 'Projects', href: 'projects', isSection: true },
-    { label: 'Case Studies', href: '/case-studies', isSection: false },
+    { label: 'Case Studies', href: localizePathname('/case-studies', locale), isSection: false },
     { label: 'Gallery', href: 'projects-gallery', isSection: true },
     { label: 'Game', href: 'game', isSection: true },
-    { label: 'Blog', href: '/blog', isSection: false },
-    { label: 'Course', href: '/fullStack-course', isSection: false },
+    { label: 'Blog', href: localizePathname('/blog', locale), isSection: false },
+    { label: 'Course', href: localizePathname('/fullStack-course', locale), isSection: false },
     { label: 'Contact', href: 'contact', isSection: true },
-  ];
+  ], [locale]);
 
   return (
     <header
@@ -98,7 +104,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link
-            href="/"
+            href={homePath}
             className="flex items-center hover:opacity-80 transition-opacity"
           >
             <Image

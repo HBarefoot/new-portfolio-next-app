@@ -7,12 +7,14 @@ import { useEffect, useState } from 'react';
 import { getHero } from '@/lib/strapi-api';
 import type { StrapiHero } from '@/types/strapi';
 import { getStrapiImageUrl } from '@/types/strapi';
+import type { Locale } from '@/lib/i18n';
 
 interface HeroProps {
   initialData?: StrapiHero | null;
+  locale?: Locale;
 }
 
-const Hero = ({ initialData }: HeroProps) => {
+const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
   const [heroData, setHeroData] = useState<StrapiHero | null>(initialData || null);
   const [loading, setLoading] = useState(!initialData);
 
@@ -22,7 +24,7 @@ const Hero = ({ initialData }: HeroProps) => {
     
     const fetchHeroData = async () => {
       try {
-        const response = await getHero();
+        const response = await getHero(locale);
         const data = response.data.data;
         setHeroData(data);
       } catch (error) {
@@ -33,7 +35,7 @@ const Hero = ({ initialData }: HeroProps) => {
     };
 
     fetchHeroData();
-  }, [initialData]);
+  }, [initialData, locale]);
   // Pre-calculate coordinates to avoid hydration mismatch
   const hubConnections = [
     { angle: 0, x: 270, y: 150 },

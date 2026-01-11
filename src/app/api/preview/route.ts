@@ -10,6 +10,7 @@ export async function GET(request: Request) {
   const contentType = searchParams.get("contentType");
   const url = searchParams.get("url");
   const status = searchParams.get("status");
+  const locale = searchParams.get("locale") || "en";
 
   // Check the secret and next parameters
   // This secret should only be known to this route handler and the CMS
@@ -30,28 +31,26 @@ export async function GET(request: Request) {
   let previewUrl = "/";
   
   if (url) {
-    // If explicit URL provided, use it
+    // If explicit URL provided by Strapi, use it directly
+    // Strapi now sends locale-prefixed URLs (e.g., /es/blog/slug)
     previewUrl = url;
   } else if (slug && contentType) {
-    // Construct URL based on content type
+    // Fallback: Construct URL based on content type
+    const localePrefix = locale && locale !== 'en' ? `/${locale}` : '';
+    
     if (contentType === "api::case-study.case-study") {
-      previewUrl = `/case-studies/${slug}`;
+      previewUrl = `${localePrefix}/case-studies/${slug}`;
     } else if (contentType === "api::blog-post.blog-post") {
-      previewUrl = `/blog/${slug}`;
+      previewUrl = `${localePrefix}/blog/${slug}`;
     } else if (contentType === "api::project.project") {
-      previewUrl = `/projects/${slug}`;
+      previewUrl = `${localePrefix}/projects/${slug}`;
     } else if (contentType === "api::landing-page.landing-page") {
-      previewUrl = `/lp/${slug}`;
+      previewUrl = `${localePrefix}/lp/${slug}`;
     }
   } else if (slug) {
     // Fallback: try case studies first (most common)
-    previewUrl = `/case-studies/${slug}`;
-  }
-
-  // Add documentId as query param for draft mode fetching
-  if (documentId) {
-    const separator = previewUrl.includes("?") ? "&" : "?";
-    previewUrl = `${previewUrl}${separator}documentId=${documentId}`;
+    const localePrefix = locale && locale !== 'en' ? `/${locale}` : '';
+    previewUrl = `${localePrefix}/case-studies/${slug}`;
   }
 
   // Redirect to the path from the fetched post
