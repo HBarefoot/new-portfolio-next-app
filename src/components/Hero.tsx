@@ -3,8 +3,6 @@
 import { motion } from 'framer-motion';
 import { Download, Mail, Phone } from 'lucide-react';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { getHero } from '@/lib/strapi-api';
 import type { StrapiHero } from '@/types/strapi';
 import { getStrapiImageUrl } from '@/types/strapi';
 import type { Locale } from '@/lib/i18n';
@@ -15,27 +13,9 @@ interface HeroProps {
 }
 
 const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
-  const [heroData, setHeroData] = useState<StrapiHero | null>(initialData || null);
-  const [loading, setLoading] = useState(!initialData);
+  // Use server-provided data directly - no client-side state needed
+  const heroData = initialData;
 
-  useEffect(() => {
-    // Skip fetch if we already have server-side data
-    if (initialData) return;
-    
-    const fetchHeroData = async () => {
-      try {
-        const response = await getHero(locale);
-        const data = response.data.data;
-        setHeroData(data);
-      } catch (error) {
-        // Fallback data will be used below
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchHeroData();
-  }, [initialData, locale]);
   // Pre-calculate coordinates to avoid hydration mismatch
   const hubConnections = [
     { angle: 0, x: 270, y: 150 },
@@ -66,8 +46,8 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
 
   const handleDownloadResume = () => {
     // Create a link to download resume
-    const resumeUrl = heroData?.resumeFile?.data?.attributes?.url 
-      ? `${process.env.NEXT_PUBLIC_STRAPI_MEDIA_URL}${heroData.resumeFile.data.attributes.url}` 
+    const resumeUrl = heroData?.resumeFile?.data?.attributes?.url
+      ? `${process.env.NEXT_PUBLIC_STRAPI_MEDIA_URL}${heroData.resumeFile.data.attributes.url}`
       : '/Resume_HB.pdf';
     const link = document.createElement('a');
     link.href = resumeUrl;
@@ -77,7 +57,7 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
     document.body.removeChild(link);
   };
 
-  // Fallback data for when Strapi is not available
+  // Fallback data for when Strapi is not available - used directly, no state changes
   const displayData = heroData || {
     name: 'Henry Barefoot',
     title: 'SR. WEB DEVELOPER',
@@ -86,6 +66,11 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
     email: 'henrybarefoot1987@gmail.com',
     phone: '(954) 540-1902'
   };
+
+  // Determine image source - computed once, no state dependency
+  const imageSrc = heroData?.profileImage
+    ? getStrapiImageUrl(heroData.profileImage)
+    : '/henry-profile.webp';
 
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900 pt-16 relative overflow-hidden">
@@ -110,7 +95,7 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
               transition={{ duration: 4, repeat: Infinity }}
               className="opacity-80"
             />
-            
+
             {/* Radiating Connection Lines - Adjusted for smaller SVG */}
             {hubConnections.map((connection, i) => (
               <g key={`connection-${i}`}>
@@ -124,8 +109,8 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
                   strokeDasharray="5,5"
                   initial={{ pathLength: 0 }}
                   animate={{ pathLength: 1 }}
-                  transition={{ 
-                    duration: 2, 
+                  transition={{
+                    duration: 2,
                     delay: i * 0.2,
                     repeat: Infinity,
                     repeatType: "loop",
@@ -133,7 +118,7 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
                   }}
                   className="opacity-70"
                 />
-                
+
                 {/* Flowing Data Particles - Fixed initial position to prevent undefined cx/cy */}
                 <motion.circle
                   r="3"
@@ -155,21 +140,21 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
                     ease: "easeInOut"
                   }}
                 />
-                
+
                 {/* End Nodes */}
                 <motion.circle
                   cx={125 + (connection.x - 150) * 0.8}
                   cy={125 + (connection.y - 150) * 0.8}
                   r="6"
                   fill="#8b5cf6"
-                  animate={{ 
+                  animate={{
                     scale: [0.8, 1.3, 0.8],
                     opacity: [0.5, 0.9, 0.5]
                   }}
-                  transition={{ 
-                    duration: 3, 
+                  transition={{
+                    duration: 3,
                     delay: i * 0.2,
-                    repeat: Infinity 
+                    repeat: Infinity
                   }}
                 />
               </g>
@@ -194,14 +179,14 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
               height="30"
               rx="6"
               fill="#06b6d4"
-              animate={{ 
+              animate={{
                 scale: [1, 1.2, 1],
                 rotate: [0, 180, 360]
               }}
               transition={{ duration: 8, repeat: Infinity }}
               className="opacity-70"
             />
-            
+
             {/* Radiating Lines - Adjusted for smaller viewport */}
             {secondaryHubConnections.map((connection, i) => (
               <g key={`secondary-${i}`}>
@@ -215,8 +200,8 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
                   strokeDasharray="4,3"
                   initial={{ pathLength: 0 }}
                   animate={{ pathLength: 1 }}
-                  transition={{ 
-                    duration: 3, 
+                  transition={{
+                    duration: 3,
                     delay: i * 0.3,
                     repeat: Infinity,
                     repeatType: "loop",
@@ -224,7 +209,7 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
                   }}
                   className="opacity-60"
                 />
-                
+
                 {/* Data Flow - Fixed initial position to prevent undefined cx/cy */}
                 <motion.circle
                   r="2"
@@ -246,19 +231,19 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
                     ease: "easeOut"
                   }}
                 />
-                
+
                 {/* Target Nodes */}
                 <motion.polygon
                   points={`${100 + (connection.x - 125) * 0.7},${100 + (connection.y - 125) * 0.7 - 4} ${100 + (connection.x - 125) * 0.7 + 4},${100 + (connection.y - 125) * 0.7 + 4} ${100 + (connection.x - 125) * 0.7 - 4},${100 + (connection.y - 125) * 0.7 + 4}`}
                   fill="#f59e0b"
-                  animate={{ 
+                  animate={{
                     scale: [0.7, 1.4, 0.7],
                     opacity: [0.4, 0.8, 0.4]
                   }}
-                  transition={{ 
-                    duration: 4, 
+                  transition={{
+                    duration: 4,
                     delay: i * 0.3,
-                    repeat: Infinity 
+                    repeat: Infinity
                   }}
                 />
               </g>
@@ -283,42 +268,27 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4"
             >
-              {loading ? (
-                <span className="inline-block bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-12 w-64"></span>
-              ) : (
-                displayData.name
-              )}
+              {displayData.name}
             </motion.h1>
-            
+
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-lg sm:text-xl md:text-2xl text-blue-600 dark:text-blue-400 font-semibold mb-6"
             >
-              {loading ? (
-                <span className="inline-block bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-8 w-48"></span>
-              ) : (
-                displayData.title
-              )}
+              {displayData.title}
             </motion.p>
-            
+
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed max-w-lg"
             >
-              {loading ? (
-                <span className="space-y-2">
-                  <span className="inline-block bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-6 w-full"></span>
-                  <span className="inline-block bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-6 w-3/4"></span>
-                </span>
-              ) : (
-                displayData.description
-              )}
+              {displayData.description}
             </motion.p>
-            
+
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -332,7 +302,7 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
                 <Mail className="mr-2" size={20} />
                 Get In Touch
               </button>
-              
+
               <button
                 onClick={handleDownloadResume}
                 className="inline-flex items-center justify-center px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-lg hover:border-blue-600 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-colors"
@@ -349,7 +319,7 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
               transition={{ duration: 0.8, delay: 1.0 }}
               className="mt-8 flex flex-col sm:flex-row gap-4 text-sm text-gray-600 dark:text-gray-400"
             >
-              {!loading && displayData.phone && (
+              {displayData.phone && (
                 <a
                   href={`tel:${displayData.phone.replace(/[^0-9]/g, '')}`}
                   className="flex items-center hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
@@ -358,7 +328,7 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
                   {displayData.phone}
                 </a>
               )}
-              {!loading && displayData.email && (
+              {displayData.email && (
                 <a
                   href={`mailto:${displayData.email}`}
                   className="flex items-center hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
@@ -370,15 +340,13 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
             </motion.div>
           </motion.div>
 
-          {/* Profile Image - Skeleton while loading, then single image from CMS or fallback */}
+          {/* Profile Image - No conditional rendering based on state */}
           <div className="flex justify-center lg:justify-end order-1 lg:order-2">
             <div className="relative">
               <div className="w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 p-2 shadow-2xl">
                 <div className="w-full h-full rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700">
-                  {/* Show skeleton while loading, then ONE image (CMS or fallback) */}
-                  {/* Always render an image immediately for LCP - use fallback, swap to CMS when ready */}
                   <Image
-                    src={(!loading && heroData?.profileImage) ? getStrapiImageUrl(heroData.profileImage) : '/henry-profile.webp'}
+                    src={imageSrc}
                     alt={`${displayData.name} - ${displayData.title}`}
                     width={320}
                     height={320}
@@ -393,7 +361,7 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
                   />
                 </div>
               </div>
-              
+
               {/* Floating Elements */}
               <motion.div
                 animate={{ translateY: [0, -10, 0] }}
@@ -403,7 +371,7 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
               >
                 <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
               </motion.div>
-              
+
               <motion.div
                 animate={{ translateY: [0, 10, 0] }}
                 transition={{ duration: 3, repeat: Infinity, delay: 1 }}
@@ -416,7 +384,6 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
           </div>
         </div>
 
-        {/* Scroll Indicator */}
         {/* Scroll Indicator */}
         <motion.div
           initial={{ opacity: 0 }}
