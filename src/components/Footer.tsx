@@ -2,13 +2,21 @@
 
 import { motion } from 'framer-motion';
 import { Heart, ArrowUp } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 const Footer = () => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const currentYear = new Date().getFullYear();
+  // Use a static year for SSR to avoid hydration mismatch
+  const currentYear = mounted ? new Date().getFullYear() : 2025;
 
   return (
     <footer className="bg-gray-950 text-white py-12 relative">
@@ -124,14 +132,14 @@ const Footer = () => {
                 © {currentYear} Henry Barefoot. All rights reserved.
               </p>
               <span className="hidden md:inline">•</span>
-              <a 
-                href="/privacy" 
+              <a
+                href="/privacy"
                 className="hover:text-white transition-colors duration-300 font-medium"
               >
                 Privacy Policy
               </a>
             </div>
-            
+
             <div className="flex items-center text-gray-400 text-sm">
               <span>Made with</span>
               <motion.div
