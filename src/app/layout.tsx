@@ -126,7 +126,8 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         {/* Minimal critical CSS - only layout-critical styles that won't conflict with Tailwind */}
-        <style dangerouslySetInnerHTML={{ __html: `
+        <style dangerouslySetInnerHTML={{
+          __html: `
           /* Prevent FOUC - minimal safe styles */
           html{scroll-behavior:smooth}
           body{margin:0}
@@ -134,23 +135,15 @@ export default function RootLayout({
           .hero-image-placeholder{width:320px;height:320px;border-radius:9999px}
           @media(max-width:640px){.hero-image-placeholder{width:256px;height:256px}}
         `}} />
-        
+
         {/* Preconnect hints for faster resource loading - establish connection early */}
         <link rel="preconnect" href="https://cms.henrybarefoot.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://cms.henrybarefoot.com" />
-        
-        {/* Preload the hero API call to reduce LCP delay */}
-        <link 
-          rel="preload" 
-          href="https://cms.henrybarefoot.com/api/hero?populate=*" 
-          as="fetch" 
-          crossOrigin="anonymous"
-        />
-        
+
         {/* Defer third-party connections until after critical content */}
         <link rel="dns-prefetch" href="https://connect.facebook.net" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        
+
         {/* Google Tag Manager - delayed until user interaction to avoid blocking LCP */}
         <Script
           id="gtm-script"
@@ -189,7 +182,7 @@ export default function RootLayout({
             style={{ display: 'none', visibility: 'hidden' }}
           />
         </noscript>
-        
+
         <ThemeProvider>
           <Header />
           {children}
