@@ -2,35 +2,20 @@
 
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, Code, Zap, Database, Globe } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { getProjects } from '@/lib/strapi-api';
 import type { StrapiProject } from '@/types/strapi';
 import { getStrapiImageUrl } from '@/types/strapi';
 import Image from 'next/image';
 import type { Locale } from '@/lib/i18n';
 
 interface ProjectsProps {
+  initialData?: StrapiProject[];
   locale?: Locale;
 }
 
-const Projects = ({ locale = 'en' }: ProjectsProps) => {
-  const [projects, setProjects] = useState<StrapiProject[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await getProjects({ locale });
-        setProjects(response.data.data);
-      } catch (error) {
-        console.error('Failed to fetch projects:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProjects();
-  }, [locale]);
+const Projects = ({ initialData, locale = 'en' }: ProjectsProps) => {
+  // Use server-provided data directly - no client-side fetching needed
+  const projects = initialData || [];
+  const loading = false; // Data comes from server, no loading state needed
 
   // Fallback projects
   const fallbackProjects = [
@@ -75,7 +60,7 @@ const Projects = ({ locale = 'en' }: ProjectsProps) => {
     }
   ];
 
-  const displayProjects = loading || projects.length === 0 ? fallbackProjects : projects.slice(0, 6);
+  const displayProjects = projects.length === 0 ? fallbackProjects : projects.slice(0, 6);
 
   const getProjectIcon = (title: string) => {
     if (title.includes('n8n') || title.includes('Automation')) return <Zap className="w-6 h-6" />;
@@ -207,10 +192,10 @@ const Projects = ({ locale = 'en' }: ProjectsProps) => {
                     <div className="flex flex-wrap gap-2">
                       {(() => {
                         // Handle both Strapi structure { data: [...] } and fallback array [...]
-                        const techs = project.technologies && 'data' in project.technologies 
+                        const techs = project.technologies && 'data' in project.technologies
                           ? project.technologies.data.map((t: any) => ({ id: t.id, name: t.attributes.name }))
                           : project.technologies;
-                        
+
                         return techs?.map((tech: any, techIndex: number) => (
                           <motion.span
                             key={tech.id || techIndex}
@@ -230,7 +215,7 @@ const Projects = ({ locale = 'en' }: ProjectsProps) => {
               </div>
 
               {/* Consistent Bottom Border Animation for ALL cards */}
-              <div 
+              <div
                 className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
                 style={{ transformOrigin: 'left center' }}
               ></div>

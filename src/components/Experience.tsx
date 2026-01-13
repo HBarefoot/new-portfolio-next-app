@@ -2,44 +2,23 @@
 
 import { motion } from 'framer-motion';
 import { Building, Calendar, MapPin } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { getExperiences } from '@/lib/strapi-api';
 import type { StrapiExperience } from '@/types/strapi';
 import type { Locale } from '@/lib/i18n';
 
 interface ExperienceSectionProps {
+  initialData?: StrapiExperience[];
   locale?: Locale;
 }
 
-const ExperienceSection = ({ locale = 'en' }: ExperienceSectionProps) => {
-  const [experiences, setExperiences] = useState<StrapiExperience[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchExperiences = async () => {
-      try {
-        const response = await getExperiences(locale);
-        const fetchedExperiences = response.data.data;
-        // Only set experiences if we actually got data
-        if (fetchedExperiences && fetchedExperiences.length > 0) {
-          setExperiences(fetchedExperiences);
-        }
-      } catch (error) {
-        console.error('Failed to fetch experiences:', error);
-        // Ensure experiences remains empty array to trigger fallback
-        setExperiences([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchExperiences();
-  }, [locale]);
+const ExperienceSection = ({ initialData, locale = 'en' }: ExperienceSectionProps) => {
+  // Use server-provided data directly - no client-side fetching needed
+  const experiences = initialData || [];
+  const loading = false; // Data comes from server, no loading state needed
 
   // Minimal fallback data (since full data is now managed in Strapi)
   const fallbackExperiences: StrapiExperience[] = [];
 
-  const displayExperiences = loading || experiences.length === 0 ? fallbackExperiences : experiences;
+  const displayExperiences = experiences.length === 0 ? fallbackExperiences : experiences;
 
   const specialProjects = [
     {
@@ -78,102 +57,82 @@ const ExperienceSection = ({ locale = 'en' }: ExperienceSectionProps) => {
           <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-700 transform md:-translate-x-1/2"></div>
 
           {displayExperiences.map((experience, index) => {
-            const period = experience.isCurrent 
+            const period = experience.isCurrent
               ? `${new Date(experience.startDate).getFullYear()} - Present`
               : `${new Date(experience.startDate).getFullYear()} - ${new Date(experience.endDate || '').getFullYear()}`;
-            
-            return (
-            <motion.div
-              key={experience.id || index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-              viewport={{ once: true }}
-              className={`relative flex items-center mb-12 ${
-                index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-              }`}
-            >
-              {/* Timeline Dot */}
-              <div className="absolute left-4 md:left-1/2 w-4 h-4 bg-blue-600 rounded-full transform md:-translate-x-1/2 z-10 shadow-lg">
-                <div className="w-2 h-2 bg-white rounded-full absolute top-1 left-1"></div>
-              </div>
 
-              {/* Content Card */}
-              <div className={`ml-12 md:ml-0 md:w-5/12 ${
-                index % 2 === 0 ? 'md:mr-auto md:pr-8' : 'md:ml-auto md:pl-8'
-              }`}>
-                <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-6 shadow-lg dark:shadow-gray-900/30 hover:shadow-xl dark:hover:shadow-gray-900/50 transition-shadow duration-300">
-                  {loading ? (
-                    <div className="space-y-4">
-                      <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-6 w-3/4"></div>
-                      <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-4 w-1/2"></div>
-                      <div className="space-y-2">
-                        <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-4 w-full"></div>
-                        <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-4 w-5/6"></div>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-center">
-                          <div className="bg-blue-100 dark:bg-blue-900/30 rounded-lg p-2 mr-3">
-                            <Building className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                          </div>
-                          <div>
-                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                              {experience.company}
-                            </h3>
-                            {experience.position && (
-                              <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5">
-                                {experience.position}
-                              </p>
-                            )}
-                            <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mt-1">
-                              <Calendar className="w-4 h-4 mr-1" />
-                              {period}
-                            </div>
-                            {experience.location && (
-                              <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mt-1">
-                                <MapPin className="w-4 h-4 mr-1" />
-                                {experience.location}
-                              </div>
-                            )}
-                          </div>
+            return (
+              <motion.div
+                key={experience.id || index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.2 }}
+                viewport={{ once: true }}
+                className={`relative flex items-center mb-12 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
+                  }`}
+              >
+                {/* Timeline Dot */}
+                <div className="absolute left-4 md:left-1/2 w-4 h-4 bg-blue-600 rounded-full transform md:-translate-x-1/2 z-10 shadow-lg">
+                  <div className="w-2 h-2 bg-white rounded-full absolute top-1 left-1"></div>
+                </div>
+
+                {/* Content Card */}
+                <div className={`ml-12 md:ml-0 md:w-5/12 ${index % 2 === 0 ? 'md:mr-auto md:pr-8' : 'md:ml-auto md:pl-8'
+                  }`}>
+                  <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-6 shadow-lg dark:shadow-gray-900/30 hover:shadow-xl dark:hover:shadow-gray-900/50 transition-shadow duration-300">
+                    {loading ? (
+                      <div className="space-y-4">
+                        <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-6 w-3/4"></div>
+                        <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-4 w-1/2"></div>
+                        <div className="space-y-2">
+                          <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-4 w-full"></div>
+                          <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-4 w-5/6"></div>
                         </div>
                       </div>
+                    ) : (
+                      <>
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex items-center">
+                            <div className="bg-blue-100 dark:bg-blue-900/30 rounded-lg p-2 mr-3">
+                              <Building className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                                {experience.company}
+                              </h3>
+                              {experience.position && (
+                                <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5">
+                                  {experience.position}
+                                </p>
+                              )}
+                              <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                <Calendar className="w-4 h-4 mr-1" />
+                                {period}
+                              </div>
+                              {experience.location && (
+                                <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                  <MapPin className="w-4 h-4 mr-1" />
+                                  {experience.location}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
 
-                      {/* Only show description as paragraph if it doesn't contain markdown bullets AND no responsibilities array */}
-                      {experience.description && 
-                       !experience.responsibilities?.length && 
-                       !experience.description.includes('\n-') && (
-                        <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
-                          {experience.description}
-                        </p>
-                      )}
+                        {/* Only show description as paragraph if it doesn't contain markdown bullets AND no responsibilities array */}
+                        {experience.description &&
+                          !experience.responsibilities?.length &&
+                          !experience.description.includes('\n-') && (
+                            <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+                              {experience.description}
+                            </p>
+                          )}
 
-                      <ul className="space-y-2">
-                        {experience.responsibilities?.length ? (
-                          experience.responsibilities.map((resp, respIndex) => (
-                            <motion.li
-                              key={resp.id || respIndex}
-                              initial={{ opacity: 0, x: -20 }}
-                              whileInView={{ opacity: 1, x: 0 }}
-                              transition={{ duration: 0.5, delay: (index * 0.2) + (respIndex * 0.1) }}
-                              viewport={{ once: true }}
-                              className="flex items-start text-gray-700 dark:text-gray-300"
-                            >
-                              <div className="w-2 h-2 bg-blue-600 dark:bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                              <span className="text-sm leading-relaxed">{resp.description}</span>
-                            </motion.li>
-                          ))
-                        ) : experience.description ? (
-                          // Parse markdown-style list from description if no responsibilities array
-                          experience.description
-                            .split('\n')
-                            .filter(line => line.trim().startsWith('-'))
-                            .map((line, respIndex) => (
+                        <ul className="space-y-2">
+                          {experience.responsibilities?.length ? (
+                            experience.responsibilities.map((resp, respIndex) => (
                               <motion.li
-                                key={respIndex}
+                                key={resp.id || respIndex}
                                 initial={{ opacity: 0, x: -20 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.5, delay: (index * 0.2) + (respIndex * 0.1) }}
@@ -181,17 +140,36 @@ const ExperienceSection = ({ locale = 'en' }: ExperienceSectionProps) => {
                                 className="flex items-start text-gray-700 dark:text-gray-300"
                               >
                                 <div className="w-2 h-2 bg-blue-600 dark:bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                                <span className="text-sm leading-relaxed">{line.replace(/^-\s*/, '')}</span>
+                                <span className="text-sm leading-relaxed">{resp.description}</span>
                               </motion.li>
                             ))
-                        ) : null}
-                      </ul>
-                    </>
-                  )}
+                          ) : experience.description ? (
+                            // Parse markdown-style list from description if no responsibilities array
+                            experience.description
+                              .split('\n')
+                              .filter(line => line.trim().startsWith('-'))
+                              .map((line, respIndex) => (
+                                <motion.li
+                                  key={respIndex}
+                                  initial={{ opacity: 0, x: -20 }}
+                                  whileInView={{ opacity: 1, x: 0 }}
+                                  transition={{ duration: 0.5, delay: (index * 0.2) + (respIndex * 0.1) }}
+                                  viewport={{ once: true }}
+                                  className="flex items-start text-gray-700 dark:text-gray-300"
+                                >
+                                  <div className="w-2 h-2 bg-blue-600 dark:bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                  <span className="text-sm leading-relaxed">{line.replace(/^-\s*/, '')}</span>
+                                </motion.li>
+                              ))
+                          ) : null}
+                        </ul>
+                      </>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          )})}
+              </motion.div>
+            )
+          })}
         </div>
 
         {/* Special Projects Section */}
@@ -257,10 +235,10 @@ const ExperienceSection = ({ locale = 'en' }: ExperienceSectionProps) => {
                 <span className="text-sm">Miami Dade College, 2015-2017</span>
               </div>
               <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                CS50x Miami is a course that teaches you how to design and implement solutions to problems. 
-                But more than that, it teaches you how to think more critically, more methodically and more 
-                algorithmically. It is an adaptation of Harvard University&apos;s CS50 course that provides an 
-                introduction to the intellectual enterprises of computer science, and the art of programming 
+                CS50x Miami is a course that teaches you how to design and implement solutions to problems.
+                But more than that, it teaches you how to think more critically, more methodically and more
+                algorithmically. It is an adaptation of Harvard University&apos;s CS50 course that provides an
+                introduction to the intellectual enterprises of computer science, and the art of programming
                 for Miami Dade College students and the South Florida community.
               </p>
             </div>

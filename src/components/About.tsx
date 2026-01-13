@@ -2,33 +2,18 @@
 
 import { motion } from 'framer-motion';
 import { Code, Users, Globe, Award } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { getAbout } from '@/lib/strapi-api';
 import type { StrapiAbout } from '@/types/strapi';
 import type { Locale } from '@/lib/i18n';
 
 interface AboutProps {
+  initialData?: StrapiAbout | null;
   locale?: Locale;
 }
 
-const About = ({ locale = 'en' }: AboutProps) => {
-  const [aboutData, setAboutData] = useState<StrapiAbout | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchAboutData = async () => {
-      try {
-        const response = await getAbout(locale);
-        setAboutData(response.data.data);
-      } catch (error) {
-        console.error('Failed to fetch about data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAboutData();
-  }, [locale]);
+const About = ({ initialData, locale = 'en' }: AboutProps) => {
+  // Use server-provided data directly - no client-side fetching needed
+  const aboutData = initialData;
+  const loading = false; // Data comes from server, no loading state needed
 
   // Fallback highlights
   const defaultHighlights = [
@@ -93,9 +78,10 @@ const About = ({ locale = 'en' }: AboutProps) => {
                 <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded h-6 w-10/12"></div>
               </div>
             ) : (
-              <div 
+              <div
                 className="prose prose-lg dark:prose-invert max-w-none"
-                dangerouslySetInnerHTML={{ __html: aboutData?.bio || `
+                dangerouslySetInnerHTML={{
+                  __html: aboutData?.bio || `
                   <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
                     Web Developer with 8+ years of experience building responsive websites and web applications. 
                     Proficient in JavaScript, PHP, React, and WordPress, with strong UI/UX sensibilities and 
@@ -125,7 +111,7 @@ const About = ({ locale = 'en' }: AboutProps) => {
                 </>
               ) : aboutData?.tags?.length ? (
                 aboutData.tags.map((tag: string, index: number) => (
-                  <span 
+                  <span
                     key={index}
                     className="px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-full text-sm font-medium"
                   >

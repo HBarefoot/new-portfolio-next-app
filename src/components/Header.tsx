@@ -14,7 +14,7 @@ const Header = () => {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname) as Locale;
   const isHomePage = pathname === '/' || pathname === '/es';
-  
+
   // Memoize localized paths to avoid recalculating on every render
   const homePath = useMemo(() => localizePathname('/', locale), [locale]);
 
@@ -85,7 +85,6 @@ const Header = () => {
     { label: 'Projects', href: 'projects', isSection: true },
     { label: 'Case Studies', href: localizePathname('/case-studies', locale), isSection: false },
     { label: 'Gallery', href: 'projects-gallery', isSection: true },
-    { label: 'Game', href: 'game', isSection: true },
     { label: 'Blog', href: localizePathname('/blog', locale), isSection: false },
     { label: 'Course', href: localizePathname('/fullStack-course', locale), isSection: false },
     { label: 'Contact', href: 'contact', isSection: true },
@@ -93,11 +92,10 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-gray-900/95 backdrop-blur-md shadow-lg shadow-gray-900/20' 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+          ? 'bg-gray-900/95 backdrop-blur-md shadow-lg shadow-gray-900/20'
           : 'bg-gray-900/80 backdrop-blur-sm'
-      }`}
+        }`}
       ref={menuRef}
     >
       <div className="container mx-auto px-4 lg:px-6">
@@ -155,20 +153,17 @@ const Header = () => {
             >
               {/* Animated Hamburger Icon */}
               <div className="w-6 h-5 flex flex-col justify-between">
-                <span 
-                  className={`block h-0.5 w-full bg-current rounded-full transition-all duration-300 ease-in-out ${
-                    isMenuOpen ? 'rotate-45 translate-y-2' : ''
-                  }`}
+                <span
+                  className={`block h-0.5 w-full bg-current rounded-full transition-all duration-300 ease-in-out ${isMenuOpen ? 'rotate-45 translate-y-2' : ''
+                    }`}
                 />
-                <span 
-                  className={`block h-0.5 w-full bg-current rounded-full transition-all duration-300 ease-in-out ${
-                    isMenuOpen ? 'opacity-0 scale-0' : ''
-                  }`}
+                <span
+                  className={`block h-0.5 w-full bg-current rounded-full transition-all duration-300 ease-in-out ${isMenuOpen ? 'opacity-0 scale-0' : ''
+                    }`}
                 />
-                <span 
-                  className={`block h-0.5 w-full bg-current rounded-full transition-all duration-300 ease-in-out ${
-                    isMenuOpen ? '-rotate-45 -translate-y-2' : ''
-                  }`}
+                <span
+                  className={`block h-0.5 w-full bg-current rounded-full transition-all duration-300 ease-in-out ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''
+                    }`}
                 />
               </div>
             </button>
@@ -176,10 +171,9 @@ const Header = () => {
         </div>
 
         {/* Mobile Navigation - Animated Dropdown */}
-        <div 
-          className={`xl:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
-          }`}
+        <div
+          className={`xl:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+            }`}
         >
           <nav className="py-4 border-t border-gray-700/50">
             {navItems.map((item, index) => (
@@ -206,7 +200,7 @@ const Header = () => {
                 </Link>
               )
             ))}
-            
+
             {/* Mobile menu footer */}
             <div className="mt-4 pt-4 border-t border-gray-700/50 text-center text-gray-400 text-sm">
               <span className="text-blue-400">Henry Barefoot</span> • Web Developer

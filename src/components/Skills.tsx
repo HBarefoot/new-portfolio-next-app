@@ -2,39 +2,18 @@
 
 import { motion } from 'framer-motion';
 import { Code, Database, Wrench, Globe } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { getSkills } from '@/lib/strapi-api';
 import type { StrapiSkill } from '@/types/strapi';
 import type { Locale } from '@/lib/i18n';
 
 interface SkillsProps {
+  initialData?: StrapiSkill[];
   locale?: Locale;
 }
 
-const Skills = ({ locale = 'en' }: SkillsProps) => {
-  const [skills, setSkills] = useState<StrapiSkill[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchSkills = async () => {
-      try {
-        const response = await getSkills(locale);
-        const fetchedSkills = response.data.data;
-        // Only set skills if we actually got data
-        if (fetchedSkills && fetchedSkills.length > 0) {
-          setSkills(fetchedSkills);
-        }
-      } catch (error) {
-        console.error('Failed to fetch skills:', error);
-        // Ensure skills remains empty array to trigger fallback
-        setSkills([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSkills();
-  }, [locale]);
+const Skills = ({ initialData, locale = 'en' }: SkillsProps) => {
+  // Use server-provided data directly - no client-side fetching needed
+  const skills = initialData || [];
+  const loading = false; // Data comes from server, no loading state needed
 
   // Group skills by category
   const groupedSkills = skills.reduce((acc: Record<string, StrapiSkill[]>, skill) => {
@@ -66,12 +45,12 @@ const Skills = ({ locale = 'en' }: SkillsProps) => {
     }
   ];
 
-  const displayCategories = loading || Object.keys(groupedSkills).length === 0 
-    ? fallbackCategories 
+  const displayCategories = Object.keys(groupedSkills).length === 0
+    ? fallbackCategories
     : Object.entries(groupedSkills).map(([category, categorySkills]) => ({
-        category,
-        technologies: categorySkills.map(s => s.name)
-      }));
+      category,
+      technologies: categorySkills.map(s => s.name)
+    }));
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
@@ -156,11 +135,11 @@ const Skills = ({ locale = 'en' }: SkillsProps) => {
               <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${getCategoryColor(skillCategory.category)} flex items-center justify-center text-white mb-4`}>
                 {getCategoryIcon(skillCategory.category)}
               </div>
-              
+
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                 {skillCategory.category}
               </h3>
-              
+
               <div className="space-y-2">
                 {skillCategory.technologies.map((tech, techIndex) => (
                   <motion.span
@@ -190,7 +169,7 @@ const Skills = ({ locale = 'en' }: SkillsProps) => {
           <h3 className="text-2xl font-bold text-gray-900 dark:text-white text-center mb-8">
             Proficiency Levels
           </h3>
-          
+
           <div className="grid md:grid-cols-2 gap-8">
             {displayFeaturedSkills.map((skill, index) => (
               <motion.div
@@ -209,7 +188,7 @@ const Skills = ({ locale = 'en' }: SkillsProps) => {
                     {skill.level}%
                   </span>
                 </div>
-                
+
                 <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
                   <motion.div
                     initial={{ width: 0 }}
@@ -237,7 +216,7 @@ const Skills = ({ locale = 'en' }: SkillsProps) => {
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
             Also Experienced With
           </h3>
-          
+
           <div className="flex flex-wrap justify-center gap-4">
             {["TypeScript", "MongoDB", "Axios", "Cheerio", "Salesforce Marketing Cloud", "BigQuery", "Looker Studio", "VPS Management", "API Development"].map((tech, index) => (
               <motion.span
