@@ -30,11 +30,10 @@ interface CaseStudiesPageContentProps {
 
 async function getCaseStudiesData(locale: string) {
   try {
-    const response = await getCaseStudies({ locale });
-    const data = response.data;
+    const data = await getCaseStudies({ locale });
     // Strapi v5 returns flat data structure
-    if (data.data && Array.isArray(data.data)) {
-      return data.data.map((item: any) => {
+    if (Array.isArray(data)) {
+      return data.map((item: any) => {
         // Wrap in attributes structure if not already present
         if (!item.attributes) {
           return {

@@ -18,8 +18,7 @@ interface PageProps {
 // Generate static paths for active landing pages
 export async function generateStaticParams() {
   try {
-    const response = await getLandingPages(LOCALE);
-    const pages = response.data?.data || [];
+    const pages = await getLandingPages(LOCALE);
     
     return pages.map((page: StrapiLandingPage) => ({
       slug: page.slug,
@@ -41,12 +40,11 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
     
     // First, try to fetch by slug
     const response = await getLandingPage(slug, LOCALE);
-    pageData = response.data?.data?.[0] || null;
+    pageData = response?.[0] || null;
     
     // Fallback to documentId if slug doesn't match
     if (!pageData && documentId) {
-      const docResponse = await getLandingPageByDocumentId(documentId, isDraft, LOCALE);
-      pageData = docResponse.data?.data || null;
+      pageData = await getLandingPageByDocumentId(documentId, isDraft, LOCALE);
     }
     
     if (!pageData) {
@@ -98,13 +96,12 @@ export default async function LandingPage({ params, searchParams }: PageProps) {
   try {
     // First, try to fetch by slug (works for published pages)
     const response = await getLandingPage(slug, LOCALE);
-    pageData = response.data?.data?.[0] || null;
+    pageData = response?.[0] || null;
     
     // If not found and we have documentId, try fetching by documentId
     // This handles preview mode and cases where slug might differ
     if (!pageData && documentId) {
-      const docResponse = await getLandingPageByDocumentId(documentId, isDraft, LOCALE);
-      pageData = docResponse.data?.data || null;
+      pageData = await getLandingPageByDocumentId(documentId, isDraft, LOCALE);
     }
   } catch (error) {
     console.error('Failed to fetch landing page:', error);
@@ -112,8 +109,7 @@ export default async function LandingPage({ params, searchParams }: PageProps) {
     // Fallback: try documentId if available
     if (documentId) {
       try {
-        const docResponse = await getLandingPageByDocumentId(documentId, isDraft, LOCALE);
-        pageData = docResponse.data?.data || null;
+        pageData = await getLandingPageByDocumentId(documentId, isDraft, LOCALE);
       } catch (docError) {
         console.error('Failed to fetch landing page by documentId:', docError);
       }

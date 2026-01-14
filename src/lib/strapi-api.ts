@@ -1,155 +1,162 @@
-import axios from 'axios';
+import {
+  StrapiHero,
+  StrapiAbout,
+  StrapiSkill,
+  StrapiExperience,
+  StrapiProject,
+  StrapiTechnology,
+  StrapiCaseStudy,
+  StrapiBlogPost,
+  StrapiBlogCategory,
+  StrapiAuthor,
+  StrapiContactInfo,
+  StrapiGalleryProject,
+  StrapiSiteSettings,
+  StrapiLandingPage,
+} from '@/types/strapi';
 
-const strapiApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api',
-  headers: {
+const BASE_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
+
+const getHeaders = (headers: Record<string, string> = {}) => {
+  const defaults: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...(process.env.STRAPI_API_KEY && {
-      'Authorization': `Bearer ${process.env.STRAPI_API_KEY}`
-    }),
-  },
-});
+  };
 
-// Helper functions for API calls
-export const getHero = (locale: string = 'en') => strapiApi.get(`/hero?locale=${locale}&populate=*`);
+  if (process.env.STRAPI_API_KEY) {
+    defaults['Authorization'] = `Bearer ${process.env.STRAPI_API_KEY}`;
+  }
 
-// Server-side fetch for Hero (no axios wrapper for server components)
+  return { ...defaults, ...headers };
+};
+
+/**
+ * Helper to fetch a single item (returns object or null)
+ */
+async function fetchStrapi<T>(endpoint: string, options: RequestInit = {}): Promise<T | null> {
+  try {
+    const res = await fetch(`${BASE_URL}${endpoint}`, {
+      ...options,
+      headers: getHeaders(options.headers as Record<string, string>),
+    });
+
+    if (!res.ok) {
+      console.warn(`Strapi fetch failed for ${endpoint}: ${res.status} ${res.statusText}`);
+      return null;
+    }
+
+    const json = await res.json();
+    return json.data || null;
+  } catch (error) {
+    console.error(`Error fetching ${endpoint}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Helper to fetch a list of items (returns array or empty array)
+ */
+async function fetchStrapiList<T>(endpoint: string, options: RequestInit = {}): Promise<T[]> {
+  try {
+    const res = await fetch(`${BASE_URL}${endpoint}`, {
+      ...options,
+      headers: getHeaders(options.headers as Record<string, string>),
+    });
+
+    if (!res.ok) {
+      console.warn(`Strapi fetch list failed for ${endpoint}: ${res.status} ${res.statusText}`);
+      return [];
+    }
+
+    const json = await res.json();
+    return Array.isArray(json.data) ? json.data : [];
+  } catch (error) {
+    console.error(`Error fetching list ${endpoint}:`, error);
+    return [];
+  }
+}
+
+// ==========================================
+// Server-side fetchers (with cache)
+// ==========================================
+
 export async function fetchHeroServer(locale: string = 'en') {
-  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
-  try {
-    const res = await fetch(`${baseUrl}/hero?locale=${locale}&populate=*`, {
-      next: { revalidate: 60 }, // Cache for 60 seconds
-      headers: {
-        'Content-Type': 'application/json',
-        ...(process.env.STRAPI_API_KEY && {
-          'Authorization': `Bearer ${process.env.STRAPI_API_KEY}`
-        }),
-      },
-    });
-    if (!res.ok) return null;
-    const json = await res.json();
-    return json.data || null;
-  } catch {
-    return null;
-  }
+  return fetchStrapi<StrapiHero>(`/hero?locale=${locale}&populate=*`, {
+    next: { revalidate: 60 }
+  });
 }
 
-// Server-side fetch for About
 export async function fetchAboutServer(locale: string = 'en') {
-  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
-  try {
-    const res = await fetch(`${baseUrl}/about?locale=${locale}&populate=*`, {
-      next: { revalidate: 60 },
-      headers: {
-        'Content-Type': 'application/json',
-        ...(process.env.STRAPI_API_KEY && {
-          'Authorization': `Bearer ${process.env.STRAPI_API_KEY}`
-        }),
-      },
-    });
-    if (!res.ok) return null;
-    const json = await res.json();
-    return json.data || null;
-  } catch {
-    return null;
-  }
+  return fetchStrapi<StrapiAbout>(`/about?locale=${locale}&populate=*`, {
+    next: { revalidate: 60 }
+  });
 }
 
-// Server-side fetch for Skills
 export async function fetchSkillsServer(locale: string = 'en') {
-  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
-  try {
-    const res = await fetch(`${baseUrl}/skills?locale=${locale}&populate=*&sort=order:asc`, {
-      next: { revalidate: 60 },
-      headers: {
-        'Content-Type': 'application/json',
-        ...(process.env.STRAPI_API_KEY && {
-          'Authorization': `Bearer ${process.env.STRAPI_API_KEY}`
-        }),
-      },
-    });
-    if (!res.ok) return [];
-    const json = await res.json();
-    return json.data || [];
-  } catch {
-    return [];
-  }
+  return fetchStrapiList<StrapiSkill>(`/skills?locale=${locale}&populate=*&sort=order:asc`, {
+    next: { revalidate: 60 }
+  });
 }
 
-// Server-side fetch for Experiences
 export async function fetchExperiencesServer(locale: string = 'en') {
-  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
-  try {
-    const res = await fetch(`${baseUrl}/experiences?locale=${locale}&populate=*&sort=order:asc`, {
-      next: { revalidate: 60 },
-      headers: {
-        'Content-Type': 'application/json',
-        ...(process.env.STRAPI_API_KEY && {
-          'Authorization': `Bearer ${process.env.STRAPI_API_KEY}`
-        }),
-      },
-    });
-    if (!res.ok) return [];
-    const json = await res.json();
-    return json.data || [];
-  } catch {
-    return [];
-  }
+  return fetchStrapiList<StrapiExperience>(`/experiences?locale=${locale}&populate=*&sort=order:asc`, {
+    next: { revalidate: 60 }
+  });
 }
 
-// Server-side fetch for Projects
 export async function fetchProjectsServer(locale: string = 'en') {
-  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
-  try {
-    const res = await fetch(`${baseUrl}/projects?locale=${locale}&populate=*&sort=order:asc`, {
-      next: { revalidate: 60 },
-      headers: {
-        'Content-Type': 'application/json',
-        ...(process.env.STRAPI_API_KEY && {
-          'Authorization': `Bearer ${process.env.STRAPI_API_KEY}`
-        }),
-      },
-    });
-    if (!res.ok) return [];
-    const json = await res.json();
-    return json.data || [];
-  } catch {
-    return [];
-  }
+  return fetchStrapiList<StrapiProject>(`/projects?locale=${locale}&populate=*&sort=order:asc`, {
+    next: { revalidate: 60 }
+  });
 }
 
-export const getAbout = (locale: string = 'en') => strapiApi.get(`/about?locale=${locale}&populate=*`);
+// ==========================================
+// General fetchers (replaces Axios)
+// ==========================================
+
+export const getHero = (locale: string = 'en') =>
+  fetchStrapi<StrapiHero>(`/hero?locale=${locale}&populate=*`);
+
+export const getAbout = (locale: string = 'en') =>
+  fetchStrapi<StrapiAbout>(`/about?locale=${locale}&populate=*`);
 
 export const getSkills = (locale: string = 'en') =>
-  strapiApi.get(`/skills?locale=${locale}&populate=*&sort=order:asc`);
+  fetchStrapiList<StrapiSkill>(`/skills?locale=${locale}&populate=*&sort=order:asc`);
 
 export const getExperiences = (locale: string = 'en') =>
-  strapiApi.get(`/experiences?locale=${locale}&populate=*&sort=order:asc`);
+  fetchStrapiList<StrapiExperience>(`/experiences?locale=${locale}&populate=*&sort=order:asc`);
 
 export const getProjects = (params?: { featured?: boolean; locale?: string }) => {
   const locale = params?.locale || 'en';
   const query = params?.featured
     ? `/projects?locale=${locale}&populate=*&filters[isFeatured][$eq]=true&sort=order:asc`
     : `/projects?locale=${locale}&populate=*&sort=order:asc`;
-  return strapiApi.get(query);
+  return fetchStrapiList<StrapiProject>(query);
 };
 
+// Returns a list because it filters on a collection type
 export const getProject = (slug: string, locale: string = 'en') =>
-  strapiApi.get(`/projects?locale=${locale}&filters[slug][$eq]=${slug}&populate=*`);
+  fetchStrapiList<StrapiProject>(`/projects?locale=${locale}&filters[slug][$eq]=${slug}&populate=*`);
 
 export const getTechnologies = () =>
-  strapiApi.get('/technologies?populate=*');
+  fetchStrapiList<StrapiTechnology>('/technologies?populate=*');
 
 export const getCaseStudies = (params?: { featured?: boolean; locale?: string }) => {
   const locale = params?.locale || 'en';
   const query = params?.featured
     ? `/case-studies?locale=${locale}&populate[0]=heroImage&populate[1]=gallery&populate[2]=technologies&filters[featured][$eq]=true&sort=order:asc`
     : `/case-studies?locale=${locale}&populate[0]=heroImage&populate[1]=gallery&populate[2]=technologies&sort=order:asc`;
-  return strapiApi.get(query);
+  return fetchStrapiList<StrapiCaseStudy>(query);
 };
 
 export const getCaseStudy = (slug: string, locale: string = 'en') =>
-  strapiApi.get(`/case-studies?locale=${locale}&filters[slug][$eq]=${slug}&populate=*`);
+  fetchStrapiList<StrapiCaseStudy>(`/case-studies?locale=${locale}&filters[slug][$eq]=${slug}&populate=*`);
+
+// Fetch case study by documentId (for draft preview)
+export const getCaseStudyByDocumentId = (documentId: string, isDraft: boolean = false, locale: string = 'en') => {
+  const statusParam = isDraft ? '&status=draft' : '';
+  // Note: Single document fetch returns an object (T | null), not a list
+  return fetchStrapi<StrapiCaseStudy>(`/case-studies/${documentId}?locale=${locale}&populate=*${statusParam}`);
+};
 
 export const getBlogPosts = (params?: { category?: string; limit?: number; locale?: string }) => {
   const locale = params?.locale || 'en';
@@ -160,34 +167,34 @@ export const getBlogPosts = (params?: { category?: string; limit?: number; local
   if (params?.limit) {
     query += `&pagination[limit]=${params.limit}`;
   }
-  return strapiApi.get(query);
+  return fetchStrapiList<StrapiBlogPost>(query);
 };
 
 export const getBlogPost = (slug: string, locale: string = 'en') =>
-  strapiApi.get(`/blog-posts?locale=${locale}&filters[slug][$eq]=${slug}&populate[0]=author&populate[1]=author.avatar&populate[2]=category&populate[3]=coverImage`);
+  fetchStrapiList<StrapiBlogPost>(`/blog-posts?locale=${locale}&filters[slug][$eq]=${slug}&populate[0]=author&populate[1]=author.avatar&populate[2]=category&populate[3]=coverImage`);
 
 export const getBlogCategories = () =>
-  strapiApi.get('/blog-categories?populate=*');
+  fetchStrapiList<StrapiBlogCategory>('/blog-categories?populate=*');
 
 export const getAuthors = () =>
-  strapiApi.get('/authors?populate=*');
+  fetchStrapiList<StrapiAuthor>('/authors?populate=*');
 
 export const getContactInfo = () =>
-  strapiApi.get('/contact-info?populate=*');
+  fetchStrapi<StrapiContactInfo>('/contact-info?populate=*');
 
 export const getGalleryProjects = (locale: string = 'en') =>
-  strapiApi.get(`/gallery-projects?locale=${locale}&populate=*&filters[isVisible][$eq]=true&sort=order:asc`);
+  fetchStrapiList<StrapiGalleryProject>(`/gallery-projects?locale=${locale}&populate=*&filters[isVisible][$eq]=true&sort=order:asc`);
 
 export const getSiteSettings = () =>
-  strapiApi.get('/site-setting?populate=*');
+  fetchStrapi<StrapiSiteSettings>('/site-setting?populate=*');
 
 // Landing Pages
 export const getLandingPages = (locale: string = 'en') =>
-  strapiApi.get(`/landing-pages?locale=${locale}&populate[sections][populate]=*&filters[isActive][$eq]=true`);
+  fetchStrapiList<StrapiLandingPage>(`/landing-pages?locale=${locale}&populate[sections][populate]=*&filters[isActive][$eq]=true`);
 
 export const getLandingPage = (slug: string, locale: string = 'en') =>
   // Use simple populate for ogImage to avoid Strapi v5 validation errors
-  strapiApi.get(`/landing-pages?locale=${locale}&filters[slug][$eq]=${slug}&populate[sections][populate]=*&populate[ogImage]=true`);
+  fetchStrapiList<StrapiLandingPage>(`/landing-pages?locale=${locale}&filters[slug][$eq]=${slug}&populate[sections][populate]=*&populate[ogImage]=true`);
 
 // Fetch landing page by documentId (for draft preview)
 // Note: Strapi v5 single document endpoint requires URL-encoded nested populate for dynamic zones
@@ -195,7 +202,6 @@ export const getLandingPageByDocumentId = (documentId: string, isDraft: boolean 
   const statusParam = isDraft ? '&status=draft' : '';
   // Use nested populate to get component items within sections dynamic zone
   // Note: ogImage uses simple populate (=true) instead of populate=* to avoid validation errors
-  return strapiApi.get(`/landing-pages/${documentId}?locale=${locale}&populate[sections][populate]=*&populate[ogImage]=true${statusParam}`);
+  // Single document fetch returns an object, not a list.
+  return fetchStrapi<StrapiLandingPage>(`/landing-pages/${documentId}?locale=${locale}&populate[sections][populate]=*&populate[ogImage]=true${statusParam}`);
 };
-
-export default strapiApi;

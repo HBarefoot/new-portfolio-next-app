@@ -8,7 +8,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { BlogPost } from '@/types/blog';
 import { getBlogPost } from '@/lib/strapi-api';
-import { getStrapiMediaUrl } from '@/types/strapi';
+import { getStrapiImageUrl } from '@/types/strapi';
 import ShareButtons from '@/components/ShareButtons';
 import type { Locale } from '@/lib/i18n';
 import { localizePathname } from '@/lib/i18n';
@@ -155,32 +155,33 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
 
   const fetchPost = async () => {
     try {
-      const response = await getBlogPost(slug, locale);
-      const strapiPosts = response.data.data;
+      const strapiPosts = await getBlogPost(slug, locale);
       
       if (strapiPosts && strapiPosts.length > 0) {
         const strapiPost = strapiPosts[0];
         
         // Strapi v5 uses flat structure - no attributes wrapper
-        const authorData = strapiPost?.author;
-        const categoryData = strapiPost?.category;
-        const coverImageData = strapiPost?.coverImage;
+        // But types define them as { data: ... } wrappers (v4 style)
+        // We cast to any to handle both cases or flat data if Strapi v5 returns it directly
+        const authorData = strapiPost?.author as any;
+        const categoryData = strapiPost?.category as any;
+        const coverImageData = strapiPost?.coverImage as any;
         
         // Transform to BlogPost format
         const transformedPost: BlogPost = {
-          id: strapiPost.id?.toString() || strapiPost.documentId,
+          id: strapiPost.id?.toString() || strapiPost.documentId || strapiPost.slug,
           slug: strapiPost.slug,
           title: strapiPost.title,
           excerpt: strapiPost.excerpt,
           content: strapiPost.content,
-          coverImage: getStrapiMediaUrl(coverImageData?.url),
+          coverImage: getStrapiImageUrl(coverImageData),
           author: {
-            name: authorData?.name || 'Henry Barefoot',
-            avatar: getStrapiMediaUrl(authorData?.avatar?.url),
-            bio: authorData?.bio
+            name: authorData?.name || authorData?.data?.attributes?.name || 'Henry Barefoot',
+            avatar: getStrapiImageUrl(authorData?.avatar || authorData?.data?.attributes?.avatar),
+            bio: authorData?.bio || authorData?.data?.attributes?.bio
           },
           tags: Array.isArray(strapiPost.tags) ? strapiPost.tags : [],
-          category: categoryData?.name || 'Development',
+          category: categoryData?.name || categoryData?.data?.attributes?.name || 'Development',
           publishedAt: strapiPost.publishedAt,
           updatedAt: strapiPost.updatedAt,
           readingTime: strapiPost.readingTime || 5,

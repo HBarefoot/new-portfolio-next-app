@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation';
 import { draftMode } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
-import { StrapiCaseStudy, StrapiImage, getStrapiImageUrl } from '@/types/strapi';
+import { getCaseStudy, getCaseStudyByDocumentId } from '@/lib/strapi-api';
+import { StrapiCaseStudy, StrapiEntity, StrapiImage, getStrapiImageUrl } from '@/types/strapi';
 import MarkdownContent from '@/components/MarkdownContent';
 import CaseStudyShare from '@/components/CaseStudyShare';
 import { Calendar, Clock, ExternalLink, Github, Globe, Quote, Star } from 'lucide-react';
@@ -37,45 +38,24 @@ interface Props {
 
 async function getCaseStudyData(slug: string, locale: string = 'es', documentId?: string, isDraft: boolean = false) {
   try {
-    let endpoint: string;
-    
+    let item: any = null;
+
     if (documentId && isDraft) {
-      endpoint = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?locale=${locale}&filters[documentId][$eq]=${documentId}&populate=*&status=draft`;
+      item = await getCaseStudyByDocumentId(documentId, isDraft, locale);
     } else {
-      endpoint = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?locale=${locale}&filters[slug][$eq]=${slug}&populate=*`;
+      const data = await getCaseStudy(slug, locale);
+      item = data?.[0] || null;
     }
-    
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-    };
-    
-    if (isDraft && process.env.STRAPI_API_KEY) {
-      headers['Authorization'] = `Bearer ${process.env.STRAPI_API_KEY}`;
-    }
-    
-    const response = await fetch(endpoint, {
-      headers,
-      next: { revalidate: isDraft ? 0 : 60 },
-      cache: isDraft ? 'no-store' : 'default',
-    });
-    
-    if (!response.ok) {
-      return null;
-    }
-    
-    const data = await response.json();
-    
-    if (data.data && data.data[0]) {
-      const item = data.data[0];
-      if (item.attributes) {
-        return item;
+
+    if (item) {
+      if ('attributes' in item) {
+        return item as unknown as StrapiEntity<StrapiCaseStudy>;
       }
       return {
-        id: item.id || item.documentId,
+        id: item.id || parseInt(item.documentId || '0'),
         attributes: item
       };
     }
-    
     return null;
   } catch (error) {
     console.error('Error fetching case study:', error);

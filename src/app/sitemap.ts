@@ -1,72 +1,9 @@
 import { MetadataRoute } from 'next';
+import { getBlogPosts, getCaseStudies, getLandingPages } from '@/lib/strapi-api';
 
 const BASE_URL = 'https://next.henrybarefoot.com';
 const LOCALES = ['en', 'es'] as const;
 const DEFAULT_LOCALE = 'en';
-
-interface BlogPost {
-  slug: string;
-  publishedAt: string;
-  updatedAt?: string;
-  locale?: string;
-}
-
-interface CaseStudy {
-  slug: string;
-  updatedAt?: string;
-  locale?: string;
-}
-
-interface LandingPage {
-  slug: string;
-  updatedAt?: string;
-  locale?: string;
-}
-
-interface BlogData {
-  posts: BlogPost[];
-}
-
-async function getBlogPosts(locale: string = 'en'): Promise<BlogPost[]> {
-  try {
-    const response = await fetch(`${BASE_URL}/api/blog?locale=${locale}`, {
-      next: { revalidate: 3600 }
-    });
-    if (!response.ok) return [];
-    const data: BlogData = await response.json();
-    return data.posts || [];
-  } catch {
-    return [];
-  }
-}
-
-async function getCaseStudies(locale: string = 'en'): Promise<CaseStudy[]> {
-  try {
-    const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
-    const response = await fetch(`${strapiUrl}/case-studies?locale=${locale}&fields[0]=slug&fields[1]=updatedAt`, {
-      next: { revalidate: 3600 }
-    });
-    if (!response.ok) return [];
-    const data = await response.json();
-    return data.data || [];
-  } catch {
-    return [];
-  }
-}
-
-async function getLandingPages(locale: string = 'en'): Promise<LandingPage[]> {
-  try {
-    const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
-    const response = await fetch(`${strapiUrl}/landing-pages?locale=${locale}&fields[0]=slug&fields[1]=updatedAt&filters[isActive][$eq]=true`, {
-      next: { revalidate: 3600 }
-    });
-    if (!response.ok) return [];
-    const data = await response.json();
-    return data.data || [];
-  } catch {
-    return [];
-  }
-}
 
 function getLocalizedUrl(path: string, locale: string): string {
   if (locale === DEFAULT_LOCALE) {
@@ -109,7 +46,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic blog posts for each locale
   for (const locale of LOCALES) {
-    const posts = await getBlogPosts(locale);
+    const posts = await getBlogPosts({ locale });
     for (const post of posts) {
       sitemapEntries.push({
         url: getLocalizedUrl(`/blog/${post.slug}`, locale),
@@ -125,7 +62,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic case studies for each locale
   for (const locale of LOCALES) {
-    const caseStudies = await getCaseStudies(locale);
+    const caseStudies = await getCaseStudies({ locale });
     for (const study of caseStudies) {
       sitemapEntries.push({
         url: getLocalizedUrl(`/case-studies/${study.slug}`, locale),

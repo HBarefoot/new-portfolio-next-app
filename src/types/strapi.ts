@@ -199,6 +199,16 @@ export interface StrapiCaseStudy {
   };
   relatedProjects?: { data: StrapiEntity<StrapiProject>[] };
   relatedCaseStudies?: { data: StrapiEntity<StrapiCaseStudy>[] };
+  keyFeatures?: Array<{
+    title: string;
+    description: string;
+  }>;
+  testimonials?: Array<{
+    quote: string;
+    author: string;
+    role?: string;
+  }>;
+  repoUrl?: string;
   featured: boolean;
   order: number;
   liveUrl?: string;
@@ -210,6 +220,8 @@ export interface StrapiCaseStudy {
 }
 
 export interface StrapiBlogPost {
+  id?: number | string;
+  documentId?: string;
   title: string;
   slug: string;
   excerpt: string;
