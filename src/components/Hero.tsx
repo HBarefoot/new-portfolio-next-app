@@ -355,7 +355,7 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
                     loading="eager"
                     fetchPriority="high"
                     quality={75}
-                    sizes="(max-width: 640px) 256px, (max-width: 1024px) 288px, 320px"
+                    sizes="(max-width: 639px) 256px, (max-width: 1023px) 288px, 320px"
                     placeholder="blur"
                     blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAYH/8QAIhAAAgIBAwQDAAAAAAAAAAAAAQIDBAAFESEGEhMxQVGB/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgADESH/2gAMAwEAAhEDEEA/ANB6c6oh1qW/DPHLBZqSGKeCUAOh+H4QQCCCOQcUl2WMRx7J9mcYx0CrU7SY5sT/2Q=="
                   />
