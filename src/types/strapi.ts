@@ -474,16 +474,25 @@ export const getStrapiMediaUrl = (url: string | undefined): string => {
 // Handles both Strapi v4 (nested data.attributes) and v5 (flat object) structures
 export const getStrapiImageUrl = (image: any): string => {
   if (!image) return '';
-  
+
+  const getUrl = (img: any) => {
+    // Check for formats and prioritize WebP if available (via strapi-plugin-webp-converter)
+    const formats = img.formats;
+    if (formats && formats.webp && formats.webp.url) {
+      return formats.webp.url;
+    }
+    return img.url;
+  };
+
   // Strapi v5 flat structure (image has url directly)
   if (image.url) {
-    return getStrapiMediaUrl(image.url);
+    return getStrapiMediaUrl(getUrl(image));
   }
-  
+
   // Strapi v4 nested structure (image.data.attributes.url)
-  if (image.data?.attributes?.url) {
-    return getStrapiMediaUrl(image.data.attributes.url);
+  if (image.data?.attributes) {
+    return getStrapiMediaUrl(getUrl(image.data.attributes));
   }
-  
+
   return '';
 };
