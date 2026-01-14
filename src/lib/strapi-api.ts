@@ -1,13 +1,40 @@
 import axios from 'axios';
 
-const strapiApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api',
-  headers: {
+const STRAPI_API_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
+
+const getStrapiHeaders = (): Record<string, string> => {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...(process.env.STRAPI_API_KEY && {
-      'Authorization': `Bearer ${process.env.STRAPI_API_KEY}`
-    }),
-  },
+  };
+  if (process.env.STRAPI_API_KEY) {
+    headers['Authorization'] = `Bearer ${process.env.STRAPI_API_KEY}`;
+  }
+  return headers;
+};
+
+// Unified fetch helper for server components and general use
+export async function fetchStrapi(endpoint: string, options: RequestInit = {}) {
+  const url = `${STRAPI_API_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+
+  const headers = new Headers(getStrapiHeaders());
+
+  if (options.headers) {
+    new Headers(options.headers).forEach((value, key) => {
+      headers.set(key, value);
+    });
+  }
+
+  const res = await fetch(url, {
+    ...options,
+    headers,
+  });
+
+  return res;
+}
+
+const strapiApi = axios.create({
+  baseURL: STRAPI_API_URL,
+  headers: getStrapiHeaders(),
 });
 
 // Helper functions for API calls
@@ -15,16 +42,9 @@ export const getHero = (locale: string = 'en') => strapiApi.get(`/hero?locale=${
 
 // Server-side fetch for Hero (no axios wrapper for server components)
 export async function fetchHeroServer(locale: string = 'en') {
-  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
   try {
-    const res = await fetch(`${baseUrl}/hero?locale=${locale}&populate=*`, {
+    const res = await fetchStrapi(`/hero?locale=${locale}&populate=*`, {
       next: { revalidate: 60 }, // Cache for 60 seconds
-      headers: {
-        'Content-Type': 'application/json',
-        ...(process.env.STRAPI_API_KEY && {
-          'Authorization': `Bearer ${process.env.STRAPI_API_KEY}`
-        }),
-      },
     });
     if (!res.ok) return null;
     const json = await res.json();
@@ -36,16 +56,9 @@ export async function fetchHeroServer(locale: string = 'en') {
 
 // Server-side fetch for About
 export async function fetchAboutServer(locale: string = 'en') {
-  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
   try {
-    const res = await fetch(`${baseUrl}/about?locale=${locale}&populate=*`, {
+    const res = await fetchStrapi(`/about?locale=${locale}&populate=*`, {
       next: { revalidate: 60 },
-      headers: {
-        'Content-Type': 'application/json',
-        ...(process.env.STRAPI_API_KEY && {
-          'Authorization': `Bearer ${process.env.STRAPI_API_KEY}`
-        }),
-      },
     });
     if (!res.ok) return null;
     const json = await res.json();
@@ -57,16 +70,9 @@ export async function fetchAboutServer(locale: string = 'en') {
 
 // Server-side fetch for Skills
 export async function fetchSkillsServer(locale: string = 'en') {
-  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
   try {
-    const res = await fetch(`${baseUrl}/skills?locale=${locale}&populate=*&sort=order:asc`, {
+    const res = await fetchStrapi(`/skills?locale=${locale}&populate=*&sort=order:asc`, {
       next: { revalidate: 60 },
-      headers: {
-        'Content-Type': 'application/json',
-        ...(process.env.STRAPI_API_KEY && {
-          'Authorization': `Bearer ${process.env.STRAPI_API_KEY}`
-        }),
-      },
     });
     if (!res.ok) return [];
     const json = await res.json();
@@ -78,16 +84,9 @@ export async function fetchSkillsServer(locale: string = 'en') {
 
 // Server-side fetch for Experiences
 export async function fetchExperiencesServer(locale: string = 'en') {
-  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
   try {
-    const res = await fetch(`${baseUrl}/experiences?locale=${locale}&populate=*&sort=order:asc`, {
+    const res = await fetchStrapi(`/experiences?locale=${locale}&populate=*&sort=order:asc`, {
       next: { revalidate: 60 },
-      headers: {
-        'Content-Type': 'application/json',
-        ...(process.env.STRAPI_API_KEY && {
-          'Authorization': `Bearer ${process.env.STRAPI_API_KEY}`
-        }),
-      },
     });
     if (!res.ok) return [];
     const json = await res.json();
@@ -99,16 +98,9 @@ export async function fetchExperiencesServer(locale: string = 'en') {
 
 // Server-side fetch for Projects
 export async function fetchProjectsServer(locale: string = 'en') {
-  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
   try {
-    const res = await fetch(`${baseUrl}/projects?locale=${locale}&populate=*&sort=order:asc`, {
+    const res = await fetchStrapi(`/projects?locale=${locale}&populate=*&sort=order:asc`, {
       next: { revalidate: 60 },
-      headers: {
-        'Content-Type': 'application/json',
-        ...(process.env.STRAPI_API_KEY && {
-          'Authorization': `Bearer ${process.env.STRAPI_API_KEY}`
-        }),
-      },
     });
     if (!res.ok) return [];
     const json = await res.json();
