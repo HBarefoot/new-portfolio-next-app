@@ -12,7 +12,14 @@ const getStrapiHeaders = (): Record<string, string> => {
   return headers;
 };
 
-// Unified fetch helper for server components and general use
+/**
+ * Unified fetch helper for server components and general use.
+ * Handles base URL construction and header management (including authentication).
+ *
+ * @param endpoint - The API endpoint (e.g., '/hero' or 'hero')
+ * @param options - Fetch options (headers, cache, etc.)
+ * @returns The fetch response
+ */
 export async function fetchStrapi(endpoint: string, options: RequestInit = {}) {
   const url = `${STRAPI_API_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
 
