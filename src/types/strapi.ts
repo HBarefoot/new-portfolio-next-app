@@ -210,13 +210,15 @@ export interface StrapiCaseStudy {
 }
 
 export interface StrapiBlogPost {
+  id?: number;
+  documentId?: string;
   title: string;
   slug: string;
   excerpt: string;
   content: string;
-  coverImage?: { data: StrapiEntity<StrapiImage> | null };
-  author?: { data: StrapiEntity<StrapiAuthor> | null };
-  category?: { data: StrapiEntity<StrapiBlogCategory> | null };
+  coverImage?: { data: StrapiEntity<StrapiImage> | null } | { url: string; formats?: any };
+  author?: { data: StrapiEntity<StrapiAuthor> | null } | { name: string; avatar?: { url: string }; bio?: string };
+  category?: { data: StrapiEntity<StrapiBlogCategory> | null } | { name: string };
   tags?: any;
   readingTime?: number;
   publishedAt: string;
@@ -247,7 +249,7 @@ export interface StrapiBlogCategory {
 export interface StrapiAuthor {
   name: string;
   bio?: string;
-  avatar?: { data: StrapiEntity<StrapiImage> | null };
+  avatar?: { data: StrapiEntity<StrapiImage> | null } | { url: string };
   email?: string;
   socialLinks?: Array<{
     platform: 'GitHub' | 'LinkedIn' | 'Twitter' | 'Website' | 'Email';

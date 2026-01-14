@@ -45,9 +45,9 @@ const CaseStudiesSection = ({ locale = 'en' }: CaseStudiesSectionProps) => {
   useEffect(() => {
     const fetchCaseStudies = async () => {
       try {
-        const response = await getCaseStudies({ locale });
-        const data = response.data.data;
+        const data = await getCaseStudies({ locale });
         // Get only featured case studies (Strapi v5 flat structure - no .attributes)
+        // If the API returns a flat array of objects, filter them directly
         const featured = data.filter((cs: any) => cs.featured === true).slice(0, 3);
         setCaseStudies(featured);
       } catch (error) {

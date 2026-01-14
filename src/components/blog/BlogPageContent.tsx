@@ -61,14 +61,10 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
   const fetchData = async () => {
     try {
       // Fetch posts from Strapi with locale
-      const postsResponse = await getBlogPosts({ locale });
-      
-      // Strapi v5 returns flat objects without 'attributes' wrapper
-      const strapiBlogPosts = postsResponse.data.data || [];
+      const strapiBlogPosts = await getBlogPosts({ locale });
       
       // Fetch categories from Strapi
-      const categoriesResponse = await getBlogCategories();
-      const strapiCategories = categoriesResponse.data.data || [];
+      const strapiCategories = await getBlogCategories();
 
       // Transform Strapi data to BlogPost format
       const transformedPosts: BlogPost[] = strapiBlogPosts
