@@ -19,9 +19,21 @@ export async function fetchStrapi(endpoint: string, options: RequestInit = {}) {
   const headers = new Headers(getStrapiHeaders());
 
   if (options.headers) {
-    new Headers(options.headers).forEach((value, key) => {
-      headers.set(key, value);
-    });
+    if (options.headers instanceof Headers) {
+      options.headers.forEach((value, key) => {
+        headers.set(key, value);
+      });
+    } else if (Array.isArray(options.headers)) {
+      for (const [key, value] of options.headers) {
+        headers.set(key, value);
+      }
+    } else {
+      Object.entries(options.headers).forEach(([key, value]) => {
+        if (typeof value !== 'undefined') {
+          headers.set(key, String(value));
+        }
+      });
+    }
   }
 
   const res = await fetch(url, {
