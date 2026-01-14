@@ -393,9 +393,9 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
                       )}
                     </button>
                   </div>
-                  {snippet.description && (
+                  {snippet.caption && (
                     <div className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-900/30 border-b border-gray-200 dark:border-gray-700/50">
-                      {snippet.description}
+                      {snippet.caption}
                     </div>
                   )}
                   <pre className="p-4 overflow-x-auto">
