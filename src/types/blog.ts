@@ -25,7 +25,7 @@ export interface CodeSnippet {
   language: string;
   code: string;
   filename?: string;
-  description?: string;
+  caption?: string;
 }
 
 export interface BlogCategory {

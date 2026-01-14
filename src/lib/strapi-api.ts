@@ -153,7 +153,7 @@ export const getCaseStudy = (slug: string, locale: string = 'en') =>
 
 export const getBlogPosts = (params?: { category?: string; limit?: number; locale?: string }) => {
   const locale = params?.locale || 'en';
-  let query = `/blog-posts?locale=${locale}&populate[0]=author&populate[1]=author.avatar&populate[2]=category&populate[3]=coverImage&sort=publishedAt:desc`;
+  let query = `/blog-posts?locale=${locale}&populate[0]=author&populate[1]=author.avatar&populate[2]=category&populate[3]=coverImage&populate[4]=codeSnippets&sort=publishedAt:desc`;
   if (params?.category) {
     query += `&filters[category][slug][$eq]=${params.category}`;
   }
@@ -164,7 +164,7 @@ export const getBlogPosts = (params?: { category?: string; limit?: number; local
 };
 
 export const getBlogPost = (slug: string, locale: string = 'en') =>
-  strapiApi.get(`/blog-posts?locale=${locale}&filters[slug][$eq]=${slug}&populate[0]=author&populate[1]=author.avatar&populate[2]=category&populate[3]=coverImage`);
+  strapiApi.get(`/blog-posts?locale=${locale}&filters[slug][$eq]=${slug}&populate[0]=author&populate[1]=author.avatar&populate[2]=category&populate[3]=coverImage&populate[4]=codeSnippets`);
 
 export const getBlogCategories = () =>
   strapiApi.get('/blog-categories?populate=*');
