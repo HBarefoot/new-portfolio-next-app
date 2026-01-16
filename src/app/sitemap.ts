@@ -109,9 +109,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Fetch all dynamic content concurrently
   const [blogPostsByLocale, caseStudiesByLocale, landingPagesByLocale] = await Promise.all([
-    Promise.all(LOCALES.map(async (locale) => ({ locale, posts: await getBlogPosts(locale) }))),
-    Promise.all(LOCALES.map(async (locale) => ({ locale, studies: await getCaseStudies(locale) }))),
-    Promise.all(LOCALES.map(async (locale) => ({ locale, pages: await getLandingPages(locale) })))
+    Promise.all(LOCALES.map((locale) => getBlogPosts(locale).then((posts) => ({ locale, posts })))),
+    Promise.all(LOCALES.map((locale) => getCaseStudies(locale).then((studies) => ({ locale, studies })))),
+    Promise.all(LOCALES.map((locale) => getLandingPages(locale).then((pages) => ({ locale, pages }))))
   ]);
 
   // Dynamic blog posts for each locale
