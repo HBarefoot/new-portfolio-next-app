@@ -138,16 +138,20 @@ interface BlogPostContentProps {
 export default function BlogPostContent({ slug, locale }: BlogPostContentProps) {
   const t = translations[locale];
   const blogPath = localizePathname('/blog', locale);
-  
+
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [shareUrl, setShareUrl] = useState('');
 
   useEffect(() => {
-    // Set the actual browser URL for sharing
-    setShareUrl(window.location.href);
-  }, []);
+    // Construct the canonical blog post URL for sharing,
+    // using origin + localized blog path + slug so it's correct
+    // regardless of how the page was accessed.
+    const localizedBlogPath = localizePathname('/blog', locale);
+    const fullUrl = `${window.location.origin}${localizedBlogPath}/${slug}`;
+    setShareUrl(fullUrl);
+  }, [locale, slug]);
 
   useEffect(() => {
     fetchPost();
@@ -156,10 +160,10 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
   const fetchPost = async () => {
     try {
       const strapiPosts = await getBlogPost(slug, locale);
-      
+
       if (strapiPosts && strapiPosts.length > 0) {
         const strapiPost = strapiPosts[0];
-        
+
         // Strapi v5 uses flat structure - no attributes wrapper
         // But types in StrapiBlogPost use union types for flexibility
         // We need to cast or check type to access properties safely
@@ -170,7 +174,7 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
 
         const coverUrl = coverImageData?.url || coverImageData?.data?.attributes?.url || null;
         const avatarUrl = authorData?.avatar?.url || authorData?.avatar?.data?.attributes?.url || null;
-        
+
         // Transform to BlogPost format
         const transformedPost: BlogPost = {
           id: strapiPost.id?.toString() || strapiPost.documentId || `post-${Math.random()}`,
@@ -194,7 +198,7 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
           businessContext: strapiPost.businessContext,
           industry: strapiPost.industry
         };
-        
+
         setPost(transformedPost);
       }
     } catch (error) {
@@ -246,7 +250,7 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
     <div className="min-h-screen bg-white dark:bg-gray-950">
       <article className="max-w-4xl mx-auto px-4 py-12 pt-24">
         {/* Post Header */}
-        <motion.header 
+        <motion.header
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
@@ -257,8 +261,8 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
           <div className="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400 mb-6">
             <div className="flex items-center gap-3 group relative">
               {post.author.avatar ? (
-                <img 
-                  src={post.author.avatar} 
+                <img
+                  src={post.author.avatar}
                   alt={post.author.name}
                   className="w-10 h-10 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
                 />
@@ -273,8 +277,8 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
                 <div className="absolute left-0 top-full mt-2 w-64 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
                   <div className="flex items-start gap-3">
                     {post.author.avatar ? (
-                      <img 
-                        src={post.author.avatar} 
+                      <img
+                        src={post.author.avatar}
                         alt={post.author.name}
                         className="w-12 h-12 rounded-full object-cover"
                       />
@@ -316,14 +320,14 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
 
         {/* Cover Image */}
         {post.coverImage && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className="aspect-video bg-gray-200 dark:bg-gray-800 rounded-xl overflow-hidden mb-8"
           >
-            <img 
-              src={post.coverImage} 
+            <img
+              src={post.coverImage}
               alt={post.title}
               className="w-full h-full object-cover"
             />
@@ -332,7 +336,7 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
 
         {/* Business Context */}
         {post.businessContext && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
@@ -347,13 +351,13 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
         )}
 
         {/* Post Content */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
           className="mb-12"
         >
-          <ReactMarkdown 
+          <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={MarkdownComponents}
           >
@@ -363,7 +367,7 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
 
         {/* Code Snippets */}
         {post.codeSnippets && post.codeSnippets.length > 0 && (
-          <motion.section 
+          <motion.section
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
@@ -412,15 +416,15 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
         )}
 
         {/* Tags */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
           className="flex flex-wrap gap-2 mb-8"
         >
           {post.tags.map(tag => (
-            <span 
-              key={tag} 
+            <span
+              key={tag}
               className="flex items-center gap-1 px-3 py-1 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full text-sm text-gray-600 dark:text-gray-400"
             >
               <Tag className="w-3 h-3" />
@@ -430,7 +434,7 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
         </motion.div>
 
         {/* Share Section */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55 }}
@@ -440,7 +444,7 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
             <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
               {t.shareArticle}
             </span>
-            <ShareButtons 
+            <ShareButtons
               url={shareUrl}
               title={post.title}
               description={post.excerpt}
@@ -449,13 +453,13 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
         </motion.div>
 
         {/* Navigation */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
           className="pt-8 border-t border-gray-200 dark:border-gray-700/50"
         >
-          <Link 
+          <Link
             href={blogPath}
             className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
           >
