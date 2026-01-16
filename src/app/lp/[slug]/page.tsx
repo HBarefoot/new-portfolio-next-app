@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { draftMode } from 'next/headers';
-import { getLandingPage, getLandingPages, getLandingPageByDocumentId } from '@/lib/strapi-api';
+import { getLandingPage, getLandingPageSlugs, getLandingPageByDocumentId } from '@/lib/strapi-api';
 import { StrapiLandingPage, LandingPageSection, getStrapiImageUrl } from '@/types/strapi';
 import LandingPageRenderer from './LandingPageRenderer';
 
@@ -18,7 +18,7 @@ interface PageProps {
 // Generate static paths for active landing pages
 export async function generateStaticParams() {
   try {
-    const pages = await getLandingPages(LOCALE);
+    const pages = await getLandingPageSlugs(LOCALE);
     
     return pages.map((page: StrapiLandingPage) => ({
       slug: page.slug,
