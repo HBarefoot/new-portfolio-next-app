@@ -1,0 +1,199 @@
+{
+    "pricing": {
+        "config": {
+            "basePrice": 5000,
+            "ageDepreciationRate": 0.02,
+            "fuelSurcharge": 1200,
+            "refitPremium": 15000,
+            "currency": "USD"
+        },
+        "ports": [
+            {
+                "id": "p1",
+                "name": "Port Everglades",
+                "country": "USA",
+                "baseFee": 2500,
+                "surgeMultiplier": 1.2
+            },
+            {
+                "id": "p2",
+                "name": "Monaco Marine",
+                "country": "Monaco",
+                "baseFee": 4500,
+                "surgeMultiplier": 1.5
+            },
+            {
+                "id": "p3",
+                "name": "Port of Singapore",
+                "country": "Singapore",
+                "baseFee": 3000,
+                "surgeMultiplier": 1.1
+            },
+            {
+                "id": "p4",
+                "name": "Dubai Harbour",
+                "country": "UAE",
+                "baseFee": 3800,
+                "surgeMultiplier": 1.3
+            },
+            {
+                "id": "p5",
+                "name": "Antigua Yacht Club",
+                "country": "Antigua",
+                "baseFee": 1800,
+                "surgeMultiplier": 1.4
+            }
+        ],
+        "yachts": [
+            {
+                "id": "y1",
+                "name": "M/Y Serenity",
+                "year": 2018,
+                "length": 45,
+                "type": "Motor",
+                "baseValue": 18500000,
+                "location": "Monaco"
+            },
+            {
+                "id": "y2",
+                "name": "S/Y Windward",
+                "year": 2012,
+                "length": 32,
+                "type": "Sailing",
+                "baseValue": 4200000,
+                "location": "Antigua"
+            },
+            {
+                "id": "y3",
+                "name": "M/Y Horizon",
+                "year": 2022,
+                "length": 55,
+                "type": "Motor",
+                "baseValue": 32000000,
+                "location": "Dubai"
+            }
+        ]
+    },
+    "automation": {
+        "workflowSteps": [
+            {
+                "id": "w1",
+                "name": "WikiJS Webhook",
+                "type": "trigger",
+                "status": "completed",
+                "icon": "webhook"
+            },
+            {
+                "id": "w2",
+                "name": "Markdown Parser",
+                "type": "action",
+                "status": "completed",
+                "icon": "file-code"
+            },
+            {
+                "id": "w3",
+                "name": "AI Translation (Ollama)",
+                "type": "action",
+                "status": "active",
+                "icon": "cpu"
+            },
+            {
+                "id": "w4",
+                "name": "Strapi POST",
+                "type": "action",
+                "status": "pending",
+                "icon": "database"
+            }
+        ],
+        "sampleContent": {
+            "raw": "# High-Availability Architecture\n\nEnsuring **99.99% uptime** requires redundancy at every layer.\n\n## Key Components\n\n1. Load Balancers\n2. Replicated Databases\n3. Auto-scaling Groups\n\n> Note: Always test failover procedures quarterly.",
+            "rendered": "<h1>High-Availability Architecture</h1><p>Ensuring <strong>99.99% uptime</strong> requires redundancy at every layer.</p><h2>Key Components</h2><ol><li>Load Balancers</li><li>Replicated Databases</li><li>Auto-scaling Groups</li></ol><blockquote><p>Note: Always test failover procedures quarterly.</p></blockquote>",
+            "translated": "<h1>Arquitectura de Alta Disponibilidad</h1><p>Garantizar un <strong>99.99% de tiempo de actividad</strong> requiere redundancia en cada capa.</p><h2>Componentes Clave</h2><ol><li>Balanceadores de Carga</li><li>Bases de Datos Replicadas</li><li>Grupos de Autoescalado</li></ol><blockquote><p>Nota: Siempre pruebe los procedimientos de conmutación por error trimestralmente.</p></blockquote>"
+        }
+    },
+    "roi": {
+        "defaultMetrics": [
+            {
+                "id": "m1",
+                "label": "Projected Savings",
+                "value": 12500,
+                "unit": "USD",
+                "trend": "up",
+                "trendValue": 15,
+                "description": "Monthly operational cost reduction"
+            },
+            {
+                "id": "m2",
+                "label": "Hours Recovered",
+                "value": 42,
+                "unit": "hrs",
+                "trend": "up",
+                "trendValue": 8,
+                "description": "Time saved from manual data entry"
+            },
+            {
+                "id": "m3",
+                "label": "Data Accuracy",
+                "value": 99.8,
+                "unit": "%",
+                "trend": "up",
+                "trendValue": 12,
+                "description": "Reduction in human error rates"
+            }
+        ]
+    },
+    "timeline": {
+        "events": [
+            {
+                "id": "t1",
+                "date": "2025-10-15",
+                "title": "Hull Construction Complete",
+                "description": "Primary hull structure finished and inspected. Moving to painting hall.",
+                "status": "completed",
+                "category": "milestone",
+                "details": [
+                    {
+                        "label": "Inspector",
+                        "value": "J. Smith (Lloyds)"
+                    },
+                    {
+                        "label": "Weight",
+                        "value": "145 tons"
+                    }
+                ]
+            },
+            {
+                "id": "t2",
+                "date": "2025-11-02",
+                "title": "Engine Installation",
+                "description": "Twin MTU 16V 4000 engines mounted and aligned.",
+                "status": "in-progress",
+                "category": "technical",
+                "details": [
+                    {
+                        "label": "Engine Serial",
+                        "value": "MTU-8829-X"
+                    },
+                    {
+                        "label": "Alignment",
+                        "value": "0.05mm tolerance"
+                    }
+                ]
+            },
+            {
+                "id": "t3",
+                "date": "2025-12-10",
+                "title": "Interior Fit-out Start",
+                "description": "Joinery team scheduled to begin lower deck cabins.",
+                "status": "upcoming",
+                "category": "milestone",
+                "details": [
+                    {
+                        "label": "Contractor",
+                        "value": "Luxury Woodworks Ltd"
+                    }
+                ]
+            }
+        ]
+    }
+}
