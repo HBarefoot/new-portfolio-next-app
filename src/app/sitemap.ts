@@ -107,9 +107,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
+  // Fetch all dynamic content concurrently
+  const [blogPostsByLocale, caseStudiesByLocale, landingPagesByLocale] = await Promise.all([
+    Promise.all(LOCALES.map((locale) => getBlogPosts(locale).then((posts) => ({ locale, posts })))),
+    Promise.all(LOCALES.map((locale) => getCaseStudies(locale).then((studies) => ({ locale, studies })))),
+    Promise.all(LOCALES.map((locale) => getLandingPages(locale).then((pages) => ({ locale, pages }))))
+  ]);
+
   // Dynamic blog posts for each locale
-  for (const locale of LOCALES) {
-    const posts = await getBlogPosts(locale);
+  for (const { locale, posts } of blogPostsByLocale) {
     for (const post of posts) {
       sitemapEntries.push({
         url: getLocalizedUrl(`/blog/${post.slug}`, locale),
@@ -124,9 +130,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // Dynamic case studies for each locale
-  for (const locale of LOCALES) {
-    const caseStudies = await getCaseStudies(locale);
-    for (const study of caseStudies) {
+  for (const { locale, studies } of caseStudiesByLocale) {
+    for (const study of studies) {
       sitemapEntries.push({
         url: getLocalizedUrl(`/case-studies/${study.slug}`, locale),
         lastModified: study.updatedAt ? new Date(study.updatedAt) : new Date(),
@@ -140,9 +145,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // Dynamic landing pages for each locale
-  for (const locale of LOCALES) {
-    const landingPages = await getLandingPages(locale);
-    for (const page of landingPages) {
+  for (const { locale, pages } of landingPagesByLocale) {
+    for (const page of pages) {
       sitemapEntries.push({
         url: getLocalizedUrl(`/lp/${page.slug}`, locale),
         lastModified: page.updatedAt ? new Date(page.updatedAt) : new Date(),
