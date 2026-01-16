@@ -60,11 +60,11 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
 
   const fetchData = async () => {
     try {
-      // Fetch posts from Strapi with locale
-      const strapiBlogPosts = await getBlogPosts({ locale });
-      
-      // Fetch categories from Strapi
-      const strapiCategories = await getBlogCategories();
+      // Fetch posts and categories from Strapi in parallel
+      const [strapiBlogPosts, strapiCategories] = await Promise.all([
+        getBlogPosts({ locale }),
+        getBlogCategories()
+      ]);
 
       // Transform Strapi data to BlogPost format
       const transformedPosts: BlogPost[] = strapiBlogPosts
