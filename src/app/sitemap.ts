@@ -1,4 +1,7 @@
 import { MetadataRoute } from 'next';
+import { readBlogData } from '@/lib/blog';
+
+export const revalidate = 3600;
 
 const BASE_URL = 'https://next.henrybarefoot.com';
 const LOCALES = ['en', 'es'] as const;
@@ -29,11 +32,7 @@ interface BlogData {
 
 async function getBlogPosts(locale: string = 'en'): Promise<BlogPost[]> {
   try {
-    const response = await fetch(`${BASE_URL}/api/blog?locale=${locale}`, {
-      next: { revalidate: 3600 }
-    });
-    if (!response.ok) return [];
-    const data: BlogData = await response.json();
+    const data = await readBlogData();
     return data.posts || [];
   } catch {
     return [];
