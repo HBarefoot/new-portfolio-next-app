@@ -213,6 +213,10 @@ export const getLandingPages = async (locale: string = 'en') => {
   return fetchCollection<StrapiLandingPage>(`/landing-pages?locale=${locale}&populate[sections][populate]=*&filters[isActive][$eq]=true`);
 };
 
+export const getLandingPageSlugs = async (locale: string = 'en') => {
+  return fetchCollection<StrapiLandingPage>(`/landing-pages?locale=${locale}&fields[0]=slug&filters[isActive][$eq]=true`);
+};
+
 export const getLandingPage = async (slug: string, locale: string = 'en') => {
   // Use simple populate for ogImage to avoid Strapi v5 validation errors
   return fetchCollection<StrapiLandingPage>(`/landing-pages?locale=${locale}&filters[slug][$eq]=${slug}&populate[sections][populate]=*&populate[ogImage]=true`);
