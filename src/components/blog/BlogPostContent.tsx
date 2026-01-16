@@ -145,11 +145,13 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
   const [shareUrl, setShareUrl] = useState('');
 
   useEffect(() => {
-    // Set the actual browser URL for sharing.
-    // Construct it from origin + path to ensure it's the correct blog post URL.
-    const fullUrl = `${window.location.origin}${blogPath}/${slug}`;
+    // Construct the canonical blog post URL for sharing,
+    // using origin + localized blog path + slug so it's correct
+    // regardless of how the page was accessed.
+    const localizedBlogPath = localizePathname('/blog', locale);
+    const fullUrl = `${window.location.origin}${localizedBlogPath}/${slug}`;
     setShareUrl(fullUrl);
-  }, [blogPath, slug]);
+  }, [locale, slug]);
 
   useEffect(() => {
     fetchPost();
