@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, Circle, Clock, ChevronDown, ChevronUp, FileText } from 'lucide-react';
+import { CheckCircle2, Circle, Clock, ChevronDown, FileText } from 'lucide-react';
 import { TimelineEvent as TimelineEventType } from '@/types/demo-types';
 
 interface TimelineEventProps {

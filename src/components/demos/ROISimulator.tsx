@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { motion, useSpring, useTransform, animate } from 'framer-motion';
+import { useState, useMemo, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { DollarSign, Clock, CheckCircle, TrendingUp, Users, Calendar } from 'lucide-react';
 import DemoCard from './DemoCard';
-import { useEffect } from 'react';
 
 // Animated Counter Component
 function Counter({ value, prefix = '', suffix = '', decimals = 0 }: { value: number; prefix?: string; suffix?: string; decimals?: number }) {

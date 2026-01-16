@@ -1,6 +1,6 @@
 'use client';
 
-import { Shield, Lock, Bell, Search, UserCircle, FileText } from 'lucide-react';
+import { Shield, Lock, Bell, UserCircle, FileText } from 'lucide-react';
 import demoData from '@/data/demos.json';
 import DemoCard from './DemoCard';
 import TimelineEvent from './TimelineEvent';

@@ -1,6 +1,6 @@
 'use client';
 
-import { Image as ImageIcon, Zap, Maximize2, Smartphone } from 'lucide-react';
+import { Zap, Maximize2, Smartphone } from 'lucide-react';
 import DemoCard from './DemoCard';
 import BeforeAfterSlider from './BeforeAfterSlider';
 
