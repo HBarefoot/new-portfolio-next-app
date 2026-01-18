@@ -86,7 +86,6 @@ const Header = () => {
     { label: 'Live Demos', href: '/demos', isSection: false },
     { label: 'Gallery', href: 'projects-gallery', isSection: true },
     { label: 'Blog', href: localizePathname('/blog', locale), isSection: false },
-    { label: 'Course', href: localizePathname('/fullStack-course', locale), isSection: false },
     { label: 'Contact', href: 'contact', isSection: true },
   ], [locale]);
 
