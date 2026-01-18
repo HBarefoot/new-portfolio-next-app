@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, MouseEvent, TouchEvent } from 'react';
 import { ArrowLeftRight, MoveHorizontal } from 'lucide-react';
+import Image from 'next/image';
 
 interface BeforeAfterSliderProps {
     beforeLabel?: string;
@@ -60,10 +61,13 @@ export default function BeforeAfterSlider({
         >
             {/* After Image (Background - Visible on Right) */}
             <div className="absolute inset-0 flex items-center justify-center">
-                <img
+                <Image
                     src={afterImage}
                     alt="Finished Interior"
-                    className="absolute inset-0 w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                    priority
                 />
 
                 <div className="absolute bottom-6 right-6 bg-black/80 backdrop-blur-md px-4 py-2 rounded-lg text-white font-semibold border border-white/10 shadow-lg z-10">
@@ -76,10 +80,13 @@ export default function BeforeAfterSlider({
                 className="absolute inset-0 bg-white flex items-center justify-center border-r-2 border-white"
                 style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
             >
-                <img
+                <Image
                     src={beforeImage}
                     alt="Concept Blueprint"
-                    className="absolute inset-0 w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                    priority
                 />
 
                 <div className="absolute bottom-6 left-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-lg text-blue-900 font-semibold border border-blue-200 shadow-lg z-10">
