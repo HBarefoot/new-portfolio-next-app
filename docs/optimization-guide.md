@@ -58,7 +58,7 @@ Next.js splits code by route automatically. We enhance this by lazy loading heav
 - **Animation Warnings**:
   - You might see "Avoid non-composited animations". This is caused by the **Hero Background** SVG network, which animates connection lines (`x1`, `y1`).
   - **Verdict**: Since your production score is 93+, this visual effect is acceptable. However, keep an eye on "Main Thread Work" if you add more complex animations later.
-- **Mobile vs. Desktop**: always optimize for Mobile. If Mobile is fast (90+), Desktop will be perfect (100).
+- **Mobile vs. Desktop**: Always optimize for Mobile. If Mobile is fast (90+), Desktop will be perfect (100).
 - **Core Web Vitals**: Focus on passing these three metrics over just the "Score":
   - **LCP** (Loading Speed): < 2.5s
   - **INP** (Responsiveness): < 200ms

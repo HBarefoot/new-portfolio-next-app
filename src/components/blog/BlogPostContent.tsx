@@ -73,17 +73,18 @@ const MarkdownComponents = {
   ),
   img: (props: React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { src, alt, ref, ...rest } = props;
+    const { src, alt } = props;
     if (!src || typeof src !== 'string') return null;
     return (
-      <div className="relative w-full h-auto my-8 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700/50">
+      <div className="relative w-full my-8 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700/50">
         <Image
           src={src}
           alt={alt || ''}
-          width={800}
-          height={450}
-          className="w-full h-auto object-cover"
-          sizes="(max-width: 768px) 100vw, 800px"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="w-full h-auto"
+          style={{ width: '100%', height: 'auto' }}
         />
       </div>
     );

@@ -63,7 +63,7 @@ export default function BeforeAfterSlider({
             <div className="absolute inset-0 flex items-center justify-center">
                 <Image
                     src={afterImage}
-                    alt="Finished Interior"
+                    alt={afterLabel}
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
@@ -82,11 +82,10 @@ export default function BeforeAfterSlider({
             >
                 <Image
                     src={beforeImage}
-                    alt="Concept Blueprint"
+                    alt={beforeLabel}
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
-                    priority
                 />
 
                 <div className="absolute bottom-6 left-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-lg text-blue-900 font-semibold border border-blue-200 shadow-lg z-10">
