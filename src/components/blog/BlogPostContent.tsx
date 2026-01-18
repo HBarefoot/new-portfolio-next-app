@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, Tag, ArrowLeft, Briefcase, Copy, Check } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -70,6 +71,24 @@ const MarkdownComponents = {
       {children}
     </p>
   ),
+  img: (props: React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { src, alt } = props;
+    if (!src || typeof src !== 'string') return null;
+    return (
+      <div className="relative w-full my-8 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700/50">
+        <Image
+          src={src}
+          alt={alt || ''}
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="w-full h-auto"
+          style={{ width: '100%', height: 'auto' }}
+        />
+      </div>
+    );
+  },
   ul: ({ children }: { children?: React.ReactNode }) => (
     <ul className="my-6 ml-6 space-y-3">
       {children}
@@ -261,11 +280,15 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
           <div className="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400 mb-6">
             <div className="flex items-center gap-3 group relative">
               {post.author.avatar ? (
-                <img
-                  src={post.author.avatar}
-                  alt={post.author.name}
-                  className="w-10 h-10 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
-                />
+                <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-gray-200 dark:border-gray-700">
+                  <Image
+                    src={post.author.avatar}
+                    alt={post.author.name}
+                    fill
+                    className="object-cover"
+                    sizes="40px"
+                  />
+                </div>
               ) : (
                 <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
                   {post.author.name.charAt(0)}
@@ -277,13 +300,17 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
                 <div className="absolute left-0 top-full mt-2 w-64 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
                   <div className="flex items-start gap-3">
                     {post.author.avatar ? (
-                      <img
-                        src={post.author.avatar}
-                        alt={post.author.name}
-                        className="w-12 h-12 rounded-full object-cover"
-                      />
+                      <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0">
+                        <Image
+                          src={post.author.avatar}
+                          alt={post.author.name}
+                          fill
+                          className="object-cover"
+                          sizes="48px"
+                        />
+                      </div>
                     ) : (
-                      <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold text-lg">
+                      <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold text-lg shrink-0">
                         {post.author.name.charAt(0)}
                       </div>
                     )}
@@ -324,12 +351,15 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="aspect-video bg-gray-200 dark:bg-gray-800 rounded-xl overflow-hidden mb-8"
+            className="aspect-video relative bg-gray-200 dark:bg-gray-800 rounded-xl overflow-hidden mb-8"
           >
-            <img
+            <Image
               src={post.coverImage}
               alt={post.title}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 896px"
+              priority
             />
           </motion.div>
         )}

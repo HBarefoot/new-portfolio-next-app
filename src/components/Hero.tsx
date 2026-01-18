@@ -71,23 +71,17 @@ const Hero = ({ initialData, locale = 'en' }: HeroProps) => {
             transition={{ duration: 0.8 }}
             className="text-center lg:text-left order-2 lg:order-1 flex flex-col items-center lg:items-start"
           >
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+            <h1
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4"
             >
               {displayData.name}
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+            <p
               className="text-lg sm:text-xl md:text-2xl text-blue-600 dark:text-blue-400 font-semibold mb-6"
             >
               {displayData.title}
-            </motion.p>
+            </p>
 
             <motion.p
               initial={{ opacity: 0, y: 30 }}
