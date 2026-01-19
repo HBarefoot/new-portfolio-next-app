@@ -21,8 +21,9 @@ export default function AuditPage() {
         setData(null);
 
         try {
-            // Use local FastAPI backend
-            const response = await fetch("http://localhost:8000/api/audit", {
+            // Use backend API
+            const apiUrl = process.env.NEXT_PUBLIC_PERFORMANCE_API_URL || "http://localhost:8000";
+            const response = await fetch(`${apiUrl}/api/audit`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ url }),
