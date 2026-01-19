@@ -18,7 +18,7 @@ function getLocaleFromPathname(pathname: string): Locale | null {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  
+
   // Skip locale handling for API routes, static files, and Next.js internals
   if (
     pathname.startsWith('/api/') ||
@@ -33,7 +33,7 @@ export function middleware(request: NextRequest) {
 
   // Check if there's a locale in the pathname
   const pathnameLocale = getLocaleFromPathname(pathname);
-  
+
   // If locale is the default (en), redirect to remove it from URL
   // e.g., /en/blog -> /blog (cleaner URLs for default locale)
   if (pathnameLocale === defaultLocale) {
@@ -44,11 +44,11 @@ export function middleware(request: NextRequest) {
   // If no locale in pathname, it's the default locale (en)
   // No redirect needed - just continue
   const response = NextResponse.next();
-  
+
   // Set the locale header so pages can read it
   const locale = pathnameLocale || defaultLocale;
   response.headers.set('x-locale', locale);
-  
+
   setSecurityHeaders(response, request);
   return response;
 }
@@ -57,7 +57,7 @@ function setSecurityHeaders(response: NextResponse, request: NextRequest) {
   // Allow the site to be embedded in iframes from Strapi admin panel
   // This is required for the Preview feature to work
   const cmsUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL?.replace('/api', '') || 'http://localhost:1337';
-  
+
   // Set Content Security Policy
   // - frame-ancestors: Allow embedding from Strapi for preview
   // - script-src: Allow GTM, GA, Meta Pixel, Cloudflare, Vercel analytics
@@ -68,7 +68,7 @@ function setSecurityHeaders(response: NextResponse, request: NextRequest) {
     `frame-ancestors 'self' ${cmsUrl} https://cms.henrybarefoot.com; ` +
     `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://cdn.vercel-insights.com https://www.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com https://tagmanager.google.com https://va.vercel-scripts.com https://connect.facebook.net; ` +
     `img-src 'self' data: blob: https: http://localhost:1337; ` +
-    `connect-src 'self' ${cmsUrl} https://cms.henrybarefoot.com https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://*.vercel-insights.com https://www.facebook.com https://connect.facebook.net;`
+    `connect-src 'self' ${cmsUrl} https://cms.henrybarefoot.com https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://*.vercel-insights.com https://www.facebook.com https://connect.facebook.net http://localhost:8000;`
   );
 }
 
