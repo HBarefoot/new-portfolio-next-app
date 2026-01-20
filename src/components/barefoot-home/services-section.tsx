@@ -79,8 +79,8 @@ export function ServicesSection() {
             <motion.div key={service.title} variants={itemVariants}>
               <Card className="group h-full border-border/50 bg-card transition-colors hover:border-border hover:bg-secondary/30">
                 <CardHeader>
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10">
-                    <service.icon className="h-6 w-6 text-accent" />
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                    <service.icon className="h-6 w-6 text-primary" />
                   </div>
                   <CardTitle className="text-lg text-foreground">{service.title}</CardTitle>
                 </CardHeader>
