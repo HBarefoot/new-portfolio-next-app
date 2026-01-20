@@ -15,23 +15,23 @@ export default function TimelineEvent({ event, isLast = false }: TimelineEventPr
 
     const getStatusIcon = (status: string) => {
         switch (status) {
-            case 'completed': return <CheckCircle2 className="w-6 h-6 text-green-500" />;
-            case 'in-progress': return <Clock className="w-6 h-6 text-blue-500 animate-pulse" />;
+            case 'completed': return <CheckCircle2 className="w-6 h-6 text-primary" />;
+            case 'in-progress': return <Clock className="w-6 h-6 text-primary animate-pulse" />;
             default: return <Circle className="w-6 h-6 text-gray-300 dark:text-gray-600" />;
         }
     };
 
     const statusColor = {
-        completed: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
-        'in-progress': 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
-        upcoming: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'
+        completed: 'bg-primary/10 text-primary',
+        'in-progress': 'bg-primary/10 text-primary',
+        upcoming: 'bg-muted text-muted-foreground'
     }[event.status];
 
     return (
         <div className="relative pl-8 pb-8">
             {/* Connector Line */}
             {!isLast && (
-                <div className={`absolute left-[11px] top-8 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-800 ${event.status === 'completed' ? 'bg-green-500/30' : ''}`} />
+                <div className={`absolute left-[11px] top-8 bottom-0 w-0.5 bg-border ${event.status === 'completed' ? 'bg-primary/30' : ''}`} />
             )}
 
             {/* Icon Node */}
@@ -43,7 +43,7 @@ export default function TimelineEvent({ event, isLast = false }: TimelineEventPr
             <motion.div
                 layout
                 onClick={() => setIsExpanded(!isExpanded)}
-                className={`bg-white dark:bg-gray-900 rounded-xl border transition-all cursor-pointer overflow-hidden ${isExpanded ? 'border-blue-500 shadow-lg ring-1 ring-blue-500' : 'border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700'}`}
+                className={`bg-card rounded-xl border transition-all cursor-pointer overflow-hidden ${isExpanded ? 'border-primary shadow-lg ring-1 ring-primary' : 'border-border hover:border-primary/50'}`}
             >
                 <div className="p-4 flex items-start justify-between">
                     <div>
@@ -55,10 +55,10 @@ export default function TimelineEvent({ event, isLast = false }: TimelineEventPr
                                 {new Date(event.date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
                             </span>
                         </div>
-                        <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-1">
+                        <h3 className="font-semibold text-lg text-foreground mb-1">
                             {event.title}
                         </h3>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm">
+                        <p className="text-muted-foreground text-sm">
                             {event.description}
                         </p>
                     </div>
@@ -95,7 +95,7 @@ export default function TimelineEvent({ event, isLast = false }: TimelineEventPr
                                 )}
 
                                 {event.status === 'completed' && (
-                                    <div className="mt-3 text-xs text-green-600 dark:text-green-400 font-medium flex items-center gap-1">
+                                    <div className="mt-3 text-xs text-primary font-medium flex items-center gap-1">
                                         <CheckCircle2 className="w-3 h-3" /> Verified by Project Manager
                                     </div>
                                 )}
