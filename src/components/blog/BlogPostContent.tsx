@@ -47,7 +47,7 @@ const translations = {
 // Custom components for ReactMarkdown with professional styling
 const MarkdownComponents = {
   h1: ({ children }: { children?: React.ReactNode }) => (
-    <h1 className="text-3xl font-bold text-gray-900 dark:text-white mt-12 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700/50 first:mt-0">
+    <h1 className="text-3xl font-bold text-foreground mt-12 mb-6 pb-4 border-b border-border first:mt-0">
       {children}
     </h1>
   ),
@@ -62,12 +62,12 @@ const MarkdownComponents = {
     </h3>
   ),
   h4: ({ children }: { children?: React.ReactNode }) => (
-    <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mt-8 mb-3">
+    <h4 className="text-lg font-semibold text-foreground/80 mt-8 mb-3">
       {children}
     </h4>
   ),
   p: ({ children }: { children?: React.ReactNode }) => (
-    <p className="text-gray-700 dark:text-gray-300 text-[17px] leading-[1.8] mb-6">
+    <p className="text-foreground/90 text-[17px] leading-[1.8] mb-6">
       {children}
     </p>
   ),
@@ -76,7 +76,7 @@ const MarkdownComponents = {
     const { src, alt } = props;
     if (!src || typeof src !== 'string') return null;
     return (
-      <div className="relative w-full my-8 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700/50">
+      <div className="relative w-full my-8 rounded-xl overflow-hidden shadow-lg border border-border">
         <Image
           src={src}
           alt={alt || ''}
@@ -100,17 +100,17 @@ const MarkdownComponents = {
     </ol>
   ),
   li: ({ children }: { children?: React.ReactNode }) => (
-    <li className="text-gray-700 dark:text-gray-300 text-[17px] leading-[1.8] pl-2 relative before:content-['•'] before:absolute before:-left-4 before:text-primary before:font-bold">
+    <li className="text-foreground/90 text-[17px] leading-[1.8] pl-2 relative before:content-['•'] before:absolute before:-left-4 before:text-primary before:font-bold">
       {children}
     </li>
   ),
   strong: ({ children }: { children?: React.ReactNode }) => (
-    <strong className="font-semibold text-gray-900 dark:text-white">
+    <strong className="font-semibold text-foreground">
       {children}
     </strong>
   ),
   em: ({ children }: { children?: React.ReactNode }) => (
-    <em className="italic text-gray-800 dark:text-gray-200">
+    <em className="italic text-foreground/80">
       {children}
     </em>
   ),
@@ -118,19 +118,19 @@ const MarkdownComponents = {
     const isInline = !className;
     if (isInline) {
       return (
-        <code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md text-blue-600 dark:text-blue-400 text-sm font-mono border border-gray-200 dark:border-gray-700/50">
+        <code className="bg-muted px-2 py-1 rounded-md text-primary text-sm font-mono border border-border">
           {children}
         </code>
       );
     }
     return (
-      <code className="text-gray-800 dark:text-gray-300 text-sm font-mono">
+      <code className="text-foreground/90 text-sm font-mono">
         {children}
       </code>
     );
   },
   pre: ({ children }: { children?: React.ReactNode }) => (
-    <pre className="bg-gray-100 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700/50 rounded-xl my-8 p-5 overflow-x-auto">
+    <pre className="bg-muted border border-border rounded-xl my-8 p-5 overflow-x-auto">
       {children}
     </pre>
   ),
@@ -253,10 +253,10 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
 
   if (!post) {
     return (
-      <div className="min-h-screen bg-white dark:bg-gray-950">
+      <div className="min-h-screen bg-background">
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">{t.notFoundTitle}</h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-8">{t.notFoundMessage}</p>
+          <h1 className="text-4xl font-bold text-foreground mb-4">{t.notFoundTitle}</h1>
+          <p className="text-muted-foreground mb-8">{t.notFoundMessage}</p>
           <Link href={blogPath} className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
             <ArrowLeft className="w-4 h-4" /> {t.backToBlog}
           </Link>
@@ -266,7 +266,7 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <div className="min-h-screen bg-background">
       <article className="max-w-4xl mx-auto px-4 py-12 pt-24">
         {/* Post Header */}
         <motion.header
@@ -274,7 +274,7 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
             {post.title}
           </h1>
           <div className="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400 mb-6">
