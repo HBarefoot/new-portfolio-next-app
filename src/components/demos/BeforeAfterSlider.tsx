@@ -70,7 +70,7 @@ export default function BeforeAfterSlider({
                     priority
                 />
 
-                <div className="absolute bottom-6 right-6 bg-black/80 backdrop-blur-md px-4 py-2 rounded-lg text-white font-semibold border border-white/10 shadow-lg z-10">
+                <div className="absolute bottom-6 right-6 bg-secondary/90 backdrop-blur-md px-4 py-2 rounded-lg text-secondary-foreground font-semibold border border-white/10 shadow-lg z-10">
                     {afterLabel}
                 </div>
             </div>
@@ -88,7 +88,7 @@ export default function BeforeAfterSlider({
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                 />
 
-                <div className="absolute bottom-6 left-6 bg-white/90 backdrop-blur-md px-4 py-2 rounded-lg text-blue-900 font-semibold border border-blue-200 shadow-lg z-10">
+                <div className="absolute bottom-6 left-6 bg-background/90 backdrop-blur-md px-4 py-2 rounded-lg text-primary font-semibold border border-primary/20 shadow-lg z-10">
                     {beforeLabel}
                 </div>
             </div>
@@ -98,7 +98,7 @@ export default function BeforeAfterSlider({
                 className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize z-20 shadow-[0_0_10px_rgba(0,0,0,0.5)]"
                 style={{ left: `${sliderPosition}%` }}
             >
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center text-blue-600">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-background rounded-full shadow-xl flex items-center justify-center text-primary">
                     <MoveHorizontal className="w-5 h-5" />
                 </div>
             </div>
