@@ -65,72 +65,72 @@ export default function ROISimulator() {
                     {/* Input: Hours */}
                     <div className="space-y-3">
                         <div className="flex justify-between">
-                            <label className="font-semibold text-gray-700 dark:text-gray-300">
+                            <label className="font-semibold text-foreground">
                                 Manual Hours / Week (per person)
                             </label>
-                            <span className="font-mono text-blue-600 dark:text-blue-400 font-bold bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded">
+                            <span className="font-mono text-primary font-bold bg-primary/10 px-2 py-1 rounded">
                                 {dataEntryHours} hrs
                             </span>
                         </div>
                         <input
                             type="range" min="1" max="60" value={dataEntryHours}
                             onChange={(e) => setDataEntryHours(parseInt(e.target.value))}
-                            className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                            className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
                         />
-                        <p className="text-xs text-gray-500">Time spent on repetitive data entry tasks.</p>
+                        <p className="text-xs text-muted-foreground">Time spent on repetitive data entry tasks.</p>
                     </div>
 
                     {/* Input: Team Size */}
                     <div className="space-y-3">
                         <div className="flex justify-between">
-                            <label className="font-semibold text-gray-700 dark:text-gray-300">
+                            <label className="font-semibold text-foreground">
                                 Team Size involved
                             </label>
-                            <span className="font-mono text-purple-600 dark:text-purple-400 font-bold bg-purple-50 dark:bg-purple-900/30 px-2 py-1 rounded">
+                            <span className="font-mono text-primary font-bold bg-primary/10 px-2 py-1 rounded">
                                 {teamSize} people
                             </span>
                         </div>
                         <input
                             type="range" min="1" max="20" value={teamSize}
                             onChange={(e) => setTeamSize(parseInt(e.target.value))}
-                            className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-600"
+                            className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
                         />
                     </div>
 
                     {/* Input: Hourly Cost */}
                     <div className="space-y-3">
                         <div className="flex justify-between">
-                            <label className="font-semibold text-gray-700 dark:text-gray-300">
+                            <label className="font-semibold text-foreground">
                                 Avg. Hourly Cost (Fully Loaded)
                             </label>
-                            <span className="font-mono text-green-600 dark:text-green-400 font-bold bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded">
+                            <span className="font-mono text-primary font-bold bg-primary/10 px-2 py-1 rounded">
                                 ${hourlyRate}/hr
                             </span>
                         </div>
                         <input
                             type="range" min="15" max="200" step="5" value={hourlyRate}
                             onChange={(e) => setHourlyRate(parseInt(e.target.value))}
-                            className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-green-600"
+                            className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
                         />
                     </div>
 
                     {/* Divider */}
-                    <div className="h-px bg-gray-200 dark:bg-gray-700 w-full" />
+                    <div className="h-px bg-border w-full" />
 
                     {/* Input: Error Rate */}
                     <div className="space-y-3 opacity-80 hover:opacity-100 transition-opacity">
                         <div className="flex justify-between">
-                            <label className="font-semibold text-gray-600 dark:text-gray-400">
+                            <label className="font-semibold text-muted-foreground">
                                 Current Error Rate
                             </label>
-                            <span className="font-mono text-gray-600 dark:text-gray-400 font-bold bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+                            <span className="font-mono text-muted-foreground font-bold bg-muted px-2 py-1 rounded">
                                 {errorRate}%
                             </span>
                         </div>
                         <input
                             type="range" min="0" max="30" value={errorRate}
                             onChange={(e) => setErrorRate(parseInt(e.target.value))}
-                            className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-gray-500"
+                            className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-muted-foreground"
                         />
                     </div>
 
@@ -141,18 +141,18 @@ export default function ROISimulator() {
             <div className="flex flex-col gap-6">
 
                 {/* Main Big Metric Card */}
-                <DemoCard title="Projected Annual Impact" className="bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-blue-950/20">
+                <DemoCard title="Projected Annual Impact" className="bg-gradient-to-br from-card to-secondary/20">
                     <div className="text-center py-6">
-                        <div className="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide font-semibold mb-2">Total Estimated Savings</div>
+                        <div className="text-sm text-muted-foreground uppercase tracking-wide font-semibold mb-2">Total Estimated Savings</div>
                         <motion.div
                             key={calculatedMetrics.annualSavings}
                             initial={{ scale: 0.9, opacity: 0.5 }}
                             animate={{ scale: 1, opacity: 1 }}
-                            className="text-5xl md:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-700 via-blue-600 to-purple-600 dark:from-blue-400 dark:via-blue-300 dark:to-purple-400"
+                            className="text-5xl md:text-6xl font-black text-foreground"
                         >
                             ${Math.floor(calculatedMetrics.annualSavings).toLocaleString()}
                         </motion.div>
-                        <p className="mt-2 text-green-600 dark:text-green-400 font-medium flex items-center justify-center gap-1">
+                        <p className="mt-2 text-primary font-medium flex items-center justify-center gap-1">
                             <TrendingUp className="w-4 h-4" />
                             +${Math.floor(calculatedMetrics.monthlySavings).toLocaleString()} / month
                         </p>
@@ -163,20 +163,20 @@ export default function ROISimulator() {
                 <div className="grid grid-cols-2 gap-6">
                     {/* Hours Recovered */}
                     <motion.div
-                        className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-800 relative overflow-hidden group"
+                        className="bg-card rounded-2xl p-6 shadow-lg border border-border relative overflow-hidden group"
                         whileHover={{ y: -5 }}
                     >
                         <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                             <Clock className="w-12 h-12" />
                         </div>
-                        <h3 className="text-gray-500 dark:text-gray-400 font-medium text-sm mb-2">Productivity Recaptured</h3>
-                        <div className="text-3xl font-bold text-gray-900 dark:text-white">
+                        <h3 className="text-muted-foreground font-medium text-sm mb-2">Productivity Recaptured</h3>
+                        <div className="text-3xl font-bold text-foreground">
                             {Math.round(calculatedMetrics.hoursRecovered).toLocaleString()}
-                            <span className="text-lg text-gray-400 ml-1">hrs/mo</span>
+                            <span className="text-lg text-muted-foreground ml-1">hrs/mo</span>
                         </div>
-                        <div className="mt-2 h-1.5 w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                        <div className="mt-2 h-1.5 w-full bg-muted rounded-full overflow-hidden">
                             <motion.div
-                                className="h-full bg-blue-500"
+                                className="h-full bg-primary"
                                 initial={{ width: 0 }}
                                 animate={{ width: `${Math.min(calculatedMetrics.hoursRecovered / (160 * teamSize) * 100, 100)}%` }} // % of total monthly hours per person
                             />
@@ -185,17 +185,17 @@ export default function ROISimulator() {
 
                     {/* Accuracy */}
                     <motion.div
-                        className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-800 relative overflow-hidden group"
+                        className="bg-card rounded-2xl p-6 shadow-lg border border-border relative overflow-hidden group"
                         whileHover={{ y: -5 }}
                     >
                         <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                             <CheckCircle className="w-12 h-12" />
                         </div>
-                        <h3 className="text-gray-500 dark:text-gray-400 font-medium text-sm mb-2">Accuracy Boost</h3>
-                        <div className="text-3xl font-bold text-gray-900 dark:text-white">
+                        <h3 className="text-muted-foreground font-medium text-sm mb-2">Accuracy Boost</h3>
+                        <div className="text-3xl font-bold text-foreground">
                             +{calculatedMetrics.accuracyGain.toFixed(1)}%
                         </div>
-                        <p className="text-xs text-gray-500 mt-1">Error reduction from {errorRate}% to 0.5%</p>
+                        <p className="text-xs text-muted-foreground mt-1">Error reduction from {errorRate}% to 0.5%</p>
                     </motion.div>
                 </div>
 
@@ -209,7 +209,7 @@ export default function ROISimulator() {
                             <h4 className="font-bold text-lg mb-1">Executive Summary</h4>
                             <p className="opacity-80 text-sm leading-relaxed">
                                 By automating {dataEntryHours} weekly hours across {teamSize} staff, you unlock the equivalent of
-                                <strong className="text-blue-300 dark:text-blue-600 mx-1">
+                                <strong className="text-primary mx-1">
                                     {((calculatedMetrics.hoursRecovered / 160)).toFixed(1)} full-time employees
                                 </strong>
                                 for high-value strategic work.
