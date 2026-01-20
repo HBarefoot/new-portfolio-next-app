@@ -20,23 +20,43 @@ export default function LeadMagnetModal({ isOpen, onClose, auditUrl, auditData }
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
+        // Clear previous state just in case
+        setIsSuccess(false);
 
-        // Simulate API call/Webhook
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        try {
+            const response = await fetch("/api/audit-lead", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    websiteUrl: auditUrl,
+                    overallScore: auditData?.scores?.performance || 0,
+                    auditData: auditData
+                }),
+            });
 
-        console.log("Submitting lead:", { name, email, url: auditUrl, data: auditData });
-        // Here you would fetch('https://n8n.your-domain.com/webhook/...', { ... })
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({ error: response.statusText }));
+                throw new Error(errorData.error || errorData.message || "Failed to submit lead");
+            }
 
-        setIsSubmitting(false);
-        setIsSuccess(true);
+            setIsSubmitting(false);
+            setIsSuccess(true);
 
-        // Close after delay
-        setTimeout(() => {
-            onClose();
-            setIsSuccess(false);
-            setName("");
-            setEmail("");
-        }, 2000);
+            // Close after delay
+            setTimeout(() => {
+                onClose();
+                setIsSuccess(false);
+                setName("");
+                setEmail("");
+            }, 3000); // 3 seconds to read the success message
+
+        } catch (error) {
+            console.error("Error submitting lead:", error);
+            setIsSubmitting(false);
+            alert("Something went wrong with the submission. Please try again.");
+        }
     };
 
     return (
