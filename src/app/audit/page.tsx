@@ -44,7 +44,7 @@ export default function AuditPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-white pb-20">
+        <div className="min-h-screen bg-background text-foreground pb-20">
             {/* Hero Section */}
             <section className="relative px-4 pt-20 pb-16 text-center overflow-hidden">
                 <div className="max-w-4xl mx-auto relative z-10">
@@ -53,10 +53,10 @@ export default function AuditPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300">
+                        <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-foreground">
                             Is Your Website Losing You Money?
                         </h1>
-                        <p className="text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto">
+                        <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
                             Get a free, instant performance audit. See exactly how your site speed impacts your bottom line.
                         </p>
                     </motion.div>
@@ -73,7 +73,7 @@ export default function AuditPage() {
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            className="mt-6 p-4 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-lg max-w-md mx-auto"
+                            className="mt-6 p-4 bg-destructive/10 text-destructive rounded-lg max-w-md mx-auto"
                         >
                             {error}
                         </motion.div>
@@ -82,8 +82,8 @@ export default function AuditPage() {
 
                 {/* Decorative background elements */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-6xl -z-10 opacity-30 pointer-events-none">
-                    <div className="absolute top-20 left-10 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl" />
-                    <div className="absolute top-40 right-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
+                    <div className="absolute top-20 left-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl" />
+                    <div className="absolute top-40 right-10 w-96 h-96 bg-secondary/20 rounded-full blur-3xl" />
                 </div>
             </section>
 
@@ -110,20 +110,20 @@ export default function AuditPage() {
                             transition={{ delay: 0.2 }}
                             className="space-y-6"
                         >
-                            <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-zinc-800">
+                            <div className="bg-card rounded-2xl p-6 shadow-sm border border-border">
                                 <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                                    <BarChart3 className="w-5 h-5 text-blue-500" />
+                                    <BarChart3 className="w-5 h-5 text-primary" />
                                     Business Impact
                                 </h2>
                                 <ImpactCard score={data.scores.performance} />
 
-                                <div className="mt-6 pt-6 border-t border-gray-100 dark:border-zinc-800">
-                                    <h3 className="font-medium text-gray-900 dark:text-gray-200 mb-2">Core Web Vitals</h3>
+                                <div className="mt-6 pt-6 border-t border-border">
+                                    <h3 className="font-medium text-foreground mb-2">Core Web Vitals</h3>
                                     <div className="flex items-center justify-between py-2">
-                                        <span className="text-gray-600 dark:text-gray-400">First Contentful Paint</span>
-                                        <span className="font-mono font-bold text-gray-900 dark:text-white">{data.metrics.fcp}</span>
+                                        <span className="text-muted-foreground">First Contentful Paint</span>
+                                        <span className="font-mono font-bold text-foreground">{data.metrics.fcp}</span>
                                     </div>
-                                    <p className="text-xs text-gray-500 mt-1">
+                                    <p className="text-xs text-muted-foreground mt-1">
                                         Time until the first text or image is painted.
                                     </p>
                                 </div>
@@ -136,10 +136,10 @@ export default function AuditPage() {
                             initial={{ x: 20, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ delay: 0.3 }}
-                            className="bg-white dark:bg-zinc-900 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-zinc-800"
+                            className="bg-card rounded-2xl p-8 shadow-sm border border-border"
                         >
                             <h2 className="text-xl font-semibold mb-8 flex items-center gap-2">
-                                <CloudLightning className="w-5 h-5 text-yellow-500" />
+                                <CloudLightning className="w-5 h-5 text-primary" />
                                 Lighthouse Scores
                             </h2>
                             <div className="grid grid-cols-2 gap-y-10 gap-x-4">
@@ -157,20 +157,20 @@ export default function AuditPage() {
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ delay: 0.5 }}
-                        className="text-center bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-8 md:p-12 shadow-xl text-white relative overflow-hidden"
+                        className="text-center bg-primary rounded-2xl p-8 md:p-12 shadow-xl text-primary-foreground relative overflow-hidden"
                     >
                         <div className="relative z-10">
                             <h2 className="text-3xl font-bold mb-4">Want to Fix These Issues?</h2>
-                            <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
+                            <p className="text-primary-foreground/90 text-lg mb-8 max-w-2xl mx-auto">
                                 Get a detailed, step-by-step developer guide on how to improve your scores and increase your conversion rate.
                             </p>
                             <button
                                 onClick={() => setModalOpen(true)}
-                                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-600 font-bold rounded-full hover:bg-blue-50 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                                className="inline-flex items-center gap-2 px-8 py-4 bg-secondary text-secondary-foreground font-bold rounded-full hover:bg-secondary/90 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 border border-transparent"
                             >
                                 <Lock className="w-4 h-4" /> Get Detailed Fixes
                             </button>
-                            <p className="mt-4 text-sm text-blue-200/80">
+                            <p className="mt-4 text-sm text-primary-foreground/70">
                                 100% Free • No Credit Card Required
                             </p>
                         </div>
