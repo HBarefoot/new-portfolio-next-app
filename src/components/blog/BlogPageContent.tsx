@@ -280,7 +280,7 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
                   </div>
                   <Link
                     href={getBlogPostUrl(post.slug)}
-                    className="inline-flex items-center gap-2 mt-4 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors font-medium"
+                    className="inline-flex items-center gap-2 mt-4 text-foreground hover:text-primary transition-colors font-medium"
                   >
                     {t.readMore} <ArrowRight className="w-4 h-4" />
                   </Link>
