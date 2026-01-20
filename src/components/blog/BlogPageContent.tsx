@@ -47,7 +47,7 @@ const translations = {
 
 export default function BlogPageContent({ locale }: BlogPageContentProps) {
   const t = translations[locale];
-  
+
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [loading, setLoading] = useState(true);
@@ -73,7 +73,7 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
           const authorData = post?.author;
           const categoryData = post?.category;
           const coverImageData = post?.coverImage;
-          
+
           return {
             id: post.id?.toString() || post.documentId,
             slug: post.slug,
@@ -97,7 +97,7 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
             industry: post.industry
           };
         });
-      
+
       // Transform categories
       const transformedCategories: BlogCategory[] = strapiCategories
         .filter((cat: any) => cat && cat.name)
@@ -119,8 +119,8 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
 
   const filteredPosts = posts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
     const matchesCategory = selectedCategory === 'all' || post.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
@@ -142,7 +142,7 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
     <div className="min-h-screen bg-white dark:bg-gray-950">
       <main className="max-w-6xl mx-auto px-4 py-12 pt-24">
         {/* Hero Section */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
@@ -156,7 +156,7 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
         </motion.div>
 
         {/* Search & Filter */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -169,15 +169,15 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
               placeholder={t.searchPlaceholder}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:border-blue-500 dark:focus:border-blue-500 transition-colors"
+              className="w-full pl-10 pr-4 py-3 bg-secondary/50 border border-input rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary transition-colors"
             />
           </div>
           <div className="relative">
-            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" />
+            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="pl-10 pr-8 py-3 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 dark:focus:border-blue-500 transition-colors appearance-none cursor-pointer"
+              className="pl-10 pr-8 py-3 bg-secondary/50 border border-input rounded-lg text-foreground focus:outline-none focus:border-primary transition-colors appearance-none cursor-pointer"
             >
               <option value="all">{t.allCategories}</option>
               {categories.map(cat => (
@@ -190,10 +190,10 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
         {/* Posts Grid */}
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
           </div>
         ) : filteredPosts.length === 0 ? (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="text-center py-20"
@@ -201,7 +201,7 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
             <div className="text-6xl mb-4">📝</div>
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">{t.noPosts}</h2>
             <p className="text-gray-600 dark:text-gray-400">
-              {searchQuery || selectedCategory !== 'all' 
+              {searchQuery || selectedCategory !== 'all'
                 ? t.noMatchingPosts
                 : t.noPostsDescription}
             </p>
@@ -214,12 +214,12 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl overflow-hidden hover:border-blue-500 dark:hover:border-blue-500/50 transition-all duration-300 group shadow-sm dark:shadow-gray-900/30"
+                className="bg-card border border-border rounded-xl overflow-hidden hover:border-primary transition-all duration-300 group shadow-sm"
               >
                 {post.coverImage && (
                   <div className="aspect-video bg-gray-200 dark:bg-gray-700 overflow-hidden">
-                    <img 
-                      src={post.coverImage} 
+                    <img
+                      src={post.coverImage}
                       alt={post.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -227,16 +227,16 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
                 )}
                 <div className="p-6">
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="px-2 py-1 bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-medium rounded">
+                    <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs font-medium rounded">
                       {post.category}
                     </span>
                     {post.industry && (
-                      <span className="px-2 py-1 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-medium rounded">
+                      <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs font-medium rounded">
                         {post.industry}
                       </span>
                     )}
                   </div>
-                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                  <h2 className="text-xl font-semibold text-card-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
                     {post.title}
                   </h2>
                   <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3">
@@ -245,13 +245,13 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
                   <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-500 mb-3">
                     <div className="flex items-center gap-3">
                       {post.author.avatar ? (
-                        <img 
-                          src={post.author.avatar} 
+                        <img
+                          src={post.author.avatar}
                           alt={post.author.name}
                           className="w-6 h-6 rounded-full object-cover"
                         />
                       ) : (
-                        <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-semibold">
+                        <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-semibold">
                           {post.author.name.charAt(0)}
                         </div>
                       )}
@@ -278,7 +278,7 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
                       </span>
                     ))}
                   </div>
-                  <Link 
+                  <Link
                     href={getBlogPostUrl(post.slug)}
                     className="inline-flex items-center gap-2 mt-4 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors font-medium"
                   >
@@ -292,7 +292,7 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
 
         {/* Stats */}
         {posts.length > 0 && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}

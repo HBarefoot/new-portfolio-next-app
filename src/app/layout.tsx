@@ -5,17 +5,12 @@ import dynamic from "next/dynamic";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Header from "@/components/Header";
+import { Footer } from "@/components/Footer"; // Updated import
 import "./globals.css";
 
 // Lazy load ChatWidget - it's not needed for initial page render
 const ChatWidget = dynamic(() => import("@/components/ChatWidget"), {
   loading: () => null, // Don't show anything while loading
-});
-
-// Lazy load Footer - it's at the bottom of the page, not needed for initial render
-// Using the lighter version without framer-motion
-const Footer = dynamic(() => import("@/components/FooterLight"), {
-  loading: () => <footer className="bg-gray-950 text-white py-12"><div className="container mx-auto px-4 h-64"></div></footer>,
 });
 
 const inter = Inter({
@@ -34,54 +29,25 @@ const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-MGZ8LLPP';
 export const metadata: Metadata = {
   metadataBase: new URL("https://next.henrybarefoot.com"),
   title: {
-    default: "Henry Barefoot - Senior Web Developer, n8n Automation & WordPress Specialist",
-    template: "%s | Henry Barefoot",
+    default: "Barefoot Digital - Automating the Future of Logistics & Fintech",
+    template: "%s | Barefoot Digital",
   },
   description:
-    "Senior Web Developer with 8+ years of experience specializing in n8n automation, WordPress development, and modern web technologies. Expert in building intelligent workflows, agentic systems, RAG implementations, custom WordPress solutions, and seamless integrations between platforms.",
+    "Solution Architect specializing in AI-powered automation, custom n8n workflows, and production-ready full-stack applications for the maritime and finance sectors.",
   keywords: [
     "Henry Barefoot",
+    "Solution Architect",
+    "Automation Engine",
     "n8n Developer",
-    "n8n Automation Specialist",
-    "WordPress Developer",
-    "WordPress Expert",
-    "WordPress Custom Development",
-    "WordPress Plugin Development",
-    "WordPress Theme Development",
-    "WordPress API Integration",
-    "WooCommerce Developer",
-    "WordPress Automation",
-    "Agentic Systems",
-    "Workflow Automation",
-    "RAG Implementation",
-    "AI Automation",
-    "n8n Custom Nodes",
-    "Intelligent Workflows",
+    "Logistics Automation",
+    "Fintech AI",
     "Web Developer",
     "React Developer",
     "Next.js Developer",
     "TypeScript",
-    "PHP Developer",
-    "API Integrations",
-    "Process Automation",
-    "Business Intelligence",
     "AI Agent Development",
     "Vector Databases",
-    "OpenAI Integration",
-    "Telegram Bot Development",
-    "Social Media Automation",
-    "Marketing Automation",
-    "Data Processing",
-    "Webhook Development",
-    "Custom Automation Solutions",
-    "WordPress n8n Integration",
-    "WordPress Workflow Automation",
-    "Headless WordPress",
-    "WordPress REST API",
-    "Custom Post Types",
-    "Advanced Custom Fields",
-    "WordPress Security",
-    "WordPress Performance Optimization"
+    "RAG Implementation"
   ],
   authors: [{ name: "Henry Barefoot" }],
   creator: "Henry Barefoot",
@@ -96,16 +62,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://next.henrybarefoot.com",
-    title: "Henry Barefoot - Senior Web Developer, n8n Automation & WordPress Specialist",
+    title: "Barefoot Digital - Automating the Future of Logistics & Fintech",
     description:
-      "Expert in n8n workflow automation, WordPress development, and agentic systems. Specializing in intelligent automation solutions, custom WordPress development, AI integrations, and seamless platform connectivity for modern businesses.",
-    siteName: "Henry Barefoot Portfolio",
+      "Bridging the gap between complex engineering and business revenue with production-ready AI and automation solutions.",
+    siteName: "Barefoot Digital",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Henry Barefoot - n8n Automation & WordPress Specialist",
+    title: "Barefoot Digital - Automation & AI Solutions",
     description:
-      "Building intelligent workflows with n8n and custom WordPress solutions. Expert in automation, AI integrations, and modern web development.",
+      "Automating the future of logistics & fintech with production-ready AI.",
   },
   robots: {
     index: true,
@@ -131,9 +97,6 @@ export default function RootLayout({
           /* Prevent FOUC - minimal safe styles */
           html{scroll-behavior:smooth}
           body{margin:0}
-          /* Prevent layout shift for hero image container */
-          .hero-image-placeholder{width:320px;height:320px;border-radius:9999px}
-          @media(max-width:640px){.hero-image-placeholder{width:256px;height:256px}}
         `}} />
 
         {/* Preconnect hints for faster resource loading - establish connection early */}
@@ -172,7 +135,7 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className={`${inter.variable} font-sans antialiased bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300`}
+        className={`${inter.variable} font-sans antialiased bg-background text-foreground transition-colors duration-300`}
       >
         {/* Google Tag Manager (noscript) */}
         <noscript>
@@ -187,7 +150,9 @@ export default function RootLayout({
         <ThemeProvider>
           <Header />
           {children}
-          <Footer />
+          <div id="footer-new">
+            <Footer />
+          </div>
           <ChatWidget />
         </ThemeProvider>
         <Analytics />
