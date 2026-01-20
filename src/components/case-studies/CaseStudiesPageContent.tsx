@@ -61,28 +61,29 @@ export default async function CaseStudiesPageContent({ locale }: CaseStudiesPage
   const regularStudies = caseStudies.filter((study: any) => !study.attributes.featured);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <section className="bg-gradient-to-br from-blue-600 to-purple-600 text-white py-20">
+      <section className="bg-primary text-primary-foreground py-20">
         <div className="container mx-auto px-4 lg:px-6">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm mb-6">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-foreground/10 backdrop-blur-sm mb-6 border border-primary-foreground/20">
               <Briefcase className="w-8 h-8" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               {t.title}
             </h1>
-            <p className="text-xl md:text-2xl text-white/90">
+            <p className="text-xl md:text-2xl text-primary-foreground/90">
               {t.subtitle}
             </p>
           </div>
         </div>
       </section>
 
+
       <div className="container mx-auto px-4 lg:px-6 py-16 pt-24">
         {caseStudies.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-xl text-gray-600 dark:text-gray-400">
+            <p className="text-xl text-muted-foreground">
               {t.emptyMessage}
             </p>
           </div>
@@ -91,7 +92,7 @@ export default async function CaseStudiesPageContent({ locale }: CaseStudiesPage
             {/* Featured Case Study */}
             {featuredStudy && (
               <div className="mb-16">
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+                <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
                   {t.featuredTitle}
                 </h2>
                 <div className="max-w-5xl mx-auto">
@@ -103,7 +104,7 @@ export default async function CaseStudiesPageContent({ locale }: CaseStudiesPage
             {/* All Case Studies */}
             {regularStudies.length > 0 && (
               <div>
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+                <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
                   {featuredStudy ? t.moreTitle : t.allTitle}
                 </h2>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

@@ -10,7 +10,7 @@ export function HeroSection() {
     <section className="relative min-h-screen overflow-hidden bg-background pt-24">
       {/* Subtle grid background */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
-      
+
       <div className="relative mx-auto max-w-6xl px-6 py-24 md:py-32 lg:py-40">
         <div className="flex flex-col items-center text-center">
           <motion.div
@@ -24,14 +24,11 @@ export function HeroSection() {
             </span>
           </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+          <h1
             className="max-w-4xl text-balance text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl"
           >
             Automating the Future of Logistics & Fintech with Production-Ready AI.
-          </motion.h1>
+          </h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}

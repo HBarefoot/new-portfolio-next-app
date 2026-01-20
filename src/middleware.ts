@@ -65,10 +65,10 @@ function setSecurityHeaders(response: NextResponse, request: NextRequest) {
   // - connect-src: Allow Strapi CMS API, analytics, and tracking endpoints
   response.headers.set(
     'Content-Security-Policy',
-    `frame-ancestors 'self' ${cmsUrl} https://cms.henrybarefoot.com; ` +
-    `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://cdn.vercel-insights.com https://www.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com https://tagmanager.google.com https://va.vercel-scripts.com https://connect.facebook.net; ` +
+    `frame-ancestors 'self' ${cmsUrl} https://cms.henrybarefoot.com https://vercel.live https://vercel.com; ` +
+    `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://cdn.vercel-insights.com https://www.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com https://tagmanager.google.com https://va.vercel-scripts.com https://connect.facebook.net https://vercel.live https://vercel.com; ` +
     `img-src 'self' data: blob: https: http://localhost:1337; ` +
-    `connect-src 'self' ${cmsUrl} https://cms.henrybarefoot.com https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://*.vercel-insights.com https://www.facebook.com https://connect.facebook.net http://localhost:8000 https://performance-service-production.up.railway.app;`
+    `connect-src 'self' ${cmsUrl} https://cms.henrybarefoot.com https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://*.vercel-insights.com https://www.facebook.com https://connect.facebook.net http://localhost:8000 https://performance-service-production.up.railway.app https://vercel.live https://vercel.com wss://ws-us3.pusher.com;`
   );
 }
 
