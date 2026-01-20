@@ -5,17 +5,42 @@ import React from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { FileText, ArrowRight, CheckCircle } from "lucide-react"
+import { FileText, ArrowRight, CheckCircle, Loader2 } from "lucide-react"
 import { motion } from "framer-motion"
 
 export function LeadMagnetSection() {
   const [email, setEmail] = useState("")
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (email) {
+    if (!email) return
+
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch('/api/blueprint-lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Something went wrong. Please try again.')
+      }
+
       setIsSubmitted(true)
+      setEmail("")
+    } catch (err) {
+      console.error(err)
+      setError("Failed to submit. Please try again later.")
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -34,11 +59,11 @@ export function LeadMagnetSection() {
               <FileText className="h-7 w-7 text-accent" />
             </div>
           </div>
-          
+
           <h2 className="text-balance text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
             Get the Automation Blueprint
           </h2>
-          
+
           <p className="mx-auto mt-4 max-w-lg text-pretty text-muted-foreground">
             Download my free guide on the <span className="text-foreground font-medium">Top 5 n8n Workflows for Small Business</span> and start automating your operations today.
           </p>
@@ -54,11 +79,25 @@ export function LeadMagnetSection() {
                   required
                   className="h-11 border-border bg-secondary/50 px-4 text-foreground placeholder:text-muted-foreground focus-visible:border-accent focus-visible:ring-accent/30 sm:w-72"
                 />
-                <Button type="submit" size="lg" className="group h-11">
-                  Download Guide
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <Button type="submit" size="lg" className="group h-11" disabled={isLoading}>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Processing
+                    </>
+                  ) : (
+                    <>
+                      Download Guide
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </>
+                  )}
                 </Button>
               </div>
+              {error && (
+                <p className="mt-3 text-xs text-destructive text-center">
+                  {error}
+                </p>
+              )}
               <p className="mt-3 text-xs text-muted-foreground">
                 No spam. Unsubscribe anytime.
               </p>
