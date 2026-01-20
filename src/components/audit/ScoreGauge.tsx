@@ -38,7 +38,7 @@ export default function ScoreGauge({ score, label }: ScoreGaugeProps) {
                         stroke="currentColor"
                         strokeWidth="8"
                         fill="transparent"
-                        className="text-gray-200 dark:text-gray-700"
+                        className="text-secondary opacity-30"
                     />
                     {/* Progress Circle */}
                     <motion.circle
@@ -59,7 +59,7 @@ export default function ScoreGauge({ score, label }: ScoreGaugeProps) {
                     {percentage}
                 </div>
             </div>
-            <span className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+            <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
                 {label}
             </span>
         </div>

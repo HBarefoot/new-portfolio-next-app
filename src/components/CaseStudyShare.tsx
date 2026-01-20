@@ -19,10 +19,10 @@ export default function CaseStudyShare({ slug, title, excerpt }: CaseStudyShareP
 
   return (
     <div className="flex flex-col items-center gap-3">
-      <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
+      <span className="text-sm font-medium text-muted-foreground">
         Share this case study
       </span>
-      <ShareButtons 
+      <ShareButtons
         url={url}
         title={title}
         description={excerpt}

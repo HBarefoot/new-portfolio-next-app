@@ -98,10 +98,10 @@ const ChatWidget = () => {
 
       const data = await response.json();
       console.log('Webhook response data:', data);
-      
+
       // Handle different n8n response formats
       let botResponse: string;
-      
+
       if (typeof data === 'string') {
         // Direct string response
         botResponse = data;
@@ -177,9 +177,8 @@ const ChatWidget = () => {
       {/* Chat Toggle Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 p-3 sm:p-4 bg-gradient-to-r from-blue-600 to-blue-500 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 group ring-4 ring-blue-600/20 ${
-          isOpen ? 'max-sm:hidden' : ''
-        }`}
+        className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 p-3 sm:p-4 bg-primary rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 group ring-4 ring-primary/20 ${isOpen ? 'max-sm:hidden' : ''
+          }`}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         aria-label="Toggle chat"
@@ -193,7 +192,7 @@ const ChatWidget = () => {
               exit={{ rotate: 90, opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <X className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+              <X className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" />
             </motion.div>
           ) : (
             <motion.div
@@ -204,8 +203,8 @@ const ChatWidget = () => {
               transition={{ duration: 0.2 }}
               className="relative"
             >
-              <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-green-500 rounded-full animate-pulse border-2 border-white shadow-lg" />
+              <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" />
+              <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-green-500 rounded-full animate-pulse border-2 border-background shadow-lg" />
             </motion.div>
           )}
         </AnimatePresence>
@@ -222,7 +221,7 @@ const ChatWidget = () => {
             className="fixed bottom-0 right-0 left-0 z-40 w-full h-[100dvh] pt-16 sm:pt-0 sm:bottom-24 sm:right-6 sm:left-auto sm:w-[400px] sm:h-[600px] sm:max-h-[calc(100vh-200px)] sm:rounded-2xl bg-white dark:bg-gray-900 shadow-2xl flex flex-col overflow-hidden border-t border-gray-200 dark:border-gray-800 sm:border sm:border-gray-200 sm:dark:border-gray-800"
           >
             {/* Chat Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-500 p-3 sm:p-4 text-white flex-shrink-0">
+            <div className="bg-primary p-3 sm:p-4 text-primary-foreground flex-shrink-0">
               <div className="flex items-center gap-2 sm:gap-3">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
                   <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -258,11 +257,10 @@ const ChatWidget = () => {
                   className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[85%] sm:max-w-[90%] rounded-2xl px-3 py-2 sm:px-4 sm:py-2.5 ${
-                      message.sender === 'user'
-                        ? 'bg-gradient-to-r from-primary to-accent text-white rounded-br-sm'
-                        : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-bl-sm shadow-sm border border-gray-200 dark:border-gray-700'
-                    }`}
+                    className={`max-w-[85%] sm:max-w-[90%] rounded-2xl px-3 py-2 sm:px-4 sm:py-2.5 ${message.sender === 'user'
+                      ? 'bg-primary text-primary-foreground rounded-br-sm'
+                      : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-bl-sm shadow-sm border border-gray-200 dark:border-gray-700'
+                      }`}
                   >
                     {message.sender === 'bot' ? (
                       <div className="text-sm prose prose-sm dark:prose-invert max-w-none prose-p:my-2 prose-headings:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5 prose-pre:my-2 prose-pre:max-w-full prose-pre:overflow-x-auto prose-code:break-words prose-pre:text-xs">
@@ -274,9 +272,8 @@ const ChatWidget = () => {
                       <p className="text-sm whitespace-pre-wrap break-words">{message.text}</p>
                     )}
                     <p
-                      className={`text-xs mt-1 ${
-                        message.sender === 'user' ? 'text-white/70' : 'text-gray-500 dark:text-gray-400'
-                      }`}
+                      className={`text-xs mt-1 ${message.sender === 'user' ? 'text-white/70' : 'text-gray-500 dark:text-gray-400'
+                        }`}
                     >
                       {formatTime(message.timestamp)}
                     </p>
@@ -321,7 +318,7 @@ const ChatWidget = () => {
 
             {/* Input Area */}
             <div className="p-3 sm:p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 flex-shrink-0">
-              <form 
+              <form
                 onSubmit={(e) => {
                   e.preventDefault();
                   if (!isLoading && inputValue.trim()) {
@@ -343,7 +340,7 @@ const ChatWidget = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="p-3 sm:p-2.5 bg-gradient-to-r from-primary to-accent text-white rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 group flex-shrink-0"
+                  className="p-3 sm:p-2.5 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 group flex-shrink-0"
                   aria-label="Send message"
                 >
                   {isLoading ? (

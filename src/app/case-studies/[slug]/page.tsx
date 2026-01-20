@@ -20,9 +20,9 @@ interface Props {
 async function getCaseStudyData(slug: string, documentId?: string, isDraft: boolean = false) {
   try {
     let endpoint: string;
-    
+
     console.log('[Draft Preview Debug]', { slug, documentId, isDraft });
-    
+
     if (documentId && isDraft) {
       // Fetch by documentId for draft mode using Strapi v5 Documents API
       endpoint = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?filters[documentId][$eq]=${documentId}&populate=*&status=draft`;
@@ -30,43 +30,43 @@ async function getCaseStudyData(slug: string, documentId?: string, isDraft: bool
       // Fetch by slug for published content
       endpoint = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/case-studies?filters[slug][$eq]=${slug}&populate=*`;
     }
-    
+
     console.log('[Draft Preview Debug] Fetching from:', endpoint);
-    
+
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
     };
-    
+
     // Add API key for draft content - always use it for draft mode
     if (isDraft && process.env.STRAPI_API_KEY) {
       headers['Authorization'] = `Bearer ${process.env.STRAPI_API_KEY}`;
       console.log('[Draft Preview Debug] Using API key for authentication');
     }
-    
+
     const response = await fetch(endpoint, {
       headers,
       next: { revalidate: isDraft ? 0 : 60 },
       cache: isDraft ? 'no-store' : 'default',
     });
-    
+
     console.log('[Draft Preview Debug] Response status:', response.status);
-    
+
     console.log('[Draft Preview Debug] Response status:', response.status);
-    
+
     if (!response.ok) {
       console.error(`[Draft Preview Debug] Failed to fetch case study: ${response.status} ${response.statusText}`);
       const errorText = await response.text();
       console.error('[Draft Preview Debug] Error response:', errorText);
       return null;
     }
-    
+
     const data = await response.json();
-    console.log('[Draft Preview Debug] Data received:', { 
-      hasData: !!data.data, 
+    console.log('[Draft Preview Debug] Data received:', {
+      hasData: !!data.data,
       isArray: Array.isArray(data.data),
       length: Array.isArray(data.data) ? data.data.length : 'N/A'
     });
-    
+
     // Both slug and documentId queries return array responses
     if (data.data && data.data[0]) {
       const item = data.data[0];
@@ -81,7 +81,7 @@ async function getCaseStudyData(slug: string, documentId?: string, isDraft: bool
         attributes: item
       };
     }
-    
+
     console.log('[Draft Preview Debug] No data found in response');
     return null;
   } catch (error) {
@@ -94,7 +94,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const { slug } = await params;
   const { documentId } = await searchParams;
   const { isEnabled } = await draftMode();
-  
+
   const caseStudy = await getCaseStudyData(slug, documentId, isEnabled);
 
   if (!caseStudy) {
@@ -113,7 +113,7 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
   const { slug } = await params;
   const { documentId } = await searchParams;
   const { isEnabled: isDraftMode } = await draftMode();
-  
+
   const caseStudyData = await getCaseStudyData(slug, documentId, isDraftMode);
 
   if (!caseStudyData) {
@@ -126,7 +126,7 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
   return (
     <article className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-[60vh] min-h-[500px] bg-gradient-to-br from-blue-600 to-purple-600">
+      <section className="relative h-[60vh] min-h-[500px] bg-primary">
         {heroImageUrl && (
           <Image
             src={heroImageUrl}
@@ -136,25 +136,25 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
             priority
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-        
+        <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
+
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="container mx-auto px-4 lg:px-6">
-            <div className="max-w-4xl mx-auto text-center text-white">
+            <div className="max-w-4xl mx-auto text-center text-primary-foreground">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
                 {caseStudy.title}
               </h1>
               {caseStudy.heroTagline && (
-                <p className="text-xl md:text-2xl text-white/90 mb-6">
+                <p className="text-xl md:text-2xl text-primary-foreground/90 mb-6 drop-shadow-md">
                   {caseStudy.heroTagline}
                 </p>
               )}
               <div className="flex flex-wrap gap-4 justify-center">
-                <span className="bg-white/20 backdrop-blur-sm px-6 py-2 rounded-full font-semibold">
+                <span className="bg-primary-foreground/10 backdrop-blur-md border border-primary-foreground/20 px-6 py-2 rounded-full font-semibold text-primary-foreground">
                   {caseStudy.client}
                 </span>
                 {caseStudy.industry && (
-                  <span className="bg-white/20 backdrop-blur-sm px-6 py-2 rounded-full font-semibold">
+                  <span className="bg-primary-foreground/10 backdrop-blur-md border border-primary-foreground/20 px-6 py-2 rounded-full font-semibold text-primary-foreground">
                     {caseStudy.industry}
                   </span>
                 )}
@@ -166,19 +166,19 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
 
       {/* Quick Stats/Metrics */}
       {caseStudy.metrics && caseStudy.metrics.length > 0 && (
-        <section className="bg-gray-50 dark:bg-gray-900 py-16">
+        <section className="bg-secondary/30 py-16 border-b border-border">
           <div className="container mx-auto px-4 lg:px-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
               {caseStudy.metrics.map((metric: { label: string; value: string; icon?: string; description?: string }, idx: number) => (
                 <div key={idx} className="text-center">
-                  <div className="text-4xl md:text-5xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                  <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
                     {metric.value}
                   </div>
-                  <div className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                  <div className="text-lg font-semibold text-foreground mb-1">
                     {metric.label}
                   </div>
                   {metric.description && (
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-muted-foreground">
                       {metric.description}
                     </p>
                   )}
@@ -190,24 +190,24 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
       )}
 
       {/* Project Overview */}
-      <section className="py-16 bg-white dark:bg-gray-950">
+      <section className="py-16 bg-background">
         <div className="container mx-auto px-4 lg:px-6 max-w-4xl">
           {/* Metadata */}
           <div className="flex flex-wrap gap-6 mb-12 pb-8 border-b border-gray-200 dark:border-gray-800">
             {caseStudy.role && (
               <div>
-                <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase mb-1">
+                <h3 className="text-sm font-semibold text-muted-foreground uppercase mb-1">
                   Role
                 </h3>
-                <p className="text-lg text-gray-900 dark:text-white">{caseStudy.role}</p>
+                <p className="text-lg text-foreground">{caseStudy.role}</p>
               </div>
             )}
             {caseStudy.projectDuration && (
               <div>
-                <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase mb-1">
+                <h3 className="text-sm font-semibold text-muted-foreground uppercase mb-1">
                   Duration
                 </h3>
-                <p className="text-lg text-gray-900 dark:text-white flex items-center gap-2">
+                <p className="text-lg text-foreground flex items-center gap-2">
                   <Clock className="w-5 h-5" />
                   {caseStudy.projectDuration}
                 </p>
@@ -215,10 +215,10 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
             )}
             {caseStudy.projectDate && (
               <div>
-                <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase mb-1">
+                <h3 className="text-sm font-semibold text-muted-foreground uppercase mb-1">
                   Date
                 </h3>
-                <p className="text-lg text-gray-900 dark:text-white flex items-center gap-2">
+                <p className="text-lg text-foreground flex items-center gap-2">
                   <Calendar className="w-5 h-5" />
                   {new Date(caseStudy.projectDate).getFullYear()}
                 </p>
@@ -229,7 +229,7 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
           {/* Overview Content */}
           {caseStudy.overview && (
             <div className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Overview</h2>
+              <h2 className="text-3xl font-bold text-foreground mb-6">Overview</h2>
               <MarkdownContent content={caseStudy.overview} />
             </div>
           )}
@@ -238,9 +238,9 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
 
       {/* The Challenge */}
       {caseStudy.challenge && (
-        <section className="py-16 bg-red-50 dark:bg-red-950/20">
+        <section className="py-16 bg-card border-y border-border">
           <div className="container mx-auto px-4 lg:px-6 max-w-4xl">
-            <h2 className="text-3xl font-bold text-red-600 dark:text-red-400 mb-6">
+            <h2 className="text-3xl font-bold text-foreground mb-6">
               The Challenge
             </h2>
             <MarkdownContent content={caseStudy.challenge} />
@@ -250,9 +250,9 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
 
       {/* The Solution */}
       {caseStudy.solution && (
-        <section className="py-16 bg-blue-50 dark:bg-blue-950/20">
+        <section className="py-16 bg-background">
           <div className="container mx-auto px-4 lg:px-6 max-w-4xl">
-            <h2 className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-6">
+            <h2 className="text-3xl font-bold text-foreground mb-6">
               The Solution
             </h2>
             <MarkdownContent content={caseStudy.solution} />
@@ -260,14 +260,14 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
             {/* Technologies Used */}
             {caseStudy.technologies && Array.isArray(caseStudy.technologies) && caseStudy.technologies.length > 0 && (
               <div className="mt-10">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-2xl font-bold text-foreground mb-4">
                   Technologies Used
                 </h3>
                 <div className="flex flex-wrap gap-3">
                   {caseStudy.technologies.map((tech: any) => (
                     <span
                       key={tech.id}
-                      className="px-4 py-2 bg-white dark:bg-gray-800 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 rounded-lg font-medium"
+                      className="px-4 py-2 bg-secondary text-secondary-foreground border border-border rounded-lg font-medium"
                     >
                       {tech.name || tech.attributes?.name}
                     </span>
@@ -279,17 +279,17 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
             {/* Methodologies */}
             {caseStudy.methodologies && caseStudy.methodologies.length > 0 && (
               <div className="mt-10">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-2xl font-bold text-foreground mb-4">
                   Development Methodology
                 </h3>
                 <div className="space-y-3">
                   {caseStudy.methodologies.map((method: { name: string; description?: string }, idx: number) => (
-                    <div key={idx} className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-                      <h4 className="font-semibold text-blue-700 dark:text-blue-300 mb-1">
+                    <div key={idx} className="bg-card p-4 rounded-lg border border-border">
+                      <h4 className="font-semibold text-primary mb-1">
                         {method.name}
                       </h4>
                       {method.description && (
-                        <p className="text-gray-600 dark:text-gray-300">{method.description}</p>
+                        <p className="text-muted-foreground">{method.description}</p>
                       )}
                     </div>
                   ))}
@@ -302,9 +302,9 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
 
       {/* Screenshots Gallery */}
       {caseStudy.screenshots && caseStudy.screenshots.length > 0 && (
-        <section className="py-16 bg-white dark:bg-gray-950">
+        <section className="py-16 bg-secondary/20">
           <div className="container mx-auto px-4 lg:px-6">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-12">
+            <h2 className="text-3xl font-bold text-foreground text-center mb-12">
               Project Showcase
             </h2>
             <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
@@ -314,7 +314,7 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
                   const imageUrl = getStrapiImageUrl(screenshot.image);
                   return imageUrl ? (
                     <div key={idx} className="space-y-3">
-                      <div className="relative h-80 rounded-xl overflow-hidden shadow-lg">
+                      <div className="relative h-80 rounded-xl overflow-hidden shadow-sm border border-border">
                         <Image
                           src={imageUrl}
                           alt={screenshot.title}
@@ -322,11 +322,11 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
                           className="object-cover"
                         />
                       </div>
-                      <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
+                      <h3 className="font-semibold text-lg text-foreground">
                         {screenshot.title}
                       </h3>
                       {screenshot.caption && (
-                        <p className="text-gray-600 dark:text-gray-400">
+                        <p className="text-muted-foreground">
                           {screenshot.caption}
                         </p>
                       )}
@@ -342,32 +342,32 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
       {caseStudy.gallery && (
         (() => {
           // Handle both Strapi v4 (gallery.data) and v5 (direct array) structures
-          const galleryImages = Array.isArray(caseStudy.gallery.data) 
-            ? caseStudy.gallery.data 
-            : Array.isArray(caseStudy.gallery) 
-            ? caseStudy.gallery 
-            : [];
-          
+          const galleryImages = Array.isArray(caseStudy.gallery.data)
+            ? caseStudy.gallery.data
+            : Array.isArray(caseStudy.gallery)
+              ? caseStudy.gallery
+              : [];
+
           return galleryImages.length > 0 && (
-            <section className="py-12 bg-white dark:bg-gray-950">
+            <section className="py-12 bg-background border-y border-border">
               <div className="container mx-auto px-4 lg:px-6">
                 <div className="flex items-center justify-between mb-8">
                   <div>
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+                    <h2 className="text-2xl md:text-3xl font-bold text-foreground">
                       Project Gallery
                     </h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    <p className="text-sm text-muted-foreground mt-1">
                       {galleryImages.length} screenshots • Scroll to explore
                     </p>
                   </div>
                 </div>
-                
+
                 {/* Scrollable Gallery Container */}
                 <div className="relative group">
-                  {/* Gradient overlays for scroll hint */}
-                  <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white dark:from-gray-950 to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white dark:from-gray-950 to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  
+                  {/* Gradient overlays for scroll hint - adjusted for monochrome */}
+                  <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
                   {/* Horizontal scroll container */}
                   <div className="overflow-x-auto overflow-y-hidden scrollbar-hide scroll-smooth pb-4">
                     <div className="flex gap-4 min-w-max">
@@ -375,27 +375,27 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
                         const imageUrl = getStrapiImageUrl(image);
                         const imageData = image.attributes || image;
                         return imageUrl ? (
-                          <div 
-                            key={image.id || idx} 
+                          <div
+                            key={image.id || idx}
                             className="group/item relative w-[280px] md:w-[340px] flex-shrink-0"
                           >
-                            <div className="relative aspect-[16/10] rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-md hover:shadow-xl transition-all duration-300">
+                            <div className="relative aspect-[16/10] rounded-lg overflow-hidden bg-secondary shadow-sm hover:shadow-lg border border-border transition-all duration-300">
                               <Image
                                 src={imageUrl}
                                 alt={imageData.alternativeText || `Screenshot ${idx + 1}`}
                                 fill
                                 className="object-cover group-hover/item:scale-105 transition-transform duration-500"
                               />
-                              
+
                               {/* Image number badge */}
-                              <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full">
+                              <div className="absolute top-3 right-3 bg-black/80 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10">
                                 <span className="text-white text-xs font-semibold">
                                   {idx + 1}/{galleryImages.length}
                                 </span>
                               </div>
-                              
+
                               {/* Hover overlay */}
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
+                              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
                                 <div className="absolute bottom-0 left-0 right-0 p-4">
                                   <p className="text-white text-sm font-medium line-clamp-2">
                                     {imageData.alternativeText || `Project Screenshot ${idx + 1}`}
@@ -408,9 +408,9 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
                       })}
                     </div>
                   </div>
-                  
+
                   {/* Scroll hint */}
-                  <div className="flex items-center justify-center gap-2 mt-4 text-gray-400 dark:text-gray-600 text-sm">
+                  <div className="flex items-center justify-center gap-2 mt-4 text-muted-foreground text-sm">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
@@ -425,9 +425,9 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
 
       {/* Results */}
       {caseStudy.results && (
-        <section className="py-16 bg-green-50 dark:bg-green-950/20">
+        <section className="py-16 bg-primary/5">
           <div className="container mx-auto px-4 lg:px-6 max-w-4xl">
-            <h2 className="text-3xl font-bold text-green-600 dark:text-green-400 mb-6">
+            <h2 className="text-3xl font-bold text-foreground mb-6">
               The Results
             </h2>
             <MarkdownContent content={caseStudy.results} />
@@ -437,17 +437,17 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
 
       {/* Client Testimonial */}
       {caseStudy.clientTestimonial && (
-        <section className="py-16 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20">
+        <section className="py-16 bg-secondary/30 border-y border-border">
           <div className="container mx-auto px-4 lg:px-6 max-w-4xl">
             <div className="text-center">
-              <Quote className="w-12 h-12 text-blue-400 mx-auto mb-6" />
-              <blockquote className="text-2xl md:text-3xl font-medium italic text-gray-900 dark:text-white mb-8">
+              <Quote className="w-12 h-12 text-primary/50 mx-auto mb-6" />
+              <blockquote className="text-2xl md:text-3xl font-medium italic text-foreground mb-8">
                 "{caseStudy.clientTestimonial.quote}"
               </blockquote>
-              
+
               <div className="flex items-center justify-center gap-6">
                 {caseStudy.clientTestimonial.clientPhoto && (
-                  <div className="relative w-16 h-16 rounded-full overflow-hidden">
+                  <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-primary/10">
                     <Image
                       src={getStrapiImageUrl(caseStudy.clientTestimonial.clientPhoto)}
                       alt={caseStudy.clientTestimonial.clientName}
@@ -456,26 +456,26 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
                     />
                   </div>
                 )}
-                
+
                 <div className="text-left">
-                  <div className="font-bold text-gray-900 dark:text-white">
+                  <div className="font-bold text-foreground">
                     {caseStudy.clientTestimonial.clientName}
                   </div>
                   {caseStudy.clientTestimonial.clientTitle && (
-                    <div className="text-gray-600 dark:text-gray-400">
+                    <div className="text-muted-foreground">
                       {caseStudy.clientTestimonial.clientTitle}
                     </div>
                   )}
                   {caseStudy.clientTestimonial.clientCompany && (
-                    <div className="text-blue-600 dark:text-blue-400 font-semibold">
+                    <div className="text-primary font-semibold">
                       {caseStudy.clientTestimonial.clientCompany}
                     </div>
                   )}
-                  
+
                   {/* Rating */}
                   <div className="flex gap-1 mt-2">
                     {Array.from({ length: caseStudy.clientTestimonial.rating }).map((_: any, i: number) => (
-                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                      <Star key={i} className="w-4 h-4 fill-primary text-primary" />
                     ))}
                   </div>
                 </div>
@@ -487,7 +487,7 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
 
       {/* Project Links */}
       {(caseStudy.liveUrl || caseStudy.githubUrl || caseStudy.demoUrl) && (
-        <section className="py-12 bg-white dark:bg-gray-950">
+        <section className="py-12 bg-background">
           <div className="container mx-auto px-4 lg:px-6">
             <div className="flex flex-wrap justify-center gap-4">
               {caseStudy.liveUrl && (
@@ -495,7 +495,7 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
                   href={caseStudy.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-colors border border-transparent"
                 >
                   <Globe className="w-5 h-5" />
                   View Live Site
@@ -507,7 +507,7 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
                   href={caseStudy.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 text-white font-semibold rounded-lg transition-colors"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-semibold rounded-lg transition-colors border border-border"
                 >
                   <Github className="w-5 h-5" />
                   View Code
@@ -519,7 +519,7 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
                   href={caseStudy.demoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-card hover:bg-accent text-card-foreground border border-input font-semibold rounded-lg transition-colors"
                 >
                   <ExternalLink className="w-5 h-5" />
                   View Demo
@@ -532,9 +532,9 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
 
       {/* Related Case Studies */}
       {caseStudy.relatedCaseStudies && Array.isArray(caseStudy.relatedCaseStudies) && caseStudy.relatedCaseStudies.length > 0 && (
-        <section className="py-16 bg-gray-50 dark:bg-gray-900">
+        <section className="py-16 bg-secondary/20">
           <div className="container mx-auto px-4 lg:px-6">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-12">
+            <h2 className="text-3xl font-bold text-foreground text-center mb-12">
               More Case Studies
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -551,26 +551,27 @@ export default async function CaseStudyDetailPage({ params, searchParams }: Prop
       )}
 
       {/* Share & Back Navigation */}
-      <section className="py-12 bg-white dark:bg-gray-950 border-t border-gray-100 dark:border-gray-800">
+      <section className="py-12 bg-background border-t border-border">
         <div className="container mx-auto px-4 lg:px-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 max-w-4xl mx-auto">
             {/* Share Buttons */}
-            <CaseStudyShare 
+            <CaseStudyShare
               slug={slug}
               title={caseStudy.title}
               excerpt={caseStudy.excerpt || caseStudy.heroTagline || ''}
             />
-            
+
             {/* Back Link */}
             <Link
               href="/case-studies"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-semibold rounded-lg transition-colors border border-border"
             >
               ← Back to All Case Studies
             </Link>
           </div>
         </div>
       </section>
+
     </article>
   );
 }

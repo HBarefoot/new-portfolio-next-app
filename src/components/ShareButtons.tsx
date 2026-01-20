@@ -11,10 +11,10 @@ interface ShareButtonsProps {
   variant?: 'horizontal' | 'vertical';
 }
 
-export default function ShareButtons({ 
-  url, 
-  title, 
-  description = '', 
+export default function ShareButtons({
+  url,
+  title,
+  description = '',
   className = '',
   variant = 'horizontal'
 }: ShareButtonsProps) {
@@ -88,8 +88,8 @@ export default function ShareButtons({
     dark:focus:ring-offset-gray-900
   `;
 
-  const containerClass = variant === 'vertical' 
-    ? 'flex flex-col gap-2' 
+  const containerClass = variant === 'vertical'
+    ? 'flex flex-col gap-2'
     : 'flex flex-wrap items-center gap-2';
 
   return (
@@ -143,7 +143,7 @@ export default function ShareButtons({
       {canNativeShare && (
         <button
           onClick={handleNativeShare}
-          className={`${buttonBaseClass} bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white focus:ring-purple-500`}
+          className={`${buttonBaseClass} bg-primary hover:bg-primary/90 text-primary-foreground focus:ring-primary`}
           aria-label="Share via device"
           title="Share via device"
         >
@@ -157,11 +157,10 @@ export default function ShareButtons({
       {/* Copy Link */}
       <button
         onClick={copyToClipboard}
-        className={`${buttonBaseClass} ${
-          copied 
-            ? 'bg-green-500 text-white' 
-            : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-        } focus:ring-gray-400`}
+        className={`${buttonBaseClass} ${copied
+            ? 'bg-primary text-primary-foreground'
+            : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+          } focus:ring-ring`}
         aria-label={copied ? 'Link copied!' : 'Copy link'}
         title={copied ? 'Link copied!' : 'Copy link'}
       >
@@ -183,9 +182,9 @@ export default function ShareButtons({
 // Compact version for inline use
 export function ShareButtonsCompact({ url, title, description }: Omit<ShareButtonsProps, 'variant' | 'className'>) {
   return (
-    <ShareButtons 
-      url={url} 
-      title={title} 
+    <ShareButtons
+      url={url}
+      title={title}
       description={description}
       className="justify-center"
     />
@@ -196,10 +195,10 @@ export function ShareButtonsCompact({ url, title, description }: Omit<ShareButto
 export function ShareButtonsFloating({ url, title, description }: Omit<ShareButtonsProps, 'variant' | 'className'>) {
   return (
     <div className="fixed left-4 top-1/2 -translate-y-1/2 z-40 hidden xl:block">
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/50 p-2 border border-gray-200 dark:border-gray-700">
-        <ShareButtons 
-          url={url} 
-          title={title} 
+      <div className="bg-card rounded-xl shadow-lg p-2 border border-border">
+        <ShareButtons
+          url={url}
+          title={title}
           description={description}
           variant="vertical"
         />

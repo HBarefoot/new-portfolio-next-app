@@ -47,27 +47,27 @@ const translations = {
 // Custom components for ReactMarkdown with professional styling
 const MarkdownComponents = {
   h1: ({ children }: { children?: React.ReactNode }) => (
-    <h1 className="text-3xl font-bold text-gray-900 dark:text-white mt-12 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700/50 first:mt-0">
+    <h1 className="text-3xl font-bold text-foreground mt-12 mb-6 pb-4 border-b border-border first:mt-0">
       {children}
     </h1>
   ),
   h2: ({ children }: { children?: React.ReactNode }) => (
-    <h2 className="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-12 mb-5 first:mt-0">
+    <h2 className="text-2xl font-bold text-foreground mt-12 mb-5 first:mt-0">
       {children}
     </h2>
   ),
   h3: ({ children }: { children?: React.ReactNode }) => (
-    <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mt-10 mb-4">
+    <h3 className="text-xl font-semibold text-foreground/90 mt-10 mb-4">
       {children}
     </h3>
   ),
   h4: ({ children }: { children?: React.ReactNode }) => (
-    <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mt-8 mb-3">
+    <h4 className="text-lg font-semibold text-foreground/80 mt-8 mb-3">
       {children}
     </h4>
   ),
   p: ({ children }: { children?: React.ReactNode }) => (
-    <p className="text-gray-700 dark:text-gray-300 text-[17px] leading-[1.8] mb-6">
+    <p className="text-foreground/90 text-[17px] leading-[1.8] mb-6">
       {children}
     </p>
   ),
@@ -76,7 +76,7 @@ const MarkdownComponents = {
     const { src, alt } = props;
     if (!src || typeof src !== 'string') return null;
     return (
-      <div className="relative w-full my-8 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700/50">
+      <div className="relative w-full my-8 rounded-xl overflow-hidden shadow-lg border border-border">
         <Image
           src={src}
           alt={alt || ''}
@@ -100,17 +100,17 @@ const MarkdownComponents = {
     </ol>
   ),
   li: ({ children }: { children?: React.ReactNode }) => (
-    <li className="text-gray-700 dark:text-gray-300 text-[17px] leading-[1.8] pl-2 relative before:content-['•'] before:absolute before:-left-4 before:text-blue-600 dark:before:text-blue-400 before:font-bold">
+    <li className="text-foreground/90 text-[17px] leading-[1.8] pl-2 relative before:content-['•'] before:absolute before:-left-4 before:text-primary before:font-bold">
       {children}
     </li>
   ),
   strong: ({ children }: { children?: React.ReactNode }) => (
-    <strong className="font-semibold text-gray-900 dark:text-white">
+    <strong className="font-semibold text-foreground">
       {children}
     </strong>
   ),
   em: ({ children }: { children?: React.ReactNode }) => (
-    <em className="italic text-gray-800 dark:text-gray-200">
+    <em className="italic text-foreground/80">
       {children}
     </em>
   ),
@@ -118,29 +118,29 @@ const MarkdownComponents = {
     const isInline = !className;
     if (isInline) {
       return (
-        <code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md text-blue-600 dark:text-blue-400 text-sm font-mono border border-gray-200 dark:border-gray-700/50">
+        <code className="bg-muted px-2 py-1 rounded-md text-primary text-sm font-mono border border-border">
           {children}
         </code>
       );
     }
     return (
-      <code className="text-gray-800 dark:text-gray-300 text-sm font-mono">
+      <code className="text-foreground/90 text-sm font-mono">
         {children}
       </code>
     );
   },
   pre: ({ children }: { children?: React.ReactNode }) => (
-    <pre className="bg-gray-100 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700/50 rounded-xl my-8 p-5 overflow-x-auto">
+    <pre className="bg-muted border border-border rounded-xl my-8 p-5 overflow-x-auto">
       {children}
     </pre>
   ),
   blockquote: ({ children }: { children?: React.ReactNode }) => (
-    <blockquote className="border-l-4 border-blue-500 bg-blue-50 dark:bg-gray-800/30 py-4 px-6 rounded-r-xl my-8 italic text-gray-700 dark:text-gray-300">
+    <blockquote className="border-l-4 border-primary bg-secondary/50 py-4 px-6 rounded-r-xl my-8 italic text-foreground/80">
       {children}
     </blockquote>
   ),
   a: ({ href, children }: { href?: string; children?: React.ReactNode }) => (
-    <a href={href} className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors">
+    <a href={href} className="text-primary hover:underline transition-colors decoration-primary/30 underline-offset-4">
       {children}
     </a>
   ),
@@ -245,19 +245,19 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white dark:bg-gray-950 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   if (!post) {
     return (
-      <div className="min-h-screen bg-white dark:bg-gray-950">
+      <div className="min-h-screen bg-background">
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">{t.notFoundTitle}</h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-8">{t.notFoundMessage}</p>
-          <Link href={blogPath} className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+          <h1 className="text-4xl font-bold text-foreground mb-4">{t.notFoundTitle}</h1>
+          <p className="text-muted-foreground mb-8">{t.notFoundMessage}</p>
+          <Link href={blogPath} className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
             <ArrowLeft className="w-4 h-4" /> {t.backToBlog}
           </Link>
         </div>
@@ -266,7 +266,7 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <div className="min-h-screen bg-background">
       <article className="max-w-4xl mx-auto px-4 py-12 pt-24">
         {/* Post Header */}
         <motion.header
@@ -274,7 +274,7 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
             {post.title}
           </h1>
           <div className="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400 mb-6">
@@ -290,7 +290,7 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
                   />
                 </div>
               ) : (
-                <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
+                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold">
                   {post.author.name.charAt(0)}
                 </div>
               )}
@@ -334,11 +334,11 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
             </div>
           </div>
           <div className="flex items-center gap-2 pb-6 border-b border-gray-200 dark:border-gray-800">
-            <span className="px-3 py-1 bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 text-sm font-medium rounded-full">
+            <span className="px-3 py-1 bg-secondary text-secondary-foreground text-sm font-medium rounded-full">
               {post.category}
             </span>
             {post.industry && (
-              <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-sm font-medium rounded-full">
+              <span className="px-3 py-1 bg-secondary text-secondary-foreground text-sm font-medium rounded-full">
                 {post.industry}
               </span>
             )}
@@ -370,9 +370,9 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-500/10 dark:to-purple-500/10 border border-blue-200 dark:border-blue-500/20 rounded-xl p-6 mb-8"
+            className="bg-secondary/30 border border-primary/20 rounded-xl p-6 mb-8"
           >
-            <h3 className="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-2 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-primary mb-2 flex items-center gap-2">
               <Briefcase className="w-5 h-5" />
               {t.businessContext}
             </h3>
@@ -491,7 +491,7 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
         >
           <Link
             href={blogPath}
-            className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             {t.backToAllPosts}

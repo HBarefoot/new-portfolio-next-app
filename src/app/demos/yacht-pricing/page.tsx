@@ -13,15 +13,15 @@ export default function YachtPricingPage() {
             <div className="mb-12">
                 <Link
                     href="/demos"
-                    className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 mb-6 transition-colors"
+                    className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-primary transition-colors mb-6"
                 >
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Demos
                 </Link>
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
                     Maritime Inventory & Pricing Engine
                 </h1>
-                <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
+                <p className="text-xl text-muted-foreground max-w-3xl">
                     A logic-driven "Pricing Engine" that auto-calculates transport costs based on real-world maritime variables including depreciation, port fees, and seasonal demand.
                 </p>
             </div>

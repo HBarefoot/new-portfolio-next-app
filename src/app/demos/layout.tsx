@@ -11,7 +11,7 @@ export default function DemosLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+        <div className="min-h-screen bg-background">
             <div className="py-20 lg:py-28">
                 {children}
             </div>

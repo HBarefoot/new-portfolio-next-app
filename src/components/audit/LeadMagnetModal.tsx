@@ -77,12 +77,12 @@ export default function LeadMagnetModal({ isOpen, onClose, auditUrl, auditData }
                         initial={{ scale: 0.95, opacity: 0, y: 20 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.95, opacity: 0, y: 20 }}
-                        className="relative bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden border border-gray-100 dark:border-zinc-800"
+                        className="relative bg-card rounded-2xl shadow-2xl w-full max-w-md overflow-hidden border border-border"
                     >
                         {/* Close Button */}
                         <button
                             onClick={onClose}
-                            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                            className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
                         >
                             <X className="w-5 h-5" />
                         </button>
@@ -90,20 +90,20 @@ export default function LeadMagnetModal({ isOpen, onClose, auditUrl, auditData }
                         <div className="p-8">
                             {!isSuccess ? (
                                 <>
-                                    <div className="flex items-center justify-center w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full mb-6 mx-auto text-blue-600 dark:text-blue-400">
+                                    <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-6 mx-auto text-primary">
                                         <Lock className="w-6 h-6" />
                                     </div>
 
-                                    <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-gray-100 mb-2">
+                                    <h2 className="text-2xl font-bold text-center text-foreground mb-2">
                                         Unlock Detailed Fixes
                                     </h2>
-                                    <p className="text-center text-gray-600 dark:text-gray-400 mb-8">
+                                    <p className="text-center text-muted-foreground mb-8">
                                         Get a comprehensive PDF report with step-by-step instructions to fix these issues and boost your rankings.
                                     </p>
 
                                     <form onSubmit={handleSubmit} className="space-y-4">
                                         <div>
-                                            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                            <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1">
                                                 Full Name
                                             </label>
                                             <input
@@ -112,12 +112,12 @@ export default function LeadMagnetModal({ isOpen, onClose, auditUrl, auditData }
                                                 required
                                                 value={name}
                                                 onChange={(e) => setName(e.target.value)}
-                                                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-colors"
+                                                className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground focus:ring-2 focus:ring-primary outline-none transition-colors"
                                                 placeholder="John Doe"
                                             />
                                         </div>
                                         <div>
-                                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                            <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1">
                                                 Work Email
                                             </label>
                                             <input
@@ -126,7 +126,7 @@ export default function LeadMagnetModal({ isOpen, onClose, auditUrl, auditData }
                                                 required
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
-                                                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-colors"
+                                                className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground focus:ring-2 focus:ring-primary outline-none transition-colors"
                                                 placeholder="john@example.com"
                                             />
                                         </div>
@@ -134,10 +134,10 @@ export default function LeadMagnetModal({ isOpen, onClose, auditUrl, auditData }
                                         <button
                                             type="submit"
                                             disabled={isSubmitting}
-                                            className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed mt-4"
+                                            className="w-full py-3 px-4 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-lg shadow-lg flex items-center justify-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed mt-4"
                                         >
                                             {isSubmitting ? (
-                                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
                                             ) : (
                                                 <>
                                                     Send My Report <Send className="w-4 h-4" />

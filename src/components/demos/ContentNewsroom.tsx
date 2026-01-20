@@ -69,13 +69,13 @@ export default function ContentNewsroom() {
                                     }}
                                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                                     className={`flex items-center gap-3 p-3 rounded-xl border bg-white dark:bg-gray-800 w-full transition-all duration-300 ${isActive
-                                        ? 'border-blue-500 shadow-lg shadow-blue-500/20 ring-1 ring-blue-500'
+                                        ? 'border-primary shadow-lg shadow-primary/20 ring-1 ring-primary'
                                         : isCompleted
-                                            ? 'border-green-500/50 opacity-80'
+                                            ? 'border-primary/50 opacity-80'
                                             : 'border-gray-200 dark:border-gray-700 shadow-sm'
                                         }`}
                                 >
-                                    <div className={`p-2 rounded-lg ${isActive ? 'bg-blue-100 text-blue-600' : isCompleted ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-500'}`}>
+                                    <div className={`p-2 rounded-lg ${isActive ? 'bg-primary/10 text-primary' : isCompleted ? 'bg-primary/10 text-primary' : 'bg-gray-100 text-gray-500'}`}>
                                         {isActive ? <Loader2 className="w-5 h-5 animate-spin" /> : isCompleted ? <CheckCircle2 className="w-5 h-5" /> : getIcon(step.icon)}
                                     </div>
                                     <div>
@@ -85,7 +85,7 @@ export default function ContentNewsroom() {
                                 </motion.div>
 
                                 {index < workflowSteps.length - 1 && (
-                                    <ArrowRight className={`mx-4 w-5 h-5 ${isActive ? 'text-blue-500 animate-pulse' : 'text-gray-300'}`} />
+                                    <ArrowRight className={`mx-4 w-5 h-5 ${isActive ? 'text-primary animate-pulse' : 'text-gray-300'}`} />
                                 )}
                             </div>
                         );
@@ -116,7 +116,7 @@ export default function ContentNewsroom() {
                             Live Preview
                         </span>
                         {contentLanguage === 'es' ? (
-                            <span className="flex items-center gap-1 text-xs px-2 py-1 rounded bg-green-100 text-green-700 font-bold">
+                            <span className="flex items-center gap-1 text-xs px-2 py-1 rounded bg-primary/10 text-primary font-bold">
                                 ES Spanish (Optimized)
                             </span>
                         ) : (
@@ -133,7 +133,7 @@ export default function ContentNewsroom() {
                                 initial={{ top: 0 }}
                                 animate={{ top: '100%' }}
                                 transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent z-10 shadow-[0_0_15px_rgba(59,130,246,0.5)]"
+                                className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent z-10 shadow-[0_0_15px_hsl(var(--primary)/0.5)]"
                             />
                         )}
 
@@ -150,8 +150,8 @@ export default function ContentNewsroom() {
                             onClick={handleTranslate}
                             disabled={isProcessing}
                             className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold shadow-lg transition-all ${isProcessing
-                                ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed'
-                                : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 hover:shadow-blue-500/30'
+                                ? 'bg-muted text-muted-foreground cursor-not-allowed'
+                                : 'bg-primary text-primary-foreground hover:scale-105'
                                 }`}
                         >
                             {isProcessing ? (
