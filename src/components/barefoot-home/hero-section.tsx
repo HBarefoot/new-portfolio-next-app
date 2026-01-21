@@ -64,8 +64,8 @@ export function HeroSection() {
             className="mt-16 flex flex-wrap items-center justify-center gap-8 md:gap-12"
           >
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/10">
-                <TrendingUp className="h-5 w-5 text-accent" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-500/10">
+                <TrendingUp className="h-5 w-5 text-green-600 dark:text-green-400" />
               </div>
               <div className="text-left">
                 <p className="text-lg font-semibold text-foreground">95%</p>
@@ -74,8 +74,8 @@ export function HeroSection() {
             </div>
             <div className="h-8 w-px bg-border" />
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/10">
-                <DollarSign className="h-5 w-5 text-accent" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-500/10">
+                <DollarSign className="h-5 w-5 text-green-600 dark:text-green-400" />
               </div>
               <div className="text-left">
                 <p className="text-lg font-semibold text-foreground">$500K+</p>
