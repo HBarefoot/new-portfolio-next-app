@@ -82,11 +82,11 @@ const Header = () => {
   // Memoize navItems to prevent recalculation on every render
   const navItems = useMemo(() => [
     { label: 'Home', href: 'hero', isSection: true },
-    { label: 'About', href: 'about', isSection: true },
     { label: 'Services', href: 'services', isSection: true },
     { label: 'Work', href: 'work', isSection: true },
+    { label: 'Blueprint', href: 'contact', isSection: true },
+    { label: 'Free Audit', href: '/audit', isSection: false },
     { label: 'Live Demos', href: '/demos', isSection: false },
-    { label: 'Gallery', href: 'projects-gallery', isSection: true },
     { label: 'Blog', href: localizePathname('/blog', locale), isSection: false },
   ], [locale]);
 
