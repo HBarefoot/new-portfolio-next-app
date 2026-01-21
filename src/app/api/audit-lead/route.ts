@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                // Using Public role permissions for lead capture
+                ...(STRAPI_API_KEY && { 'Authorization': `Bearer ${STRAPI_API_KEY}` }),
             },
             body: JSON.stringify({
                 data: {
