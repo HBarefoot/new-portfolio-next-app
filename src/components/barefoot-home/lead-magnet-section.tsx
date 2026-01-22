@@ -8,6 +8,12 @@ import { Input } from "@/components/ui/input"
 import { FileText, ArrowRight, CheckCircle, Loader2 } from "lucide-react"
 import { motion } from "framer-motion"
 
+declare global {
+  interface Window {
+    dataLayer: any[];
+  }
+}
+
 export function LeadMagnetSection() {
   const [email, setEmail] = useState("")
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -32,6 +38,20 @@ export function LeadMagnetSection() {
 
       if (!response.ok) {
         throw new Error('Something went wrong. Please try again.')
+      }
+
+      // GTM: Track successful lead generation
+      try {
+        const result = await response.clone().json();
+        if (typeof window !== 'undefined' && window.dataLayer) {
+          window.dataLayer.push({
+            event: 'generate_lead',
+            lead_source: 'blueprint_download',
+            contact_id: result.submissionId || 'unknown'
+          });
+        }
+      } catch (e) {
+        console.warn("GTM tracking skipped", e);
       }
 
       setIsSubmitted(true)
