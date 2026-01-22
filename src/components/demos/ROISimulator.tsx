@@ -202,7 +202,7 @@ export default function ROISimulator() {
                 {/* ROI Context */}
                 <div className="bg-gray-900 dark:bg-gray-800 text-white p-6 rounded-2xl shadow-xl">
                     <div className="flex items-start gap-4">
-                        <div className="p-3 bg-white/10 dark:bg-gray-900/10 rounded-xl">
+                        <div className="p-3 bg-green-500/10 rounded-full text-green-400">
                             <Users className="w-6 h-6" />
                         </div>
                         <div>

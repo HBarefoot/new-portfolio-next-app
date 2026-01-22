@@ -10,7 +10,7 @@ export default function ImpactCard({ score }: ImpactCardProps) {
     if (score >= 0.9) {
         return (
             <div className="bg-secondary/30 border border-border rounded-xl p-6 flex items-start gap-4">
-                <div className="p-3 bg-secondary rounded-full text-green-600 dark:text-green-500">
+                <div className="p-3 bg-green-500/10 rounded-full text-green-600 dark:text-green-400">
                     <CheckCircle className="w-6 h-6" />
                 </div>
                 <div>
@@ -28,7 +28,7 @@ export default function ImpactCard({ score }: ImpactCardProps) {
     if (score >= 0.5) {
         return (
             <div className="bg-secondary/30 border border-border rounded-xl p-6 flex items-start gap-4">
-                <div className="p-3 bg-secondary rounded-full text-yellow-600 dark:text-yellow-500">
+                <div className="p-3 bg-yellow-500/10 rounded-full text-yellow-600 dark:text-yellow-500">
                     <AlertTriangle className="w-6 h-6" />
                 </div>
                 <div>
@@ -45,7 +45,7 @@ export default function ImpactCard({ score }: ImpactCardProps) {
 
     return (
         <div className="bg-secondary/30 border border-border rounded-xl p-6 flex items-start gap-4">
-            <div className="p-3 bg-secondary rounded-full text-destructive">
+            <div className="p-3 bg-red-500/10 rounded-full text-red-600 dark:text-red-400">
                 <TrendingDown className="w-6 h-6" />
             </div>
             <div>

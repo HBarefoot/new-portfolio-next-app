@@ -64,8 +64,8 @@ export default function DemosPage() {
                             href={demo.href}
                             className="group relative bg-card rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-border hover:-translate-y-1 block"
                         >
-                            <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-6 bg-primary/5 group-hover:bg-primary/10 transition-colors">
-                                <Icon className="w-7 h-7 text-primary" />
+                            <div className="w-14 h-14 rounded-full flex items-center justify-center mb-6 bg-green-500/10 transition-colors">
+                                <Icon className="w-7 h-7 text-green-600 dark:text-green-400" />
                             </div>
 
                             <h2 className="text-2xl font-bold text-card-foreground mb-3 group-hover:text-primary transition-colors">

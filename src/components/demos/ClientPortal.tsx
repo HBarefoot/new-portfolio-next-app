@@ -18,7 +18,7 @@ export default function ClientPortal() {
             {/* Mock Header for Portal Context */}
             <div className="bg-gray-900 text-white p-4 rounded-xl flex items-center justify-between shadow-lg border border-gray-800">
                 <div className="flex items-center gap-3">
-                    <div className="p-2 bg-primary rounded-lg">
+                    <div className="p-2 bg-green-500/10 rounded-full text-green-400">
                         <Shield className="w-6 h-6" />
                     </div>
                     <div>

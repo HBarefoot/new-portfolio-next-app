@@ -72,7 +72,7 @@ export default function YachtPricingEngine() {
                                             }`}
                                     >
                                         <div className="flex items-center gap-3">
-                                            <div className={`p-2 rounded-lg ${selectedYachtId === yacht.id ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
+                                            <div className={`p-2 rounded-full ${selectedYachtId === yacht.id ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
                                                 <Ship className="w-5 h-5" />
                                             </div>
                                             <div>

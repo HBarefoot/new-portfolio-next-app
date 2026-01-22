@@ -75,7 +75,7 @@ export default function ContentNewsroom() {
                                             : 'border-gray-200 dark:border-gray-700 shadow-sm'
                                         }`}
                                 >
-                                    <div className={`p-2 rounded-lg ${isActive ? 'bg-primary/10 text-primary' : isCompleted ? 'bg-primary/10 text-primary' : 'bg-gray-100 text-gray-500'}`}>
+                                    <div className={`p-2 rounded-full ${isActive ? 'bg-primary/10 text-primary' : isCompleted ? 'bg-green-500/10 text-green-600 dark:text-green-400' : 'bg-gray-100 text-gray-500'}`}>
                                         {isActive ? <Loader2 className="w-5 h-5 animate-spin" /> : isCompleted ? <CheckCircle2 className="w-5 h-5" /> : getIcon(step.icon)}
                                     </div>
                                     <div>

@@ -40,7 +40,7 @@ export default function VisualGallery() {
             <div className="grid md:grid-cols-3 gap-8">
                 <DemoCard title="Media Optimization" className="h-full">
                     <div className="flex flex-col items-center text-center space-y-4">
-                        <div className="p-3 bg-primary/10 text-primary rounded-full">
+                        <div className="p-3 bg-green-500/10 text-green-600 dark:text-green-400 rounded-full">
                             <Zap className="w-6 h-6" />
                         </div>
                         <p className="text-sm text-muted-foreground">
@@ -51,7 +51,7 @@ export default function VisualGallery() {
 
                 <DemoCard title="Responsive Scaling" className="h-full">
                     <div className="flex flex-col items-center text-center space-y-4">
-                        <div className="p-3 bg-primary/10 text-primary rounded-full">
+                        <div className="p-3 bg-green-500/10 text-green-600 dark:text-green-400 rounded-full">
                             <Smartphone className="w-6 h-6" />
                         </div>
                         <p className="text-sm text-muted-foreground">
@@ -62,7 +62,7 @@ export default function VisualGallery() {
 
                 <DemoCard title="Lightbox API" className="h-full">
                     <div className="flex flex-col items-center text-center space-y-4">
-                        <div className="p-3 bg-primary/10 text-primary rounded-full">
+                        <div className="p-3 bg-green-500/10 text-green-600 dark:text-green-400 rounded-full">
                             <Maximize2 className="w-6 h-6" />
                         </div>
                         <p className="text-sm text-muted-foreground">

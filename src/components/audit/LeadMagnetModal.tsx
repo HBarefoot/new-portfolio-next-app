@@ -4,6 +4,12 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Lock, Send } from "lucide-react";
 
+declare global {
+    interface Window {
+        dataLayer: any[];
+    }
+}
+
 interface LeadMagnetModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -39,6 +45,20 @@ export default function LeadMagnetModal({ isOpen, onClose, auditUrl, auditData }
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({ error: response.statusText }));
                 throw new Error(errorData.error || errorData.message || "Failed to submit lead");
+            }
+
+            // GTM: Track successful lead generation
+            try {
+                const result = await response.json();
+                if (typeof window !== 'undefined' && window.dataLayer) {
+                    window.dataLayer.push({
+                        event: 'generate_lead',
+                        lead_source: 'audit_report',
+                        contact_id: result.submissionId || 'unknown'
+                    });
+                }
+            } catch (e) {
+                console.warn("GTM tracking skipped", e);
             }
 
             setIsSubmitting(false);

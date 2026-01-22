@@ -55,8 +55,8 @@ export function LeadMagnetSection() {
           className="mx-auto max-w-2xl text-center"
         >
           <div className="mb-6 flex justify-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/10">
-              <FileText className="h-7 w-7 text-accent" />
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-green-500/10">
+              <FileText className="h-7 w-7 text-green-600 dark:text-green-400" />
             </div>
           </div>
 
@@ -108,8 +108,8 @@ export function LeadMagnetSection() {
               animate={{ opacity: 1, scale: 1 }}
               className="mt-8 flex flex-col items-center gap-3"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent/10">
-                <CheckCircle className="h-6 w-6 text-accent" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-500/10">
+                <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
               </div>
               <p className="text-foreground font-medium">{"Check your inbox! The guide is on its way."}</p>
             </motion.div>

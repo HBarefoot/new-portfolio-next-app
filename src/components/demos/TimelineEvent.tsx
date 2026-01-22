@@ -15,14 +15,14 @@ export default function TimelineEvent({ event, isLast = false }: TimelineEventPr
 
     const getStatusIcon = (status: string) => {
         switch (status) {
-            case 'completed': return <CheckCircle2 className="w-6 h-6 text-primary" />;
+            case 'completed': return <CheckCircle2 className="w-6 h-6 text-green-600 dark:text-green-400" />;
             case 'in-progress': return <Clock className="w-6 h-6 text-primary animate-pulse" />;
             default: return <Circle className="w-6 h-6 text-gray-300 dark:text-gray-600" />;
         }
     };
 
     const statusColor = {
-        completed: 'bg-primary/10 text-primary',
+        completed: 'bg-green-500/10 text-green-600 dark:text-green-400',
         'in-progress': 'bg-primary/10 text-primary',
         upcoming: 'bg-muted text-muted-foreground'
     }[event.status];
