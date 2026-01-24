@@ -16,7 +16,7 @@ export default function DemoCard({ children, title, description, className = '' 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className={`relative w-full overflow-hidden rounded-2xl border border-border bg-card shadow-xl ${className}`}
+            className={`relative w-full overflow-hidden rounded-xl border border-border bg-card shadow-xl ${className}`}
         >
             {/* Glass Header */}
             <div className="relative z-10 p-6 border-b border-border bg-card/50 backdrop-blur-sm">

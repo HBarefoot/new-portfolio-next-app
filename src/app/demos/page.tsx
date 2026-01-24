@@ -1,7 +1,35 @@
 import Link from 'next/link';
-import { ArrowRight, Anchor, Cpu, TrendingUp, Image as ImageIcon, Shield } from 'lucide-react';
+import { ArrowRight, Anchor, Cpu, TrendingUp, Image as ImageIcon, Shield, Calculator, ClipboardCheck, ScanLine, Workflow } from 'lucide-react';
 
 const demos = [
+    {
+        title: 'Automation Logic Mapper',
+        description: 'Interactive architecture planner. Visualize how n8n connects your CRM, Finance, and AI tools into a single brain.',
+        icon: Workflow,
+        href: '/demos/logic-mapper',
+        tags: ['n8n', 'System Design', 'Interactive']
+    },
+    {
+        title: 'AI-Powered PDF Extraction',
+        description: 'Drag-and-drop maritime OCR. Instantly converts PDF invoices to structured JSON using GPT-4o Vision.',
+        icon: ScanLine,
+        href: '/demos/ocr-extraction',
+        tags: ['n8n Webhook', 'GPT-4o', 'Computer Vision']
+    },
+    {
+        title: 'Maritime AI Readiness Assessment',
+        description: '10-question diagnostic engine. Evaluates technical infrastructure across Data, Process, and Strategy.',
+        icon: ClipboardCheck,
+        href: '/demos/readiness-assessment',
+        tags: ['Interactive Quiz', 'Scoring Logic', 'Lead Gen']
+    },
+    {
+        title: 'ROHC Calculator',
+        description: 'Interactive logic engine for CEOs. Calculate revenue-per-employee vs. AI benchmarks.',
+        icon: Calculator,
+        href: '/demos/rohc-calculator',
+        tags: ['Next.js 14', 'TypeScript', 'Algorithmic Logic']
+    },
     {
         title: 'Maritime Pricing Engine',
         description: 'Complex pricing logic with port fees, vessel depreciation, and international variables.',
