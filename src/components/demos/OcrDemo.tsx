@@ -4,7 +4,6 @@ import { useState, useCallback, useTransition, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDropzone } from 'react-dropzone';
 import {
-    Upload,
     FileText,
     Loader2,
     CheckCircle,
@@ -37,6 +36,7 @@ interface OcrResult {
     vendor?: string;
     total_amount?: string;
     line_items: LineItem[];
+    error_message?: string;
 }
 
 type ProcessingStage = 'uploading' | 'analyzing' | 'extracting';
@@ -62,8 +62,6 @@ const PROCESSING_MESSAGES: Record<ProcessingStage, string> = {
     analyzing: 'Maritime Vision Engine scanning...',
     extracting: 'Structuring logistics data...',
 };
-
-const LOCAL_STORAGE_KEY = 'ocr_demo_used';
 
 export default function OcrDemo() {
     // State
@@ -112,7 +110,13 @@ export default function OcrDemo() {
             }
 
             const data = await response.json();
-            setResult(data.result || DEMO_OCR_RESULT);
+            const resultData = data.result || DEMO_OCR_RESULT;
+
+            if (resultData.error_message) {
+                setError(resultData.error_message);
+            }
+
+            setResult(resultData);
 
             // Track successful extraction
             if (typeof window !== 'undefined' && window.dataLayer) {
@@ -158,7 +162,7 @@ export default function OcrDemo() {
         processFile(f);
     }, [documentType]);
 
-    const { getRootProps, getInputProps, isDragActive, isDragReject } = useDropzone({
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
         accept: {
             'image/png': ['.png'],
@@ -178,7 +182,7 @@ export default function OcrDemo() {
             try {
                 const response = await submitAudit({
                     email,
-                    leadSource: 'ocr_demo',
+                    leadSource: 'OCR Demo',
                     auditData: {
                         file_name: file?.name,
                         context: 'Requested OCR Pipeline Blueprint',
@@ -407,7 +411,13 @@ export default function OcrDemo() {
                                 </div>
                             </div>
 
-                            <div className="flex-1 grid lg:grid-cols-2 overflow-hidden">
+                            <div className="flex-1 grid lg:grid-cols-2 overflow-hidden relative">
+                                {result?.error_message && (
+                                    <div className="absolute top-4 left-4 right-4 z-30 bg-amber-500/10 border border-amber-500/20 text-amber-500 p-3 rounded-lg flex items-center gap-3 backdrop-blur-md">
+                                        <AlertTriangle className="w-5 h-5 shrink-0" />
+                                        <span className="text-sm font-medium">Demo Mode active: {result.error_message}. Showing system example data.</span>
+                                    </div>
+                                )}
                                 {/* Left: Preview */}
                                 <div className="relative p-6 bg-zinc-900/10 flex items-center justify-center border-r border-zinc-800/50 min-h-[400px]">
                                     {filePreview ? (

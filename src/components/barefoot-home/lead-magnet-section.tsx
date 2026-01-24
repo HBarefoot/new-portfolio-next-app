@@ -31,7 +31,7 @@ export function LeadMagnetSection() {
     try {
       const response = await submitAudit({
         email,
-        leadSource: 'blueprint_download',
+        leadSource: 'Blueprint Download',
         auditData: {},
       })
 

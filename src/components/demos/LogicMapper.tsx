@@ -75,7 +75,7 @@ export default function LogicMapper() {
             try {
                 const response = await submitAudit({
                     email,
-                    leadSource: 'stack_mapper',
+                    leadSource: 'Stack Mapper',
                     auditData: {
                         selected_tools: selectedTools.map((t) => ({
                             id: t.id,

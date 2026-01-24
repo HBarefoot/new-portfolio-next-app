@@ -131,7 +131,8 @@ export async function POST(request: NextRequest) {
                         success: true,
                         result: {
                             ...DEMO_OCR_RESULT,
-                            vendor: `ERROR: ${err.message || 'Unknown API Error'}`, // Show error in UI
+                            vendor: 'System Failure Fallback',
+                            error_message: err.message || 'Unknown API Error',
                             processed_at: new Date().toISOString()
                         },
                         mode: 'fallback_error',

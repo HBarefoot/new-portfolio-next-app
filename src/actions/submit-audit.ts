@@ -4,12 +4,12 @@ import { z } from 'zod';
 
 // ============ Lead Source Types ============
 export type LeadSource =
-    | 'performance_audit'
-    | 'rohc_calculator'
-    | 'readiness_quiz'
-    | 'ocr_demo'
-    | 'stack_mapper'
-    | 'blueprint_download';
+    | 'Performance Audit'
+    | 'ROHC Calculator'
+    | 'Readiness Quiz'
+    | 'OCR Demo'
+    | 'Stack Mapper'
+    | 'Blueprint Download';
 
 // ============ Zod Schemas ============
 
@@ -21,7 +21,7 @@ const baseSchema = z.object({
 
 // Performance Audit specific data
 const performanceAuditSchema = baseSchema.extend({
-    leadSource: z.literal('performance_audit'),
+    leadSource: z.literal('Performance Audit'),
     websiteUrl: z.string().url('Invalid URL'),
     overallScore: z.number().min(0).max(100),
     auditData: z.object({
@@ -34,7 +34,7 @@ const performanceAuditSchema = baseSchema.extend({
 
 // ROHC Calculator specific data
 const rohcCalculatorSchema = baseSchema.extend({
-    leadSource: z.literal('rohc_calculator'),
+    leadSource: z.literal('ROHC Calculator'),
     auditData: z.object({
         revenue: z.number().positive(),
         headcount: z.number().positive().int(),
@@ -45,7 +45,7 @@ const rohcCalculatorSchema = baseSchema.extend({
 
 // Readiness Quiz specific data
 const readinessQuizSchema = baseSchema.extend({
-    leadSource: z.literal('readiness_quiz'),
+    leadSource: z.literal('Readiness Quiz'),
     auditData: z.object({
         total_score: z.number().min(0).max(100),
         pillar_scores: z.object({
@@ -60,7 +60,7 @@ const readinessQuizSchema = baseSchema.extend({
 
 // OCR Demo specific data
 const ocrDemoSchema = baseSchema.extend({
-    leadSource: z.literal('ocr_demo'),
+    leadSource: z.literal('OCR Demo'),
     auditData: z.object({
         file_name: z.string().optional(),
         context: z.string().optional(),
@@ -69,7 +69,7 @@ const ocrDemoSchema = baseSchema.extend({
 
 // Stack Mapper specific data
 const stackMapperSchema = baseSchema.extend({
-    leadSource: z.literal('stack_mapper'),
+    leadSource: z.literal('Stack Mapper'),
     auditData: z.object({
         selected_tools: z.array(z.object({
             id: z.string(),
@@ -82,7 +82,7 @@ const stackMapperSchema = baseSchema.extend({
 
 // Blueprint Download specific data
 const blueprintDownloadSchema = baseSchema.extend({
-    leadSource: z.literal('blueprint_download'),
+    leadSource: z.literal('Blueprint Download'),
     auditData: z.object({}).optional(),
 });
 
@@ -142,7 +142,7 @@ export async function submitAudit(
                 overallScore: 'overallScore' in validatedData ? validatedData.overallScore : null,
                 auditData: validatedData.auditData,
                 leadSource: validatedData.leadSource,
-                status: 'new',
+                status: 'New',
                 submittedAt: new Date().toISOString(),
                 ipAddress: metadata?.ipAddress || null,
                 userAgent: metadata?.userAgent || null,
@@ -196,10 +196,10 @@ export async function submitAudit(
             };
         }
 
-        // Return success for demo mode if Strapi is unavailable
         return {
-            success: true,
-            message: 'Submission received',
+            success: false,
+            message: 'Submission failed',
+            error: error instanceof Error ? error.message : 'Unknown error',
         };
     }
 }

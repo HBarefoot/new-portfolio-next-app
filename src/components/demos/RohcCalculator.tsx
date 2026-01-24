@@ -112,7 +112,7 @@ export default function RohcCalculator() {
             try {
                 const response = await submitAudit({
                     email,
-                    leadSource: 'rohc_calculator',
+                    leadSource: 'ROHC Calculator',
                     auditData: {
                         revenue,
                         headcount,

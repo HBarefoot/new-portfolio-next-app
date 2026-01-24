@@ -223,7 +223,7 @@ export default function ReadinessQuiz() {
 
                 const response = await submitAudit({
                     email,
-                    leadSource: 'readiness_quiz',
+                    leadSource: 'Readiness Quiz',
                     auditData: {
                         total_score: scores.total,
                         pillar_scores: {
