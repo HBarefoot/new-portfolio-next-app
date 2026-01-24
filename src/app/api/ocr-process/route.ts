@@ -106,7 +106,12 @@ export async function POST(request: NextRequest) {
                     Return the data strictly as a valid JSON object matching the provided schema.
                 `;
 
-                const generatedContent = await model.generateContent([
+                // Create a timeout promise
+                const timeoutPromise = new Promise((_, reject) => {
+                    setTimeout(() => reject(new Error('Request timed out')), 15000);
+                });
+
+                const contentPromise = model.generateContent([
                     prompt,
                     {
                         inlineData: {
@@ -115,6 +120,9 @@ export async function POST(request: NextRequest) {
                         },
                     },
                 ]);
+
+                // Race the API call against the timeout
+                const generatedContent = await Promise.race([contentPromise, timeoutPromise]) as any;
 
                 const responseText = generatedContent.response.text();
                 result = JSON.parse(responseText);

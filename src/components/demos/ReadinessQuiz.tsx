@@ -218,7 +218,12 @@ export default function ReadinessQuiz() {
                 const answersRecord: Record<string, string> = {};
                 Object.entries(answers).forEach(([questionId, ans]) => {
                     const q = questions.find((qq) => qq.id === questionId);
-                    answersRecord[q?.text || questionId] = ans.answer;
+                    if (q) {
+                        answersRecord[q.text] = ans.answer;
+                    } else {
+                        console.warn(`Question not found for id: ${questionId}`);
+                        answersRecord[`Unknown Question (${questionId})`] = ans.answer;
+                    }
                 });
 
                 const response = await submitAudit({
