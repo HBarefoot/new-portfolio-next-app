@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { FileText, ArrowRight, CheckCircle, Loader2 } from "lucide-react"
 import { motion } from "framer-motion"
+import { submitAudit } from "@/actions/submit-audit"
 
 declare global {
   interface Window {
@@ -28,26 +29,23 @@ export function LeadMagnetSection() {
     setError(null)
 
     try {
-      const response = await fetch('/api/blueprint-lead', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
+      const response = await submitAudit({
+        email,
+        leadSource: 'blueprint_download',
+        auditData: {},
       })
 
-      if (!response.ok) {
-        throw new Error('Something went wrong. Please try again.')
+      if (!response.success) {
+        throw new Error(response.message || 'Something went wrong. Please try again.')
       }
 
       // GTM: Track successful lead generation
       try {
-        const result = await response.clone().json();
         if (typeof window !== 'undefined' && window.dataLayer) {
           window.dataLayer.push({
             event: 'generate_lead',
             lead_source: 'blueprint_download',
-            contact_id: result.submissionId || 'unknown'
+            contact_id: response.id || 'unknown'
           });
         }
       } catch (e) {
