@@ -1,23 +1,20 @@
 'use client';
 
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation'; // Assuming this is from next/navigation
+import { Button } from '@/components/ui/button'; // Assuming this path
 import ThemeToggle from './ThemeToggle';
-import { Button } from '@/components/ui/button';
-import { localizePathname, getLocaleFromPathname, type Locale } from '@/lib/i18n';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const locale = getLocaleFromPathname(pathname) as Locale;
-  const isHomePage = pathname === '/' || pathname === '/es';
 
-  // Memoize localized paths to avoid recalculating on every render
-  const homePath = useMemo(() => localizePathname('/', locale), [locale]);
+  const homePath = '/';
+  const isHomePage = pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -87,8 +84,8 @@ const Header = () => {
     { label: 'Blueprint', href: 'contact', isSection: true },
     { label: 'Free Audit', href: '/audit', isSection: false },
     { label: 'Live Demos', href: '/demos', isSection: false },
-    { label: 'Blog', href: localizePathname('/blog', locale), isSection: false },
-  ], [locale]);
+    { label: 'Blog', href: '/blog', isSection: false },
+  ], []);
 
   return (
     <header

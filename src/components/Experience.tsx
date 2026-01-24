@@ -3,11 +3,9 @@
 import { motion } from 'framer-motion';
 import { Building, Calendar, MapPin } from 'lucide-react';
 import type { StrapiExperience } from '@/types/strapi';
-import type { Locale } from '@/lib/i18n';
-
 interface ExperienceSectionProps {
   initialData?: StrapiExperience[];
-  locale?: Locale;
+  locale?: string;
 }
 
 const ExperienceSection = ({ initialData, locale = 'en' }: ExperienceSectionProps) => {

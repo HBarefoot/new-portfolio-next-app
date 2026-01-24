@@ -1,9 +1,6 @@
 import { getCaseStudies } from '@/lib/strapi-api';
 import CaseStudyCard from '@/components/CaseStudyCard';
 import { Briefcase } from 'lucide-react';
-import type { Locale } from '@/lib/i18n';
-import { localizePathname } from '@/lib/i18n';
-
 // Translations for case studies page
 const translations = {
   en: {
@@ -13,19 +10,11 @@ const translations = {
     moreTitle: 'More Case Studies',
     allTitle: 'All Case Studies',
     emptyMessage: 'Case studies coming soon. Check back for detailed project breakdowns and success stories.',
-  },
-  es: {
-    title: 'Casos de Estudio',
-    subtitle: 'Explora cómo he ayudado a clientes a resolver problemas complejos y alcanzar sus objetivos a través de soluciones innovadoras y pensamiento estratégico.',
-    featuredTitle: 'Caso de Estudio Destacado',
-    moreTitle: 'Más Casos de Estudio',
-    allTitle: 'Todos los Casos de Estudio',
-    emptyMessage: 'Próximamente casos de estudio. Vuelve pronto para ver análisis detallados de proyectos e historias de éxito.',
-  },
+  }
 };
 
 interface CaseStudiesPageContentProps {
-  locale: Locale;
+  locale: string;
 }
 
 async function getCaseStudiesData(locale: string) {
@@ -52,9 +41,9 @@ async function getCaseStudiesData(locale: string) {
 }
 
 export default async function CaseStudiesPageContent({ locale }: CaseStudiesPageContentProps) {
-  const t = translations[locale];
+  const t = translations.en;
   const caseStudies = await getCaseStudiesData(locale);
-  const caseStudiesPath = localizePathname('/case-studies', locale);
+  const caseStudiesPath = '/case-studies';
 
   // Separate featured and regular case studies
   const featuredStudy = caseStudies.find((study: any) => study.attributes.featured);

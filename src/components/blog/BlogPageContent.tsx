@@ -7,13 +7,6 @@ import { Calendar, Clock, Tag, ArrowRight, Search, Filter } from 'lucide-react';
 import { BlogPost, BlogCategory } from '@/types/blog';
 import { getBlogPosts, getBlogCategories } from '@/lib/strapi-api';
 import { getStrapiMediaUrl } from '@/types/strapi';
-import { type Locale, defaultLocale, localizePathname } from '@/lib/i18n';
-
-interface BlogPageContentProps {
-  locale: Locale;
-}
-
-// Translations
 const translations = {
   en: {
     title: 'Daily Dev Log',
@@ -28,25 +21,15 @@ const translations = {
     postsAcross: 'posts across',
     categories: 'categories',
     min: 'min',
-  },
-  es: {
-    title: 'Diario de Desarrollo',
-    subtitle: 'Construyendo soluciones para problemas empresariales reales. Código, perspectivas y lecciones aprendidas desde las trincheras.',
-    searchPlaceholder: 'Buscar artículos...',
-    allCategories: 'Todas las Categorías',
-    loading: 'Cargando...',
-    noPosts: 'Sin Artículos',
-    noPostsDescription: 'Los artículos del blog aparecerán aquí a medida que se generen automáticamente de mi trabajo diario de desarrollo.',
-    noMatchingPosts: 'Ningún artículo coincide con tu búsqueda.',
-    readMore: 'Leer Más',
-    postsAcross: 'artículos en',
-    categories: 'categorías',
-    min: 'min',
-  },
+  }
 };
 
+interface BlogPageContentProps {
+  locale: string;
+}
+
 export default function BlogPageContent({ locale }: BlogPageContentProps) {
-  const t = translations[locale];
+  const t = translations.en;
 
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [categories, setCategories] = useState<BlogCategory[]>([]);
@@ -126,7 +109,7 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
   });
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-US', {
+    return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -135,7 +118,7 @@ export default function BlogPageContent({ locale }: BlogPageContentProps) {
 
   // Generate localized blog post URL
   const getBlogPostUrl = (slug: string) => {
-    return localizePathname(`/blog/${slug}`, locale);
+    return `/blog/${slug}`;
   };
 
   return (

@@ -11,9 +11,6 @@ import { BlogPost } from '@/types/blog';
 import { getBlogPost } from '@/lib/strapi-api';
 import { getStrapiMediaUrl, StrapiImage, StrapiEntity } from '@/types/strapi';
 import ShareButtons from '@/components/ShareButtons';
-import type { Locale } from '@/lib/i18n';
-import { localizePathname } from '@/lib/i18n';
-
 // Translations for the blog post page
 const translations = {
   en: {
@@ -28,20 +25,7 @@ const translations = {
     shareArticle: 'Share this article',
     backToAllPosts: 'Back to all posts',
     minRead: 'min read',
-  },
-  es: {
-    loading: 'Cargando...',
-    notFoundTitle: 'Entrada No Encontrada',
-    notFoundMessage: 'La entrada del blog que buscas no existe.',
-    backToBlog: 'Volver al Blog',
-    businessContext: 'Contexto Empresarial',
-    codeExamples: 'Ejemplos de Código',
-    copy: 'Copiar',
-    copied: '¡Copiado!',
-    shareArticle: 'Compartir este artículo',
-    backToAllPosts: 'Volver a todas las entradas',
-    minRead: 'min de lectura',
-  },
+  }
 };
 
 // Custom components for ReactMarkdown with professional styling
@@ -151,12 +135,12 @@ const MarkdownComponents = {
 
 interface BlogPostContentProps {
   slug: string;
-  locale: Locale;
+  locale: string;
 }
 
 export default function BlogPostContent({ slug, locale }: BlogPostContentProps) {
-  const t = translations[locale];
-  const blogPath = localizePathname('/blog', locale);
+  const t = translations.en;
+  const blogPath = '/blog';
 
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
@@ -167,7 +151,7 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
     // Construct the canonical blog post URL for sharing,
     // using origin + localized blog path + slug so it's correct
     // regardless of how the page was accessed.
-    const localizedBlogPath = localizePathname('/blog', locale);
+    const localizedBlogPath = '/blog';
     const fullUrl = `${window.location.origin}${localizedBlogPath}/${slug}`;
     setShareUrl(fullUrl);
   }, [locale, slug]);
@@ -228,8 +212,7 @@ export default function BlogPostContent({ slug, locale }: BlogPostContentProps) 
   };
 
   const formatDate = (dateString: string) => {
-    const dateLocale = locale === 'es' ? 'es-ES' : 'en-US';
-    return new Date(dateString).toLocaleDateString(dateLocale, {
+    return new Date(dateString).toLocaleDateString('en-US', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',

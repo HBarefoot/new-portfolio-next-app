@@ -5,17 +5,15 @@ import { Download, Mail, Phone } from 'lucide-react';
 import Image from 'next/image';
 import type { StrapiHero } from '@/types/strapi';
 import { getStrapiImageUrl } from '@/types/strapi';
-import type { Locale } from '@/lib/i18n';
 import dynamic from 'next/dynamic';
 
 const HeroBackground = dynamic(() => import('./HeroBackground'), {
   ssr: false,
   loading: () => null
 });
-
 interface HeroProps {
   initialData?: StrapiHero | null;
-  locale?: Locale;
+  locale?: string;
 }
 
 const Hero = ({ initialData, locale = 'en' }: HeroProps) => {

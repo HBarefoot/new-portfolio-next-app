@@ -11,7 +11,6 @@ import {
   fetchExperiencesServer,
   fetchProjectsServer
 } from '@/lib/strapi-api';
-import type { Locale } from '@/lib/i18n';
 
 // Lazy load below-the-fold components that don't need SEO indexing
 const ProjectsGallery = dynamic(() => import('@/components/ProjectsGallery'), {
@@ -27,28 +26,27 @@ const Contact = dynamic(() => import('@/components/Contact'), {
 });
 
 interface HomePageContentProps {
-  locale: Locale;
 }
 
-export default async function HomePageContent({ locale }: HomePageContentProps) {
+export default async function HomePageContent({ }: HomePageContentProps) {
   // Fetch all data server-side in parallel for optimal performance
   const [heroData, aboutData, skillsData, experiencesData, projectsData] = await Promise.all([
-    fetchHeroServer(locale),
-    fetchAboutServer(locale),
-    fetchSkillsServer(locale),
-    fetchExperiencesServer(locale),
-    fetchProjectsServer(locale),
+    fetchHeroServer(),
+    fetchAboutServer(),
+    fetchSkillsServer(),
+    fetchExperiencesServer(),
+    fetchProjectsServer(),
   ]);
 
   return (
     <main>
-      <Hero initialData={heroData} locale={locale} />
-      <About initialData={aboutData} locale={locale} />
-      <Skills initialData={skillsData} locale={locale} />
-      <Experience initialData={experiencesData} locale={locale} />
-      <Projects initialData={projectsData} locale={locale} />
-      <CaseStudiesSection locale={locale} />
-      <ProjectsGallery locale={locale} />
+      <Hero initialData={heroData} />
+      <About initialData={aboutData} />
+      <Skills initialData={skillsData} />
+      <Experience initialData={experiencesData} />
+      <Projects initialData={projectsData} />
+      <CaseStudiesSection />
+      <ProjectsGallery />
       <Contact />
     </main>
   );

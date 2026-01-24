@@ -5,11 +5,9 @@ import { ExternalLink, Github, Code, Zap, Database, Globe } from 'lucide-react';
 import type { StrapiProject } from '@/types/strapi';
 import { getStrapiImageUrl } from '@/types/strapi';
 import Image from 'next/image';
-import type { Locale } from '@/lib/i18n';
-
 interface ProjectsProps {
   initialData?: StrapiProject[];
-  locale?: Locale;
+  locale?: string;
 }
 
 const Projects = ({ initialData, locale = 'en' }: ProjectsProps) => {

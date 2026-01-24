@@ -5,32 +5,25 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { StrapiCaseStudy, getStrapiImageUrl } from '@/types/strapi';
 import { Calendar, Clock, ExternalLink } from 'lucide-react';
-import type { Locale } from '@/lib/i18n';
-import { localizePathname } from '@/lib/i18n';
 
 const translations = {
   en: {
     featured: 'Featured',
     readCaseStudy: 'Read Case Study',
     more: 'more',
-  },
-  es: {
-    featured: 'Destacado',
-    readCaseStudy: 'Leer Caso de Estudio',
-    more: 'más',
-  },
+  }
 };
 
 interface CaseStudyCardProps {
   caseStudy: StrapiCaseStudy;
   index: number;
-  locale?: Locale;
+  locale?: string;
 }
 
 const CaseStudyCard = ({ caseStudy, index, locale = 'en' }: CaseStudyCardProps) => {
-  const t = translations[locale];
+  const t = translations.en;
   const heroImageUrl = getStrapiImageUrl(caseStudy.heroImage);
-  const caseStudyPath = localizePathname(`/case-studies/${caseStudy.slug}`, locale);
+  const caseStudyPath = `/case-studies/${caseStudy.slug}`;
 
   return (
     <motion.div

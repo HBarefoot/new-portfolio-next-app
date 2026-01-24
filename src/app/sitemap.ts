@@ -4,7 +4,7 @@ import { readBlogData } from '@/lib/blog';
 export const revalidate = 3600;
 
 const BASE_URL = 'https://next.henrybarefoot.com';
-const LOCALES = ['en', 'es'] as const;
+const LOCALES = ['en'] as const;
 const DEFAULT_LOCALE = 'en';
 
 interface BlogPost {

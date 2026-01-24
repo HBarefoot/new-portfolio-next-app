@@ -3,14 +3,13 @@
 import { motion } from 'framer-motion';
 import { Code, Database, Wrench, Globe } from 'lucide-react';
 import type { StrapiSkill } from '@/types/strapi';
-import type { Locale } from '@/lib/i18n';
 
-interface SkillsProps {
+interface SkillsSectionProps {
   initialData?: StrapiSkill[];
-  locale?: Locale;
+  locale?: string;
 }
 
-const Skills = ({ initialData, locale = 'en' }: SkillsProps) => {
+const SkillsSection = ({ initialData, locale = 'en' }: SkillsSectionProps) => {
   // Use server-provided data directly - no client-side fetching needed
   const skills = initialData || [];
   const loading = false; // Data comes from server, no loading state needed
@@ -237,4 +236,4 @@ const Skills = ({ initialData, locale = 'en' }: SkillsProps) => {
   );
 };
 
-export default Skills;
+export default SkillsSection;

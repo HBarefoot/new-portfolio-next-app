@@ -3,14 +3,13 @@
 import { motion } from 'framer-motion';
 import { Code, Users, Globe, Award } from 'lucide-react';
 import type { StrapiAbout } from '@/types/strapi';
-import type { Locale } from '@/lib/i18n';
 
-interface AboutProps {
+interface AboutSectionProps {
   initialData?: StrapiAbout | null;
-  locale?: Locale;
+  locale?: string;
 }
 
-const About = ({ initialData, locale = 'en' }: AboutProps) => {
+const AboutSection = ({ initialData, locale = 'en' }: AboutSectionProps) => {
   // Use server-provided data directly - no client-side fetching needed
   const aboutData = initialData;
   const loading = false; // Data comes from server, no loading state needed
@@ -221,4 +220,4 @@ const About = ({ initialData, locale = 'en' }: AboutProps) => {
   );
 };
 
-export default About;
+export default AboutSection;

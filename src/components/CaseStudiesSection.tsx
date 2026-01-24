@@ -7,10 +7,7 @@ import { useEffect, useState } from 'react';
 import { getCaseStudies } from '@/lib/strapi-api';
 import type { StrapiCaseStudy, StrapiEntity } from '@/types/strapi';
 import CaseStudyCard from './CaseStudyCard';
-import type { Locale } from '@/lib/i18n';
-import { localizePathname } from '@/lib/i18n';
-
-// Translations
+// Translations - English only
 const translations = {
   en: {
     badge: 'Featured Work',
@@ -20,25 +17,16 @@ const translations = {
     efficiencyGain: 'Average Efficiency Gain',
     satisfaction: 'Client Satisfaction Rate',
     savings: 'In Cost Savings Generated',
-  },
-  es: {
-    badge: 'Trabajo Destacado',
-    title: 'Casos de Estudio',
-    subtitle: 'Proyectos del mundo real que muestran resultados medibles y soluciones innovadoras que impulsan el éxito empresarial.',
-    viewAll: 'Ver Todos los Casos de Estudio',
-    efficiencyGain: 'Ganancia de Eficiencia Promedio',
-    satisfaction: 'Tasa de Satisfacción del Cliente',
-    savings: 'En Ahorros de Costos Generados',
-  },
+  }
 };
 
 interface CaseStudiesSectionProps {
-  locale?: Locale;
+  locale?: string;
 }
 
 const CaseStudiesSection = ({ locale = 'en' }: CaseStudiesSectionProps) => {
-  const t = translations[locale];
-  const caseStudiesPath = localizePathname('/case-studies', locale);
+  const t = translations.en;
+  const caseStudiesPath = '/case-studies';
   const [caseStudies, setCaseStudies] = useState<StrapiCaseStudy[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -79,7 +67,7 @@ const CaseStudiesSection = ({ locale = 'en' }: CaseStudiesSectionProps) => {
             <Award className="w-4 h-4" />
             <span>{t.badge}</span>
           </div>
-          
+
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
             {t.title}
           </h2>

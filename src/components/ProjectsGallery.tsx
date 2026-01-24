@@ -3,7 +3,8 @@
 import { motion } from 'framer-motion';
 import { ExternalLink, Code, Workflow, Zap, Database } from 'lucide-react';
 import Image from 'next/image';
-import type { Locale } from '@/lib/i18n';
+import type { StrapiProject } from '@/types/strapi';
+// cleaned i18n import
 
 interface GalleryProject {
   title: string;
@@ -16,10 +17,11 @@ interface GalleryProject {
 }
 
 interface ProjectsGalleryProps {
-  locale?: Locale;
+  initialData?: StrapiProject[];
+  locale?: string;
 }
 
-const ProjectsGallery = ({ locale = 'en' }: ProjectsGalleryProps) => {
+const ProjectsGallery = ({ initialData, locale = 'en' }: ProjectsGalleryProps) => {
   const galleryProjects: GalleryProject[] = [
     {
       title: "Yacht Transport AI Platform",
@@ -140,9 +142,8 @@ const ProjectsGallery = ({ locale = 'en' }: ProjectsGalleryProps) => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
               viewport={{ once: true }}
-              className={`grid lg:grid-cols-2 gap-12 items-center ${
-                index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''
-              }`}
+              className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''
+                }`}
             >
               {/* Project Image */}
               <div className={`${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
@@ -159,7 +160,7 @@ const ProjectsGallery = ({ locale = 'en' }: ProjectsGalleryProps) => {
                     priority={index === 0}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                   />
-                  
+
                   {/* Image Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="absolute bottom-4 left-4 right-4">
@@ -203,7 +204,7 @@ const ProjectsGallery = ({ locale = 'en' }: ProjectsGalleryProps) => {
                       </h3>
                     </div>
                   </div>
-                  
+
                   <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                     {project.description}
                   </p>
@@ -266,7 +267,7 @@ const ProjectsGallery = ({ locale = 'en' }: ProjectsGalleryProps) => {
                     <Code className="mr-2" size={20} />
                     Discuss Implementation
                   </motion.button>
-                  
+
                   {project.link && (
                     <motion.a
                       href={project.link}
@@ -299,7 +300,7 @@ const ProjectsGallery = ({ locale = 'en' }: ProjectsGalleryProps) => {
               Need Custom Automation Solutions?
             </h3>
             <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-              These workflows represent just a fraction of what's possible with modern automation. 
+              These workflows represent just a fraction of what's possible with modern automation.
               Let's discuss how custom n8n workflows can streamline your business processes.
             </p>
             <motion.button
