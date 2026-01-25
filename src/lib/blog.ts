@@ -1,4 +1,5 @@
 import { put, list } from '@vercel/blob';
+import { unstable_cache } from 'next/cache';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { BlogPost, BlogMeta } from '@/types/blog';
@@ -22,7 +23,38 @@ export const emptyBlogData: BlogData = {
   }
 };
 
-export async function readBlogData(): Promise<BlogData> {
+export interface BlogDependencies {
+  listBlob?: typeof list;
+  fetchFn?: typeof fetch;
+}
+
+export async function fetchRawBlogData(deps: BlogDependencies = {}): Promise<BlogData> {
+  const listBlob = deps.listBlob || list;
+  const fetchFn = deps.fetchFn || fetch;
+
+  try {
+    const { blobs } = await listBlob({ prefix: BLOG_DATA_FILENAME });
+
+    if (blobs.length === 0) {
+      return emptyBlogData;
+    }
+
+    const response = await fetchFn(blobs[0].url);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error reading from Blob:', error);
+    return emptyBlogData;
+  }
+}
+
+const getCachedBlogData = unstable_cache(
+  async () => fetchRawBlogData(),
+  ['blog-data'],
+  { revalidate: 60 }
+);
+
+export async function readBlogData(deps?: BlogDependencies): Promise<BlogData> {
   // Use local filesystem in development
   if (IS_DEV) {
     try {
@@ -34,20 +66,11 @@ export async function readBlogData(): Promise<BlogData> {
   }
 
   // Use Vercel Blob in production
-  try {
-    const { blobs } = await list({ prefix: BLOG_DATA_FILENAME });
-
-    if (blobs.length === 0) {
-      return emptyBlogData;
-    }
-
-    const response = await fetch(blobs[0].url);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error reading from Blob:', error);
-    return emptyBlogData;
+  if (deps) {
+    return fetchRawBlogData(deps);
   }
+
+  return getCachedBlogData();
 }
 
 export async function writeBlogData(data: BlogData): Promise<void> {
