@@ -6,8 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-// Import chat-specific CSS (loaded only when this component mounts)
-import './chat-widget.css';
+// CSS deleted - using Tailwind utility classes
 
 interface Message {
   id: string;
@@ -177,7 +176,7 @@ const ChatWidget = () => {
       {/* Chat Toggle Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 p-3 sm:p-4 bg-primary rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 group ring-4 ring-primary/20 ${isOpen ? 'max-sm:hidden' : ''
+        className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 p-3 sm:p-4 bg-primary text-primary-foreground rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 group ring-4 ring-primary/20 ${isOpen ? 'max-sm:hidden' : ''
           }`}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
@@ -192,7 +191,7 @@ const ChatWidget = () => {
               exit={{ rotate: 90, opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <X className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" />
+              <X className="w-5 h-5 sm:w-6 sm:h-6" />
             </motion.div>
           ) : (
             <motion.div
@@ -203,7 +202,7 @@ const ChatWidget = () => {
               transition={{ duration: 0.2 }}
               className="relative"
             >
-              <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" />
+              <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
               <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-green-500 rounded-full animate-pulse border-2 border-background shadow-lg" />
             </motion.div>
           )}
@@ -218,16 +217,16 @@ const ChatWidget = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-0 right-0 left-0 z-40 w-full h-[100dvh] pt-16 sm:pt-0 sm:bottom-24 sm:right-6 sm:left-auto sm:w-[400px] sm:h-[600px] sm:max-h-[calc(100vh-200px)] sm:rounded-2xl bg-white dark:bg-gray-900 shadow-2xl flex flex-col overflow-hidden border-t border-gray-200 dark:border-gray-800 sm:border sm:border-gray-200 sm:dark:border-gray-800"
+            className="fixed bottom-0 right-0 left-0 z-40 w-full h-[100dvh] pt-16 sm:pt-0 sm:bottom-24 sm:right-6 sm:left-auto sm:w-[400px] sm:h-[600px] sm:max-h-[calc(100vh-200px)] sm:rounded-2xl bg-card text-card-foreground shadow-2xl flex flex-col overflow-hidden border-t border-border sm:border sm:border-border"
           >
             {/* Chat Header */}
             <div className="bg-primary p-3 sm:p-4 text-primary-foreground flex-shrink-0">
               <div className="flex items-center gap-2 sm:gap-3">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                  <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-base sm:text-lg">Henry&apos;s AI Assistant</h3>
+                  <h3 className="font-semibold text-base sm:text-lg text-white">Henry&apos;s AI Assistant</h3>
                   <p className="text-xs text-white/90 flex items-center gap-1">
                     <span className="w-2 h-2 bg-green-300 rounded-full animate-pulse"></span>
                     Online - Ready to help
@@ -235,7 +234,7 @@ const ChatWidget = () => {
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="ml-2 p-2 hover:bg-white/10 rounded-lg transition-colors sm:hidden"
+                  className="ml-2 p-2 hover:bg-white/10 rounded-lg transition-colors sm:hidden text-white"
                   aria-label="Close chat"
                 >
                   <X className="w-5 h-5" />
@@ -246,7 +245,7 @@ const ChatWidget = () => {
             {/* Messages Container */}
             <div
               ref={chatContainerRef}
-              className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 bg-gray-50 dark:bg-gray-950 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent min-h-0"
+              className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 bg-muted/50 scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent min-h-0"
             >
               {messages.map((message) => (
                 <motion.div
@@ -259,7 +258,7 @@ const ChatWidget = () => {
                   <div
                     className={`max-w-[85%] sm:max-w-[90%] rounded-2xl px-3 py-2 sm:px-4 sm:py-2.5 ${message.sender === 'user'
                       ? 'bg-primary text-primary-foreground rounded-br-sm'
-                      : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-bl-sm shadow-sm border border-gray-200 dark:border-gray-700'
+                      : 'bg-card text-card-foreground rounded-bl-sm shadow-sm border border-border'
                       }`}
                   >
                     {message.sender === 'bot' ? (
@@ -272,7 +271,7 @@ const ChatWidget = () => {
                       <p className="text-sm whitespace-pre-wrap break-words">{message.text}</p>
                     )}
                     <p
-                      className={`text-xs mt-1 ${message.sender === 'user' ? 'text-white/70' : 'text-gray-500 dark:text-gray-400'
+                      className={`text-xs mt-1 ${message.sender === 'user' ? 'text-primary-foreground/70' : 'text-muted-foreground'
                         }`}
                     >
                       {formatTime(message.timestamp)}
@@ -288,22 +287,22 @@ const ChatWidget = () => {
                   animate={{ opacity: 1, y: 0 }}
                   className="flex justify-start"
                 >
-                  <div className="bg-white dark:bg-gray-800 rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm border border-gray-200 dark:border-gray-700">
+                  <div className="bg-card rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm border border-border">
                     <div className="flex gap-1">
                       <motion.span
-                        className="w-2 h-2 bg-gray-400 rounded-full"
+                        className="w-2 h-2 bg-muted-foreground/50 rounded-full"
                         animate={{ translateY: [0, -8, 0] }}
                         transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
                         style={{ willChange: 'transform' }}
                       />
                       <motion.span
-                        className="w-2 h-2 bg-gray-400 rounded-full"
+                        className="w-2 h-2 bg-muted-foreground/50 rounded-full"
                         animate={{ translateY: [0, -8, 0] }}
                         transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
                         style={{ willChange: 'transform' }}
                       />
                       <motion.span
-                        className="w-2 h-2 bg-gray-400 rounded-full"
+                        className="w-2 h-2 bg-muted-foreground/50 rounded-full"
                         animate={{ translateY: [0, -8, 0] }}
                         transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
                         style={{ willChange: 'transform' }}
@@ -317,7 +316,7 @@ const ChatWidget = () => {
             </div>
 
             {/* Input Area */}
-            <div className="p-3 sm:p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 flex-shrink-0">
+            <div className="p-3 sm:p-4 bg-card border-t border-border flex-shrink-0">
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -335,7 +334,7 @@ const ChatWidget = () => {
                   placeholder="Ask me anything..."
                   disabled={isLoading}
                   autoComplete="off"
-                  className="flex-1 px-3 py-3 sm:px-4 sm:py-2.5 text-base bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="flex-1 px-3 py-3 sm:px-4 sm:py-2.5 text-base bg-muted/50 border border-input rounded-xl focus:outline-none focus:ring-2 focus:ring-ring/50 text-foreground placeholder-muted-foreground disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 />
                 <button
                   type="submit"
@@ -350,7 +349,7 @@ const ChatWidget = () => {
                   )}
                 </button>
               </form>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center hidden sm:block">
+              <p className="text-xs text-muted-foreground mt-2 text-center hidden sm:block">
                 Powered by AI • Press Enter to send
               </p>
             </div>
