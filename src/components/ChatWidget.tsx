@@ -222,7 +222,7 @@ const ChatWidget = () => {
             {/* Chat Header */}
             <div className="bg-primary p-3 sm:p-4 text-primary-foreground flex-shrink-0">
               <div className="flex items-center gap-2 sm:gap-3">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary-foreground/10 border border-primary-foreground/20 rounded-full flex items-center justify-center backdrop-blur-sm">
                   <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -234,7 +234,7 @@ const ChatWidget = () => {
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="ml-2 p-2 hover:bg-white/10 rounded-lg transition-colors sm:hidden text-primary-foreground"
+                  className="ml-2 p-2 hover:bg-primary-foreground/10 rounded-lg transition-colors sm:hidden text-primary-foreground"
                   aria-label="Close chat"
                 >
                   <X className="w-5 h-5" />
