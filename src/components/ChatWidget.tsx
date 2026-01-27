@@ -222,19 +222,19 @@ const ChatWidget = () => {
             {/* Chat Header */}
             <div className="bg-primary p-3 sm:p-4 text-primary-foreground flex-shrink-0">
               <div className="flex items-center gap-2 sm:gap-3">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                  <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary-foreground/10 border border-primary-foreground/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                  <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-base sm:text-lg text-white">Henry&apos;s AI Assistant</h3>
-                  <p className="text-xs text-white/90 flex items-center gap-1">
+                  <h3 className="font-semibold text-base sm:text-lg text-primary-foreground">Henry&apos;s AI Assistant</h3>
+                  <p className="text-xs text-primary-foreground/90 flex items-center gap-1">
                     <span className="w-2 h-2 bg-green-300 rounded-full animate-pulse"></span>
                     Online - Ready to help
                   </p>
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="ml-2 p-2 hover:bg-white/10 rounded-lg transition-colors sm:hidden text-white"
+                  className="ml-2 p-2 hover:bg-primary-foreground/10 rounded-lg transition-colors sm:hidden text-primary-foreground"
                   aria-label="Close chat"
                 >
                   <X className="w-5 h-5" />
@@ -245,7 +245,7 @@ const ChatWidget = () => {
             {/* Messages Container */}
             <div
               ref={chatContainerRef}
-              className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 bg-muted/50 scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent min-h-0"
+              className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 bg-muted/50 min-h-0"
             >
               {messages.map((message) => (
                 <motion.div
