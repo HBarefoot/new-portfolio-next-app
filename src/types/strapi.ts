@@ -301,6 +301,7 @@ export interface StrapiSiteSettings {
   googleAnalyticsId?: string;
   headerCTAText?: string;
   headerCTALink?: string;
+  calendlyUrl?: string;
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
