@@ -82,6 +82,7 @@ const Header = () => {
     { label: 'Services', href: 'services', isSection: true },
     { label: 'Work', href: 'work', isSection: true },
     { label: 'Blueprint', href: 'contact', isSection: true },
+    { label: 'Engram', href: '/engram', isSection: false },
     { label: 'Free Audit', href: '/audit', isSection: false },
     { label: 'Live Demos', href: '/demos', isSection: false },
     { label: 'Blog', href: '/blog', isSection: false },
