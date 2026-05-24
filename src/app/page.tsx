@@ -1,6 +1,5 @@
 import { HeroSection } from '@/components/barefoot-home/hero-section';
 import { ServicesSection } from '@/components/barefoot-home/services-section';
-import { WorkExperienceSection } from '@/components/barefoot-home/work-experience-section';
 import { FeaturedWorkSection } from '@/components/barefoot-home/featured-work-section';
 import { LeadMagnetSection } from '@/components/barefoot-home/lead-magnet-section';
 
@@ -14,9 +13,6 @@ export default function Home() {
 
       {/* Services - New section */}
       <ServicesSection />
-
-      {/* Work Experience - Career history */}
-      <WorkExperienceSection />
 
       {/* Featured Work - Replaces Projects, mapped to 'work' */}
       <FeaturedWorkSection />
