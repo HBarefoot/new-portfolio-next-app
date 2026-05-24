@@ -80,7 +80,6 @@ const Header = () => {
   const navItems = useMemo(() => [
     { label: 'Home', href: 'hero', isSection: true },
     { label: 'Services', href: 'services', isSection: true },
-    { label: 'Experience', href: 'experience', isSection: true },
     { label: 'Work', href: 'work', isSection: true },
     { label: 'Blueprint', href: 'contact', isSection: true },
     { label: 'Frutero', href: '/frutero', isSection: false },
