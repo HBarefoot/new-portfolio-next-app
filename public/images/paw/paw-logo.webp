@@ -1,0 +1,14 @@
+// Paw logo asset (placeholder)
+//
+// The page currently renders the vector SVG at public/images/paw/paw-logo.svg.
+// To swap in the real webp you supplied:
+//
+//   1. Download https://cms.henrybarefoot.com/uploads/paw_logo_blue_border_1771467263800_1027fe5096.webp
+//   2. Drag-drop it into GitHub at public/images/paw/paw-logo.webp
+//   3. Update src/components/paw/sections/PawHero.tsx to load /images/paw/paw-logo.webp
+//   4. (Optional) Update src/app/paw/page.tsx openGraph.images to the same path
+//   5. Delete public/images/paw/paw-logo.svg
+//
+// Until then, this placeholder sits in the slot so the asset pipeline is clean
+// and the SVG is the live asset.
+export {};
