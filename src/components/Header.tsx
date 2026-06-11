@@ -84,6 +84,7 @@ const Header = () => {
     { label: 'Blueprint', href: 'contact', isSection: true },
     { label: 'Frutero', href: '/frutero', isSection: false },
     { label: 'Engram', href: '/engram', isSection: false },
+    { label: 'Paw', href: '/paw', isSection: false },
     { label: 'Free Audit', href: '/audit', isSection: false },
     { label: 'Live Demos', href: '/demos', isSection: false },
     { label: 'Blog', href: '/blog', isSection: false },
@@ -194,7 +195,7 @@ const Header = () => {
                   key={item.href}
                   href={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className="group flex items-center gap-3 py-3 px-4 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-all duration-200 font-medium"
+                  className="group flex items-center gap-3 w-full py-3 px-4 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-all duration-200 font-medium"
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
                   {item.label}
