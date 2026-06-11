@@ -6,12 +6,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
+const PAW_LOGO_URL =
+  'https://cms.henrybarefoot.com/uploads/paw_logo_blue_border_1771467263800_1027fe5096.webp';
+
 export default function PawHero() {
   const [copied, setCopied] = useState(false);
 
   const copyCommand = async () => {
     try {
-      await navigator.clipboard.writeText('git clone https://github.com/HBarefoot/paw && cd paw && bun install && bun start');
+      await navigator.clipboard.writeText(
+        'git clone https://github.com/HBarefoot/paw && cd paw && bun install && bun start',
+      );
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -28,21 +33,31 @@ export default function PawHero() {
       </div>
 
       <div className="mx-auto max-w-4xl text-center">
-        {/* Logo */}
+        {/* Logo — circle */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="mb-8"
+          className="mb-8 flex justify-center"
         >
-          <Image
-            src="/images/paw/paw-logo.svg"
-            alt="Paw logo"
-            width={120}
-            height={120}
-            priority
-            className="mx-auto h-24 w-24 sm:h-28 sm:w-28 [filter:drop-shadow(0_0_24px_rgba(124,92,255,0.45))]"
-          />
+          <div
+            className="relative h-28 w-28 sm:h-32 sm:w-32"
+            style={{
+              boxShadow:
+                '0 0 0 1px rgba(124,92,255,0.35), 0 0 40px rgba(124,92,255,0.25), 0 0 80px rgba(0,255,163,0.12)',
+              borderRadius: '9999px',
+            }}
+          >
+            <Image
+              src={PAW_LOGO_URL}
+              alt="Paw logo"
+              width={128}
+              height={128}
+              priority
+              unoptimized
+              className="h-full w-full rounded-full object-cover"
+            />
+          </div>
         </motion.div>
 
         {/* Badge */}
