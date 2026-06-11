@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="pawGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C5CFF"/>
+      <stop offset="100%" stop-color="#00FFA3"/>
+    </linearGradient>
+    <radialGradient id="padGradient" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#A78BFA"/>
+      <stop offset="100%" stop-color="#7C5CFF"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="128" cy="128" r="128" fill="#0A0A0A"/>
+
+  <!-- Main paw pad -->
+  <ellipse cx="128" cy="168" rx="52" ry="44" fill="url(#padGradient)"/>
+
+  <!-- Top-left toe -->
+  <ellipse cx="70" cy="100" rx="22" ry="28" fill="url(#padGradient)" transform="rotate(-20 70 100)"/>
+
+  <!-- Top-right toe -->
+  <ellipse cx="186" cy="100" rx="22" ry="28" fill="url(#padGradient)" transform="rotate(20 186 100)"/>
+
+  <!-- Outer-left toe -->
+  <ellipse cx="44" cy="148" rx="20" ry="24" fill="url(#padGradient)" transform="rotate(-45 44 148)"/>
+
+  <!-- Outer-right toe -->
+  <ellipse cx="212" cy="148" rx="20" ry="24" fill="url(#padGradient)" transform="rotate(45 212 148)"/>
+
+  <!-- Highlight on main pad -->
+  <ellipse cx="115" cy="155" rx="18" ry="12" fill="#A78BFA" opacity="0.35"/>
+</svg>
