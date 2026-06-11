@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { ArrowDown } from 'lucide-react';
 
 const layers = [
   {
@@ -84,7 +85,7 @@ export default function EngramArchitecture() {
               {/* Connector arrow */}
               {index < layers.length - 1 && (
                 <div className="flex justify-center py-1">
-                  <div className="h-4 w-px bg-border" />
+                  <ArrowDown className="h-4 w-4 text-border" />
                 </div>
               )}
             </motion.div>

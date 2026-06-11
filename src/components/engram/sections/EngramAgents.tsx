@@ -1,15 +1,15 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Bot, Check, Settings, Plug } from 'lucide-react';
+import { Check, Settings, Plug, Wand2, Code2, Zap, Workflow } from 'lucide-react';
 
 const agents = [
-  { name: 'Claude Desktop', status: 'auto' as const, note: 'One-click connect', icon: Bot },
-  { name: 'Claude Code', status: 'auto' as const, note: 'One-click connect', icon: Bot },
-  { name: 'Cursor', status: 'auto' as const, note: 'One-click connect', icon: Bot },
-  { name: 'Windsurf', status: 'auto' as const, note: 'One-click connect', icon: Bot },
+  { name: 'Claude Desktop', status: 'auto' as const, note: 'One-click connect', icon: Wand2 },
+  { name: 'Claude Code', status: 'auto' as const, note: 'One-click connect', icon: Code2 },
+  { name: 'Cursor', status: 'auto' as const, note: 'One-click connect', icon: Zap },
+  { name: 'Windsurf', status: 'auto' as const, note: 'One-click connect', icon: Zap },
   { name: 'ChatGPT', status: 'manual' as const, note: 'Setup guide provided', icon: Settings },
-  { name: 'n8n', status: 'rest' as const, note: 'HTTP integration', icon: Plug },
+  { name: 'n8n', status: 'rest' as const, note: 'HTTP integration', icon: Workflow },
   { name: 'Custom MCP', status: 'auto' as const, note: 'Any MCP client', icon: Plug },
 ];
 

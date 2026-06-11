@@ -9,36 +9,42 @@ const features = [
     title: 'Hybrid Memory Retrieval',
     description:
       'Combines semantic similarity, recency, confidence, and access patterns for contextual recall.',
+    stat: '5-layer scoring',
   },
   {
     icon: Search,
     title: 'Full-Text Search',
     description:
       'SQLite FTS5 for instant keyword search across all memories.',
+    stat: 'FTS5 native',
   },
   {
     icon: Cpu,
     title: 'Local Embeddings',
     description:
       'all-MiniLM-L6-v2 runs locally (~23MB). No API keys, no cloud, works offline.',
+    stat: '~23MB model',
   },
   {
     icon: Shield,
     title: 'Secret Detection',
     description:
       'Automatic detection and redaction of API keys, passwords, and credentials.',
+    stat: 'Never stores secrets',
   },
   {
     icon: Layout,
     title: 'Web Dashboard',
     description:
       'Modern React UI for visualizing, searching, and managing memories.',
+    stat: 'Vite + React',
   },
   {
     icon: Plug,
     title: 'MCP + REST API',
     description:
       '6 MCP tools for Claude/Cursor. Full REST API for n8n, LangChain, custom agents.',
+    stat: '6 MCP tools',
   },
 ];
 
@@ -96,6 +102,11 @@ export default function EngramFeatures() {
               <p className="text-sm leading-relaxed text-muted-foreground">
                 {feature.description}
               </p>
+              {feature.stat && (
+                <div className="mt-4 inline-flex items-center rounded-full bg-cyan-500/10 px-2.5 py-0.5 text-xs font-medium text-cyan-600 dark:text-cyan-400">
+                  {feature.stat}
+                </div>
+              )}
             </motion.div>
           ))}
         </motion.div>

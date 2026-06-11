@@ -2,18 +2,18 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Download, Terminal, Monitor, Package, Check, Copy } from 'lucide-react';
+import { Download, Terminal, Package, Check, Copy } from 'lucide-react';
 import Link from 'next/link';
 
 const tabs = [
-  { id: 'desktop', label: 'Desktop App', icon: Monitor },
+  { id: 'cli', label: 'CLI Install', icon: Terminal },
   { id: 'npm', label: 'npm Package', icon: Package },
 ] as const;
 
 type TabId = (typeof tabs)[number]['id'];
 
 export default function EngramInstall() {
-  const [activeTab, setActiveTab] = useState<TabId>('desktop');
+  const [activeTab, setActiveTab] = useState<TabId>('cli');
   const [copied, setCopied] = useState(false);
 
   const copyCommand = async (text: string) => {
@@ -68,9 +68,9 @@ export default function EngramInstall() {
 
         {/* Tab content */}
         <AnimatePresence mode="wait">
-          {activeTab === 'desktop' ? (
+          {activeTab === 'cli' ? (
             <motion.div
-              key="desktop"
+              key="cli"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -82,16 +82,16 @@ export default function EngramInstall() {
                   Recommended
                 </span>
                 <p className="text-muted-foreground">
-                  One-click install, auto-configures your AI agents.
+                  One command. Works on macOS, Linux, and Windows (WSL).
                 </p>
               </div>
 
               {/* Steps */}
               <div className="mb-8 grid gap-6 sm:grid-cols-3">
                 {[
-                  { step: '1', title: 'Download', desc: 'Grab the .app from GitHub Releases' },
-                  { step: '2', title: 'Install', desc: 'Drag to Applications folder' },
-                  { step: '3', title: 'Connect', desc: 'One-click agent configuration' },
+                  { step: '1', title: 'Install', desc: 'npm install -g engram' },
+                  { step: '2', title: 'Start', desc: 'engram start' },
+                  { step: '3', title: 'Connect', desc: 'Auto-detects your agents' },
                 ].map((item) => (
                   <div key={item.step} className="text-center">
                     <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-cyan-500/10 font-mono text-sm font-bold text-cyan-600 dark:text-cyan-400">
@@ -103,37 +103,6 @@ export default function EngramInstall() {
                 ))}
               </div>
 
-              {/* Download button */}
-              <div className="text-center">
-                <Link
-                  href="https://github.com/HBarefoot/engram/releases"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg bg-cyan-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-cyan-500/25 transition-colors hover:bg-cyan-400"
-                >
-                  <Download className="h-4 w-4" />
-                  Download for Mac
-                </Link>
-                <p className="mt-3 text-xs text-muted-foreground/60">
-                  macOS 12+ &middot; Apple Silicon
-                </p>
-              </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="npm"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              className="rounded-xl border border-border bg-card/50 p-8"
-            >
-              <div className="mb-8 text-center">
-                <p className="text-muted-foreground">
-                  Install globally via npm and run from anywhere.
-                </p>
-              </div>
-
               {/* Install command */}
               <div className="mb-4 overflow-hidden rounded-lg bg-secondary p-4 ring-1 ring-border dark:bg-[#0d1117]">
                 <div className="mb-3 flex items-center justify-between">
@@ -142,7 +111,7 @@ export default function EngramInstall() {
                   </span>
                   <button
                     onClick={() =>
-                      copyCommand('npm install -g @hbarefoot/engram')
+                      copyCommand('npm install -g engram')
                     }
                     className="flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
                   >
@@ -157,7 +126,7 @@ export default function EngramInstall() {
                 <div className="flex items-center gap-2 font-mono text-sm">
                   <Terminal className="h-4 w-4 text-muted-foreground" />
                   <code className="text-cyan-600 dark:text-green-400">
-                    npm install -g @hbarefoot/engram
+                    npm install -g engram
                   </code>
                 </div>
               </div>
@@ -176,7 +145,67 @@ export default function EngramInstall() {
               </div>
 
               <p className="text-center text-xs text-muted-foreground/60">
-                Requires Node.js 20+ &middot; 105.4 kB package size
+                Requires Node.js 20+ · 105.4 kB package size
+              </p>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="npm"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="rounded-xl border border-border bg-card/50 p-8"
+            >
+              <div className="mb-8 text-center">
+                <p className="text-muted-foreground">
+                  Add to your project as a dependency.
+                </p>
+              </div>
+
+              {/* Install command */}
+              <div className="mb-4 overflow-hidden rounded-lg bg-secondary p-4 ring-1 ring-border dark:bg-[#0d1117]">
+                <div className="mb-3 flex items-center justify-between">
+                  <span className="font-mono text-xs text-muted-foreground">
+                    Install locally
+                  </span>
+                  <button
+                    onClick={() =>
+                      copyCommand('npm install engram')
+                    }
+                    className="flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {copied ? (
+                      <Check className="h-3.5 w-3.5 text-green-500" />
+                    ) : (
+                      <Copy className="h-3.5 w-3.5" />
+                    )}
+                    {copied ? 'Copied' : 'Copy'}
+                  </button>
+                </div>
+                <div className="flex items-center gap-2 font-mono text-sm">
+                  <Terminal className="h-4 w-4 text-muted-foreground" />
+                  <code className="text-cyan-600 dark:text-green-400">
+                    npm install engram
+                  </code>
+                </div>
+              </div>
+
+              {/* Usage */}
+              <div className="mb-6 overflow-hidden rounded-lg bg-secondary p-4 ring-1 ring-border dark:bg-[#0d1117]">
+                <span className="mb-3 block font-mono text-xs text-muted-foreground">
+                  Usage
+                </span>
+                <div className="flex items-center gap-2 font-mono text-sm">
+                  <Terminal className="h-4 w-4 text-muted-foreground" />
+                  <code className="text-cyan-600 dark:text-green-400">
+                    import {'{ remember, recall }'} from 'engram';
+                  </code>
+                </div>
+              </div>
+
+              <p className="text-center text-xs text-muted-foreground/60">
+                Node.js 20+ required · ESM modules
               </p>
             </motion.div>
           )}

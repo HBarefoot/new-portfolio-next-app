@@ -1,11 +1,24 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Brain, Download, Github, Terminal } from 'lucide-react';
+import { Download, Github, Terminal, Copy, Check } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function EngramHero() {
+  const [copied, setCopied] = useState(false);
+
+  const copyCommand = async () => {
+    try {
+      await navigator.clipboard.writeText('npm install -g engram');
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard API not available
+    }
+  };
+
   return (
     <section className="relative overflow-hidden px-6 pt-32 pb-24 sm:pt-40 sm:pb-32 lg:px-8">
       {/* Background gradient orbs */}
@@ -40,8 +53,8 @@ export default function EngramHero() {
           className="mb-8"
         >
           <span className="inline-flex items-center gap-2 rounded-full bg-cyan-500/10 px-4 py-2 text-sm font-medium text-cyan-600 ring-1 ring-inset ring-cyan-500/20 dark:text-cyan-400">
-            <Brain className="h-4 w-4" />
-            v1.1 — Desktop App Now Available
+            <Terminal className="h-4 w-4" />
+            v1.0.0 — Open Source CLI + Dashboard
           </span>
         </motion.div>
 
@@ -77,7 +90,7 @@ export default function EngramHero() {
           transition={{ delay: 0.4 }}
           className="mt-4 font-mono text-sm text-muted-foreground/60"
         >
-          SQLite for agent state. Local-first. Open source.
+          SQLite for agent state. Local-first. Offline. Open source.
         </motion.p>
 
         {/* CTAs */}
@@ -87,19 +100,17 @@ export default function EngramHero() {
           transition={{ delay: 0.5 }}
           className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
-          <Link
-            href="https://github.com/HBarefoot/engram/releases"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={copyCommand}
             className="flex items-center gap-2 rounded-lg bg-cyan-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-cyan-500/25 transition-colors hover:bg-cyan-400"
           >
-            <Download className="h-4 w-4" />
-            Download for Mac
-          </Link>
+            {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+            {copied ? 'Copied!' : 'Copy Install Command'}
+          </button>
 
           <div className="flex items-center gap-2 rounded-lg bg-muted/80 px-4 py-3 font-mono text-sm text-foreground/80 ring-1 ring-border">
             <Terminal className="h-4 w-4 text-muted-foreground" />
-            <code>npm install -g @hbarefoot/engram</code>
+            <code>npm install -g engram</code>
           </div>
         </motion.div>
 
