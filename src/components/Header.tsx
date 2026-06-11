@@ -84,6 +84,7 @@ const Header = () => {
     { label: 'Blueprint', href: 'contact', isSection: true },
     { label: 'Frutero', href: '/frutero', isSection: false },
     { label: 'Engram', href: '/engram', isSection: false },
+    { label: 'Paw', href: '/paw', isSection: false },
     { label: 'Free Audit', href: '/audit', isSection: false },
     { label: 'Live Demos', href: '/demos', isSection: false },
     { label: 'Blog', href: '/blog', isSection: false },
@@ -110,12 +111,12 @@ const Header = () => {
               width={40}
               height={40}
               priority
-              className="h-10 w-auto rounded-full ring-2 ring-primary/20"
+              className="h-10 w-auto rounded-full ring-2 ring-primary/30"
             />
           </Link>
 
-          {/* Desktop Navigation - Only visible on xl (1280px+) */}
-          <nav className="desktop-nav items-center gap-6">
+          {/* Desktop Navigation */}
+          <nav className="hidden xl:flex items-center gap-6">
             {navItems.map((item) => (
               item.isSection ? (
                 <button
