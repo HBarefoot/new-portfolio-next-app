@@ -36,12 +36,12 @@ export default function PawHero() {
           className="mb-8"
         >
           <Image
-            src="/images/paw/paw-logo.png"
+            src="/images/paw/paw-logo.svg"
             alt="Paw logo"
             width={120}
             height={120}
             priority
-            className="mx-auto h-24 w-24 rounded-full sm:h-28 sm:w-28"
+            className="mx-auto h-24 w-24 sm:h-28 sm:w-28 [filter:drop-shadow(0_0_24px_rgba(124,92,255,0.45))]"
           />
         </motion.div>
 

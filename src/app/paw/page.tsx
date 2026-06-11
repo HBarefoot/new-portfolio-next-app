@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     title: 'Paw — Your AI Agent Framework',
     description:
       'Multi-provider. MCP-native. Skills on demand. Built with Bun.',
-    images: ['/images/paw/paw-logo.png'],
+    images: ['/images/paw/paw-logo.svg'],
     type: 'website',
   },
   twitter: {
