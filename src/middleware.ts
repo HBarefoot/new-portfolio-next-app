@@ -17,13 +17,60 @@ function setSecurityHeaders(response: NextResponse, request: NextRequest) {
   // - script-src: Allow GTM, GA, Meta Pixel, Cloudflare, Vercel analytics
   // - img-src: Allow tracking pixels
   // - connect-src: Allow Strapi CMS API, analytics, and tracking endpoints
-  response.headers.set(
-    'Content-Security-Policy',
-    `frame-ancestors 'self' ${cmsUrl} https://cms.henrybarefoot.com https://vercel.live https://vercel.com; ` +
-    `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://cdn.vercel-insights.com https://www.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com https://tagmanager.google.com https://va.vercel-scripts.com https://connect.facebook.net https://vercel.live https://vercel.com https://snap.licdn.com; ` +
-    `img-src 'self' data: blob: https: http://localhost:1337; ` +
-    `connect-src 'self' ${cmsUrl} https://cms.henrybarefoot.com https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://*.vercel-insights.com https://www.facebook.com https://connect.facebook.net http://localhost:8000 https://performance-service-production.up.railway.app https://vercel.live https://vercel.com wss://ws-us3.pusher.com https://www.googletagmanager.com https://px.ads.linkedin.com;`
-  );
+  //
+  // Each directive is built from a list and de-duplicated so that ${cmsUrl}
+  // (which resolves to the CMS origin in production) does not produce repeated
+  // entries alongside the hardcoded production CMS host.
+  const directive = (name: string, sources: string[]) =>
+    `${name} ${Array.from(new Set(sources)).join(' ')}`;
+
+  const csp = [
+    directive('frame-ancestors', [
+      "'self'",
+      cmsUrl,
+      'https://cms.henrybarefoot.com',
+      'https://vercel.live',
+      'https://vercel.com',
+    ]),
+    directive('script-src', [
+      "'self'",
+      "'unsafe-inline'",
+      "'unsafe-eval'",
+      'https://static.cloudflareinsights.com',
+      'https://cdn.vercel-insights.com',
+      'https://www.googletagmanager.com',
+      'https://www.google-analytics.com',
+      'https://ssl.google-analytics.com',
+      'https://tagmanager.google.com',
+      'https://va.vercel-scripts.com',
+      'https://connect.facebook.net',
+      'https://vercel.live',
+      'https://vercel.com',
+      'https://snap.licdn.com',
+    ]),
+    directive('img-src', ["'self'", 'data:', 'blob:', 'https:', 'http://localhost:1337']),
+    directive('connect-src', [
+      "'self'",
+      cmsUrl,
+      'https://cms.henrybarefoot.com',
+      'https://www.google-analytics.com',
+      'https://analytics.google.com',
+      'https://region1.google-analytics.com',
+      'https://www.google.com',
+      'https://*.vercel-insights.com',
+      'https://www.facebook.com',
+      'https://connect.facebook.net',
+      'http://localhost:8000',
+      'https://performance-service-production.up.railway.app',
+      'https://vercel.live',
+      'https://vercel.com',
+      'wss://ws-us3.pusher.com',
+      'https://www.googletagmanager.com',
+      'https://px.ads.linkedin.com',
+    ]),
+  ].join('; ');
+
+  response.headers.set('Content-Security-Policy', `${csp};`);
 }
 
 export const config = {
