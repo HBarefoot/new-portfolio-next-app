@@ -5,6 +5,25 @@
 
 @custom-variant dark (&:is(.dark, .dark *));
 
+/* CookieConsent v3 theme — branded dark modal.
+   Scoped to :root:root so it beats the library's own :root defaults
+   regardless of stylesheet import order. */
+:root:root {
+  --cc-bg: #0b0b0c;
+  --cc-primary-color: #f5f5f7;
+  --cc-secondary-color: #b5b5b8;
+  --cc-btn-primary-bg: #2563eb;
+  --cc-btn-primary-color: #ffffff;
+  --cc-btn-primary-hover-bg: #1d4ed8;
+  --cc-btn-secondary-bg: #1a1a1d;
+  --cc-btn-secondary-color: #ffffff;
+  --cc-btn-secondary-hover-bg: #232327;
+  --cc-toggle-on-bg: #2563eb;
+  --cc-separator-border-color: #232327;
+  --cc-modal-border-radius: 12px;
+  --cc-btn-border-radius: 8px;
+}
+
 :root {
   /* Light Mode Defaults */
   --background: oklch(1 0 0);
