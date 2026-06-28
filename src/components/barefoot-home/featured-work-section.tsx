@@ -16,7 +16,7 @@ const products = [
     description:
       "Persistent memory for AI agents — a drop-in SDK and MCP server. Shipped on npm, MIT-licensed.",
     links: [
-      { label: "npm", href: "https://www.npmjs.com/package/engram", external: true },
+      { label: "npm", href: "https://www.npmjs.com/package/@hbarefoot/engram", external: true },
       { label: "GitHub", href: "https://github.com/HBarefoot/engram", external: true },
       { label: "Learn more", href: "/engram", external: false },
     ],
