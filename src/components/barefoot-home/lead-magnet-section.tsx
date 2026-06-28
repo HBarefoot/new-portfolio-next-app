@@ -74,11 +74,13 @@ export function LeadMagnetSection() {
         throw new Error(response.message || 'Submission failed')
       }
 
-      // Hand off the record id + email to the thank-you page via sessionStorage
-      // (never the URL).
+      // Hand off the record reference + email to the thank-you page via
+      // sessionStorage (never the URL). Prefer the Strapi v5 documentId, which
+      // is what the update route is keyed by; fall back to the numeric id.
       try {
-        if (response.id != null) {
-          sessionStorage.setItem('bf_assessment_id', String(response.id))
+        const ref = response.documentId ?? (response.id != null ? String(response.id) : null)
+        if (ref) {
+          sessionStorage.setItem('bf_assessment_id', ref)
         }
         sessionStorage.setItem('bf_assessment_email', email.trim())
       } catch {

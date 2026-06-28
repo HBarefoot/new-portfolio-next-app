@@ -21,7 +21,8 @@ const ROLES = [
 
 export default function AssessmentReady() {
   const [hydrated, setHydrated] = useState(false);
-  const [recordId, setRecordId] = useState<number | null>(null);
+  // Strapi v5 documentId (string) handed off from the form via sessionStorage.
+  const [recordId, setRecordId] = useState<string | null>(null);
 
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
@@ -34,8 +35,7 @@ export default function AssessmentReady() {
     // direct navigation — in which case we hide the company/role block.
     try {
       const raw = sessionStorage.getItem("bf_assessment_id");
-      const id = raw ? Number(raw) : NaN;
-      if (Number.isFinite(id) && id > 0) setRecordId(id);
+      if (raw && raw.trim()) setRecordId(raw.trim());
     } catch {
       // sessionStorage unavailable — treat as direct navigation.
     }

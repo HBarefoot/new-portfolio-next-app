@@ -103,6 +103,8 @@ export interface SubmitAuditResult {
     success: boolean;
     message: string;
     id?: number;
+    // Strapi v5 REST updates are keyed by documentId (string), not numeric id.
+    documentId?: string;
     error?: string;
 }
 
@@ -183,6 +185,7 @@ export async function submitAudit(
             success: true,
             message: 'Submission successful',
             id: result.data?.id,
+            documentId: result.data?.documentId,
         };
 
     } catch (error) {

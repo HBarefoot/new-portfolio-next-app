@@ -17,19 +17,22 @@ export interface UpdateAuditResult {
 }
 
 /**
- * Update an existing AuditSubmission record (by id) with optional company/role.
+ * Update an existing AuditSubmission record with optional company/role.
  * Mirrors the create flow in submit-audit.ts — the Strapi write token stays on
  * the server and is never exposed to the client.
  *
+ * `documentId` is the Strapi v5 REST identifier (a string) returned by the
+ * create call — numeric ids 404 on v5 update routes.
+ *
  * NOTE (Strapi): requires `company` and `role` fields on the AuditSubmission
- * content type. Uses the numeric record id returned by the create call.
+ * content type.
  */
 export async function updateAuditSubmission(
-  id: number,
+  documentId: string,
   input: UpdateAuditInput,
 ): Promise<UpdateAuditResult> {
   try {
-    if (!Number.isFinite(id) || id <= 0) {
+    if (!documentId || typeof documentId !== 'string') {
       return { success: false, message: 'Invalid record id' };
     }
 
@@ -48,7 +51,7 @@ export async function updateAuditSubmission(
       headers['Authorization'] = `Bearer ${strapiToken}`;
     }
 
-    const response = await fetch(`${strapiApiUrl}/audit-submissions/${id}`, {
+    const response = await fetch(`${strapiApiUrl}/audit-submissions/${documentId}`, {
       method: 'PUT',
       headers,
       body: JSON.stringify({
