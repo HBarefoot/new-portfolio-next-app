@@ -6,6 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Header from "@/components/Header";
 import { Footer } from "@/components/Footer"; // Updated import
+import ConsentBanner from "@/components/ConsentBanner";
 import "./globals.css";
 
 const inter = Inter({
@@ -110,6 +111,44 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://connect.facebook.net" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
+        {/* Google Consent Mode v2 defaults — MUST run before GTM loads.
+            Deny ad/analytics storage by default in the EEA/UK (Google geo-detects
+            the region); grant elsewhere (US opt-out model). GPC forces deny
+            everywhere. The consent banner only flips this state via gtag updates;
+            GTM blocks/fires the Meta + LinkedIn tags based on it. */}
+        <Script id="consent-mode-defaults" strategy="beforeInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+
+            gtag('consent', 'default', {
+              ad_storage: 'denied',
+              ad_user_data: 'denied',
+              ad_personalization: 'denied',
+              analytics_storage: 'denied',
+              region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB']
+            });
+
+            gtag('consent', 'default', {
+              ad_storage: 'granted',
+              ad_user_data: 'granted',
+              ad_personalization: 'granted',
+              analytics_storage: 'granted'
+            });
+
+            gtag('set', 'ads_data_redaction', true);
+
+            if (navigator.globalPrivacyControl === true) {
+              gtag('consent', 'update', {
+                ad_storage: 'denied',
+                ad_user_data: 'denied',
+                ad_personalization: 'denied',
+                analytics_storage: 'denied'
+              });
+            }
+          `}
+        </Script>
+
         {/* Google Tag Manager - delayed until user interaction to avoid blocking LCP */}
         <Script
           id="gtm-script"
@@ -157,6 +196,7 @@ export default function RootLayout({
             <Footer />
           </div>
         </ThemeProvider>
+        <ConsentBanner />
         <Analytics />
         <SpeedInsights />
       </body>

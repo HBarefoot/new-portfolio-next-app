@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { motion } from "framer-motion"
+import { PrivacyChoices } from "@/components/PrivacyChoices"
 
 export function Footer() {
   return (
@@ -54,6 +55,7 @@ export function Footer() {
             >
               Terms
             </Link>
+            <PrivacyChoices className="text-sm text-muted-foreground transition-colors hover:text-foreground cursor-pointer" />
           </div>
         </div>
 

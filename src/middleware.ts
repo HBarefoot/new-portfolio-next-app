@@ -1,10 +1,34 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+// EEA + UK — visitors here get the opt-in (consent-required) banner model.
+// Add CH/BR/etc. later if those regions should also be treated as opt-in.
+const EEA_UK = new Set([
+  'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU',
+  'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', // EU
+  'IS', 'LI', 'NO', // EEA
+  'GB', // UK
+]);
+
 export function middleware(request: NextRequest) {
   const response = NextResponse.next();
   setSecurityHeaders(response, request);
+  setRegionCookie(response, request);
   return response;
+}
+
+// Classify the visitor by Cloudflare's CF-IPCountry header and expose a readable
+// (non-HttpOnly) cookie the consent banner reads to choose opt-in vs opt-out UX.
+// This only drives banner wording — the legally-critical consent default is
+// enforced by Google Consent Mode's own geo-detection in the layout.
+function setRegionCookie(response: NextResponse, request: NextRequest) {
+  const country = request.headers.get('cf-ipcountry')?.toUpperCase() ?? 'US';
+  const region = EEA_UK.has(country) ? 'eu' : 'us';
+  response.cookies.set('bf_region', region, {
+    path: '/',
+    sameSite: 'lax',
+    maxAge: 60 * 60 * 24 * 30,
+  });
 }
 
 function setSecurityHeaders(response: NextResponse, request: NextRequest) {
