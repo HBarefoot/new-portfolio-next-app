@@ -31,30 +31,31 @@ const jetbrainsMono = JetBrains_Mono({
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-MGZ8LLPP';
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://next.henrybarefoot.com"),
+  metadataBase: new URL("https://www.barefootdigital.dev"),
   title: {
-    default: "Barefoot Digital - Automating the Future of Logistics & Fintech",
+    default: "Barefoot Digital — AI Adoption & Production AI Systems",
     template: "%s | Barefoot Digital",
   },
   description:
-    "Solution Architect specializing in AI-powered automation, custom n8n workflows, and production-ready full-stack applications for the maritime and finance sectors.",
+    "Barefoot Digital helps organizations adopt AI that works — strategy, enablement, and production systems, backed by shipped tools (Engram, Paw) and real deployments.",
   keywords: [
-    "Henry Barefoot",
-    "Solution Architect",
-    "Automation Engine",
-    "n8n Developer",
-    "Logistics Automation",
-    "Fintech AI",
-    "Web Developer",
-    "React Developer",
+    "Barefoot Digital",
+    "AI adoption",
+    "AI enablement",
+    "AI strategy",
+    "AI training",
+    "production AI systems",
+    "RAG implementation",
+    "AI agents",
+    "AI automation",
     "Next.js Developer",
+    "FastAPI",
     "TypeScript",
-    "AI Agent Development",
-    "Vector Databases",
-    "RAG Implementation"
+    "Engram",
+    "Paw"
   ],
-  authors: [{ name: "Henry Barefoot" }],
-  creator: "Henry Barefoot",
+  authors: [{ name: "Barefoot Digital" }],
+  creator: "Barefoot Digital",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -65,17 +66,20 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://next.henrybarefoot.com",
-    title: "Barefoot Digital - Automating the Future of Logistics & Fintech",
+    url: "https://www.barefootdigital.dev",
+    title: "Barefoot Digital — AI Adoption & Production AI Systems",
     description:
-      "Bridging the gap between complex engineering and business revenue with production-ready AI and automation solutions.",
+      "Barefoot Digital helps organizations adopt AI that works — strategy, enablement, and production systems, backed by shipped tools (Engram, Paw) and real deployments.",
     siteName: "Barefoot Digital",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Barefoot Digital - Automation & AI Solutions",
+    title: "Barefoot Digital — AI Adoption & Production AI Systems",
     description:
-      "Automating the future of logistics & fintech with production-ready AI.",
+      "We help organizations adopt AI that works — strategy, enablement, and production systems, backed by shipped tools and real deployments.",
+  },
+  alternates: {
+    canonical: "/",
   },
   robots: {
     index: true,

@@ -4,10 +4,38 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowRight, Code, Database, Globe, Wrench } from "lucide-react"
+import { ArrowRight, Code, Globe, Database, Bot, ExternalLink } from "lucide-react"
 import { motion } from "framer-motion"
 
-// Data ported from ProjectsGallery
+// Tier 1 — Products we've shipped (the proof we can build).
+const products = [
+  {
+    icon: Database,
+    title: "Engram",
+    tag: "Product · Open Source",
+    description:
+      "Persistent memory for AI agents — a drop-in SDK and MCP server. Shipped on npm, MIT-licensed.",
+    links: [
+      { label: "npm", href: "https://www.npmjs.com/package/engram", external: true },
+      { label: "GitHub", href: "https://github.com/HBarefoot/engram", external: true },
+      { label: "Learn more", href: "/engram", external: false },
+    ],
+  },
+  {
+    icon: Bot,
+    title: "Paw",
+    // NOTE(owner): confirm Paw's license before adding an Open Source tag.
+    tag: "Product · Live",
+    description:
+      "An agent framework for building and orchestrating autonomous AI workflows.",
+    links: [{ label: "Learn more", href: "/paw", external: false }],
+  },
+  // TODO(owner): optionally add Frutero here to show range — needs a confirmed
+  // one-line description and a tag identifying it as a separate product/vertical.
+]
+
+// Tier 2 — Client Work (maritime/yacht work kept live, recategorized as evidence).
+// Data ported from ProjectsGallery. Tags reflect what each project actually used.
 const projects = [
   {
     title: "Yacht Transport AI Platform",
@@ -54,8 +82,72 @@ export function FeaturedWorkSection() {
           </h2>
         </motion.div>
 
+        {/* ── Tier 1: Products ── */}
+        <h3 className="mb-6 text-sm font-medium uppercase tracking-wider text-muted-foreground">
+          Products
+        </h3>
+        <div className="mb-16 grid gap-6 md:grid-cols-2">
+          {products.map((product, idx) => (
+            <motion.div
+              key={product.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 + idx * 0.1 }}
+            >
+              <Card className="h-full border-border/50 bg-card flex flex-col">
+                <CardHeader>
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-500/10">
+                    <product.icon className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <CardTitle className="text-xl text-foreground">{product.title}</CardTitle>
+                    <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                      {product.tag}
+                    </span>
+                  </div>
+                  <CardDescription className="text-muted-foreground">
+                    {product.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="mt-auto">
+                  <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                    {product.links.map((l) =>
+                      l.external ? (
+                        <a
+                          key={l.label}
+                          href={l.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                        >
+                          {l.label}
+                          <ExternalLink className="h-3.5 w-3.5" />
+                        </a>
+                      ) : (
+                        <Link
+                          key={l.label}
+                          href={l.href}
+                          className="inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+                        >
+                          {l.label}
+                          <ArrowRight className="h-3.5 w-3.5" />
+                        </Link>
+                      )
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* ── Tier 2: Client Work ── */}
+        <h3 className="mb-6 text-sm font-medium uppercase tracking-wider text-muted-foreground">
+          Client Work
+        </h3>
         <div className="grid gap-6 lg:grid-cols-3">
-          {/* Main Featured Project - Yacht Transport */}
+          {/* Main client project - Yacht Transport */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -86,7 +178,7 @@ export function FeaturedWorkSection() {
                     {projects[0].title}
                   </CardTitle>
                   <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                    Flagship
+                    In Production
                   </span>
                 </div>
                 <CardDescription className="text-muted-foreground line-clamp-3">
@@ -117,7 +209,7 @@ export function FeaturedWorkSection() {
             </Card>
           </motion.div>
 
-          {/* Secondary Projects Column */}
+          {/* Supporting client projects */}
           <div className="flex flex-col gap-6">
             {projects.slice(1).map((project, idx) => (
               <motion.div

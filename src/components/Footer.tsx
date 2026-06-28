@@ -20,7 +20,7 @@ export function Footer() {
               Barefoot Digital
             </span>
             <p className="text-sm text-muted-foreground">
-              AI-powered automation for logistics & fintech.
+              AI adoption and production systems for modern teams.
             </p>
           </div>
 

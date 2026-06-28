@@ -71,10 +71,10 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
         images: ogImage ? [ogImage] : undefined,
       },
       alternates: {
-        canonical: `https://next.henrybarefoot.com/lp/${slug}`,
+        canonical: `https://www.barefootdigital.dev/lp/${slug}`,
         languages: {
-          'en': `https://next.henrybarefoot.com/lp/${slug}`,
-          'es': `https://next.henrybarefoot.com/es/lp/${slug}`,
+          'en': `https://www.barefootdigital.dev/lp/${slug}`,
+          'es': `https://www.barefootdigital.dev/es/lp/${slug}`,
         },
       },
     };

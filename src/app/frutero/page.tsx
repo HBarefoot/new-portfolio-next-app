@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     description: 'One dashboard for all your grow chambers. Local-first, no SaaS rent.',
     images: ['/images/frutero/frutero-og.png'],
     type: 'website',
-    url: 'https://next.henrybarefoot.com/frutero',
+    url: 'https://www.barefootdigital.dev/frutero',
   },
   twitter: {
     card: 'summary_large_image',
