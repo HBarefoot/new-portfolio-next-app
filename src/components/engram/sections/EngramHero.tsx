@@ -11,7 +11,7 @@ export default function EngramHero() {
 
   const copyCommand = async () => {
     try {
-      await navigator.clipboard.writeText('npm install -g engram');
+      await navigator.clipboard.writeText('npm install -g @hbarefoot/engram');
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -110,7 +110,7 @@ export default function EngramHero() {
 
           <div className="flex items-center gap-2 rounded-lg bg-muted/80 px-4 py-3 font-mono text-sm text-foreground/80 ring-1 ring-border">
             <Terminal className="h-4 w-4 text-muted-foreground" />
-            <code>npm install -g engram</code>
+            <code>npm install -g @hbarefoot/engram</code>
           </div>
         </motion.div>
 

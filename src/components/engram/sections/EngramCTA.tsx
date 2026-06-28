@@ -10,7 +10,7 @@ export default function EngramCTA() {
 
   const copyCommand = async () => {
     try {
-      await navigator.clipboard.writeText('npm install -g engram');
+      await navigator.clipboard.writeText('npm install -g @hbarefoot/engram');
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -62,7 +62,7 @@ export default function EngramCTA() {
 
           <div className="flex items-center gap-2 rounded-lg bg-muted/80 px-4 py-3 font-mono text-sm text-foreground/80 ring-1 ring-border">
             <Terminal className="h-4 w-4 text-muted-foreground" />
-            <code>npm install -g engram</code>
+            <code>npm install -g @hbarefoot/engram</code>
           </div>
         </motion.div>
 
@@ -84,7 +84,7 @@ export default function EngramCTA() {
             GitHub
           </Link>
           <Link
-            href="https://www.npmjs.com/package/engram"
+            href="https://www.npmjs.com/package/@hbarefoot/engram"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"

@@ -89,7 +89,7 @@ export default function EngramInstall() {
               {/* Steps */}
               <div className="mb-8 grid gap-6 sm:grid-cols-3">
                 {[
-                  { step: '1', title: 'Install', desc: 'npm install -g engram' },
+                  { step: '1', title: 'Install', desc: 'npm install -g @hbarefoot/engram' },
                   { step: '2', title: 'Start', desc: 'engram start' },
                   { step: '3', title: 'Connect', desc: 'Auto-detects your agents' },
                 ].map((item) => (
@@ -111,7 +111,7 @@ export default function EngramInstall() {
                   </span>
                   <button
                     onClick={() =>
-                      copyCommand('npm install -g engram')
+                      copyCommand('npm install -g @hbarefoot/engram')
                     }
                     className="flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
                   >
@@ -126,7 +126,7 @@ export default function EngramInstall() {
                 <div className="flex items-center gap-2 font-mono text-sm">
                   <Terminal className="h-4 w-4 text-muted-foreground" />
                   <code className="text-cyan-600 dark:text-green-400">
-                    npm install -g engram
+                    npm install -g @hbarefoot/engram
                   </code>
                 </div>
               </div>
@@ -171,7 +171,7 @@ export default function EngramInstall() {
                   </span>
                   <button
                     onClick={() =>
-                      copyCommand('npm install engram')
+                      copyCommand('npm install @hbarefoot/engram')
                     }
                     className="flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
                   >
@@ -186,7 +186,7 @@ export default function EngramInstall() {
                 <div className="flex items-center gap-2 font-mono text-sm">
                   <Terminal className="h-4 w-4 text-muted-foreground" />
                   <code className="text-cyan-600 dark:text-green-400">
-                    npm install engram
+                    npm install @hbarefoot/engram
                   </code>
                 </div>
               </div>
@@ -199,7 +199,7 @@ export default function EngramInstall() {
                 <div className="flex items-center gap-2 font-mono text-sm">
                   <Terminal className="h-4 w-4 text-muted-foreground" />
                   <code className="text-cyan-600 dark:text-green-400">
-                    import {'{ remember, recall }'} from 'engram';
+                    import {'{ remember, recall }'} from '@hbarefoot/engram';
                   </code>
                 </div>
               </div>
