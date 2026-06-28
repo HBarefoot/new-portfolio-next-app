@@ -1,27 +1,33 @@
 "use client"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Search, Brain, Code2 } from "lucide-react"
+import { Search, Brain, Code2, GraduationCap } from "lucide-react"
 import { motion } from "framer-motion"
 
 const services = [
   {
     icon: Search,
-    title: "AI Efficiency Audit",
+    title: "AI Readiness Audit",
     description:
-      "A flat-fee diagnostic to identify automation gaps in your current workflows. Get a comprehensive report with actionable recommendations to streamline operations.",
+      "A flat-fee diagnostic that maps where AI can help your operations — and where it can't yet — with a prioritized, actionable roadmap.",
   },
   {
     icon: Brain,
-    title: "Custom RAG & LLM Workflows",
+    title: "Custom AI & Automation Systems",
     description:
-      "Building intelligent document processing tools and AI-powered systems. From chatbots to automated data extraction, like the Yacht Transport AI platform.",
+      "RAG, AI agents, and automation built into your stack — document processing, internal tools, and workflows that run in production.",
   },
   {
     icon: Code2,
-    title: "Scalable Full-Stack Engineering",
+    title: "Full-Stack AI Engineering",
     description:
-      "Turning complex ideas into production reality. Next.js, FastAPI, and modern infrastructure to build robust, scalable applications that drive business growth.",
+      "Production applications and infrastructure — Next.js, FastAPI, and modern tooling — built to scale.",
+  },
+  {
+    icon: GraduationCap,
+    title: "AI Enablement & Training",
+    description:
+      "Workshops and hands-on guidance that get your team confidently using AI — practical, role-specific, grounded in real tools.",
   },
 ]
 
@@ -64,7 +70,7 @@ export function ServicesSection() {
             Productized Services
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-pretty text-muted-foreground">
-            Focused offerings designed to deliver measurable results for logistics and fintech companies.
+            Productized engagements that take you from AI strategy to systems running in production.
           </p>
         </motion.div>
 
@@ -73,7 +79,7 @@ export function ServicesSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          className="grid gap-6 md:grid-cols-2"
         >
           {services.map((service) => (
             <motion.div key={service.title} variants={itemVariants}>

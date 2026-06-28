@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, TrendingUp, DollarSign } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
 
 export function HeroSection() {
@@ -20,14 +20,14 @@ export function HeroSection() {
             className="mb-6"
           >
             <span className="inline-flex items-center rounded-full border border-border bg-secondary/50 px-4 py-1.5 text-xs font-medium text-muted-foreground">
-              Technology Consultancy
+              AI Enablement & Engineering
             </span>
           </motion.div>
 
           <h1
             className="max-w-4xl text-balance text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl"
           >
-            Automating the Future of Logistics & Fintech with Production-Ready AI.
+            Put AI to work in your organization.
           </h1>
 
           <motion.p
@@ -36,7 +36,7 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg"
           >
-            I bridge the gap between complex engineering and business revenue. Specializing in AI-powered platforms, custom n8n automations, and full-stack solutions for the maritime and finance sectors.
+            Barefoot Digital helps teams go from AI curiosity to AI in production — strategy, enablement, and the systems to back it. Built by an engineer who ships real tools, Engram and Paw, and real deployments — not slideware.
           </motion.p>
 
           <motion.div
@@ -52,37 +52,15 @@ export function HeroSection() {
               </Link>
             </Button>
             <Button asChild variant="outline" size="lg">
-              <Link href="#work">View Case Studies</Link>
+              <Link href="#work">See What We&apos;ve Built</Link>
             </Button>
           </motion.div>
 
-          {/* Trust Bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-16 flex flex-wrap items-center justify-center gap-8 md:gap-12"
-          >
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-500/10">
-                <TrendingUp className="h-5 w-5 text-green-600 dark:text-green-400" />
-              </div>
-              <div className="text-left">
-                <p className="text-lg font-semibold text-foreground">95%</p>
-                <p className="text-xs text-muted-foreground">Efficiency Gain</p>
-              </div>
-            </div>
-            <div className="h-8 w-px bg-border" />
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-500/10">
-                <DollarSign className="h-5 w-5 text-green-600 dark:text-green-400" />
-              </div>
-              <div className="text-left">
-                <p className="text-lg font-semibold text-foreground">$500K+</p>
-                <p className="text-xs text-muted-foreground">Cost Savings</p>
-              </div>
-            </div>
-          </motion.div>
+          {/* TODO(owner): Stats trust bar removed pending attributed sources.
+              The previous "95% Efficiency Gain" / "$500K+ Cost Savings" numbers
+              were unattributed round figures. Re-add ONLY once the owner confirms
+              a real, attributable source (e.g. "Allied Yacht Transport: 95% faster
+              quoting"). Do not display unattributed metrics. */}
         </div>
       </div>
     </section>

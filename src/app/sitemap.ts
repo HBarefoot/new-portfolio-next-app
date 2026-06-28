@@ -3,7 +3,7 @@ import { readBlogData } from '@/lib/blog';
 
 export const revalidate = 3600;
 
-const BASE_URL = 'https://next.henrybarefoot.com';
+const BASE_URL = 'https://www.barefootdigital.dev';
 
 interface BlogPost {
   slug: string;
