@@ -10,7 +10,7 @@ export default function PawHero() {
 
   const copyCommand = async () => {
     try {
-      await navigator.clipboard.writeText("curl -fsSL https://paw.sh/install | bash");
+      await navigator.clipboard.writeText("git clone https://github.com/HBarefoot/paw.git && cd paw && bun install");
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -126,8 +126,8 @@ export default function PawHero() {
           className="mx-auto mt-10 flex max-w-xl items-center gap-3 rounded-lg border border-border bg-card/50 px-4 py-3 font-mono text-sm"
         >
           <Terminal className="h-4 w-4 shrink-0 text-muted-foreground" />
-          <code className="flex-1 overflow-x-auto text-foreground/80">
-            curl -fsSL https://paw.sh/install | bash
+          <code className="flex-1 overflow-x-auto whitespace-nowrap text-foreground/80">
+            git clone https://github.com/HBarefoot/paw.git && cd paw && bun install
           </code>
         </motion.div>
 
