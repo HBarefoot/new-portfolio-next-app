@@ -2,19 +2,17 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Download, Terminal, Package, Check, Copy, GitBranch } from "lucide-react";
+import { Download, Terminal, Check, Copy, GitBranch } from "lucide-react";
 import Link from "next/link";
 
 const tabs = [
-  { id: "curl", label: "Curl Install", icon: Terminal },
   { id: "git", label: "From Source", icon: GitBranch },
-  { id: "npm", label: "npm Package", icon: Package },
 ] as const;
 
 type TabId = (typeof tabs)[number]["id"];
 
 export default function PawInstall() {
-  const [activeTab, setActiveTab] = useState<TabId>("curl");
+  const [activeTab, setActiveTab] = useState<TabId>("git");
   const [copied, setCopied] = useState<string | null>(null);
 
   const copyCommand = async (text: string, key: string) => {
@@ -28,19 +26,10 @@ export default function PawInstall() {
   };
 
   const commands: Record<TabId, { label: string; cmd: string; note?: string }[]> = {
-    curl: [
-      { label: "Install", cmd: "curl -fsSL https://paw.sh/install | bash", note: "Recommended" },
-      { label: "Start", cmd: "paw start" },
-      { label: "Open UI", cmd: "open http://localhost:3030" },
-    ],
     git: [
-      { label: "Clone", cmd: "git clone https://github.com/HBarefoot/paw.git" },
+      { label: "Clone", cmd: "git clone https://github.com/HBarefoot/paw.git", note: "Open Source" },
       { label: "Install", cmd: "cd paw && bun install" },
       { label: "Start", cmd: "bun run dev" },
-    ],
-    npm: [
-      { label: "Install", cmd: "npm install -g @henrybarefoot/paw" },
-      { label: "Start", cmd: "paw start" },
     ],
   };
 
@@ -58,31 +47,33 @@ export default function PawInstall() {
           <h2 className="text-3xl font-bold sm:text-4xl">
             Get started in{" "}
             <span className="bg-gradient-to-r from-violet-500 to-emerald-500 bg-clip-text text-transparent dark:from-violet-400 dark:to-emerald-300">
-              one command
+              minutes
             </span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Three install paths. Pick the one that fits your workflow.
+            Clone the repo and run it with Bun. Open source — no account, no signup.
           </p>
         </motion.div>
 
-        {/* Tab buttons */}
-        <div className="mb-8 flex flex-wrap justify-center gap-2">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium transition-all ${
-                activeTab === tab.id
-                  ? "bg-violet-500/10 text-violet-600 ring-1 ring-violet-500/30 dark:text-violet-400"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
-              }`}
-            >
-              <tab.icon className="h-4 w-4" />
-              {tab.label}
-            </button>
-          ))}
-        </div>
+        {/* Tab buttons — only shown when more than one install path exists */}
+        {tabs.length > 1 && (
+          <div className="mb-8 flex flex-wrap justify-center gap-2">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium transition-all ${
+                  activeTab === tab.id
+                    ? "bg-violet-500/10 text-violet-600 ring-1 ring-violet-500/30 dark:text-violet-400"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                }`}
+              >
+                <tab.icon className="h-4 w-4" />
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Tab content */}
         <AnimatePresence mode="wait">
@@ -101,9 +92,7 @@ export default function PawInstall() {
                 </span>
               )}
               <p className="text-muted-foreground">
-                {activeTab === "curl" && "One command. Works on macOS, Linux, and WSL."}
-                {activeTab === "git" && "For contributors and tinkerers. Bun 1.x required."}
-                {activeTab === "npm" && "Global install via npm. Auto-updates on version bump."}
+                Bun 1.x required. Works on macOS, Linux, and Windows (WSL2).
               </p>
             </div>
 

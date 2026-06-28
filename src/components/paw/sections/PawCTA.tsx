@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, Terminal, BookOpen, FileText, Copy, Check } from "lucide-react";
+import { Github, Terminal, BookOpen, Copy, Check } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -10,7 +10,7 @@ export default function PawCTA() {
 
   const copyCommand = async () => {
     try {
-      await navigator.clipboard.writeText("curl -fsSL https://paw.sh/install | bash");
+      await navigator.clipboard.writeText("git clone https://github.com/HBarefoot/paw.git && cd paw && bun install");
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -54,15 +54,15 @@ export default function PawCTA() {
         >
           <button
             onClick={copyCommand}
-            className="flex items-center gap-2 rounded-lg bg-violet-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-500/25 transition-colors hover:bg-violet-400"
+            className="flex shrink-0 items-center gap-2 whitespace-nowrap rounded-lg bg-violet-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-500/25 transition-colors hover:bg-violet-400"
           >
             {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
             {copied ? "Copied!" : "Copy Install Command"}
           </button>
 
-          <div className="flex items-center gap-2 rounded-lg bg-muted/80 px-4 py-3 font-mono text-sm text-foreground/80 ring-1 ring-border">
-            <Terminal className="h-4 w-4 text-muted-foreground" />
-            <code>curl -fsSL https://paw.sh/install | bash</code>
+          <div className="flex min-w-0 items-center gap-2 rounded-lg bg-muted/80 px-4 py-3 font-mono text-sm text-foreground/80 ring-1 ring-border">
+            <Terminal className="h-4 w-4 shrink-0 text-muted-foreground" />
+            <code className="min-w-0 flex-1 overflow-x-auto whitespace-nowrap">git clone https://github.com/HBarefoot/paw.git && cd paw && bun install</code>
           </div>
         </motion.div>
 
@@ -82,15 +82,6 @@ export default function PawCTA() {
           >
             <Github className="h-4 w-4" />
             GitHub
-          </Link>
-          <Link
-            href="https://www.npmjs.com/package/@henrybarefoot/paw"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <FileText className="h-4 w-4" />
-            npm
           </Link>
           <Link
             href="https://wiki.henrybarefoot.com/en/projects/paw"
