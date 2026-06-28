@@ -22,6 +22,18 @@
   --cc-separator-border-color: #232327;
   --cc-modal-border-radius: 12px;
   --cc-btn-border-radius: 8px;
+  /* category rows + sections (fix light-on-light contrast) */
+  --cc-cookie-category-block-bg: #141417;
+  --cc-cookie-category-block-hover-bg: #1d1d21;
+  --cc-cookie-category-block-border: #232327;
+  --cc-cookie-category-block-hover-border: #2e2e33;
+  --cc-cookie-category-expanded-block-hover-bg: #1d1d21;
+  --cc-section-category-border: #232327;
+  --cc-footer-border-color: #232327;
+  --cc-webkit-scrollbar-bg: #232327;
+  --cc-webkit-scrollbar-hover-bg: #2e2e33;
+  /* locked "Strictly necessary" toggle — mute to match dark theme */
+  --cc-toggle-readonly-bg: #3f3f46;
 }
 
 :root {
