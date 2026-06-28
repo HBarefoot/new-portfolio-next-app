@@ -2,7 +2,8 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'Privacy Policy for Henry Barefoot - Learn how we collect, use, and protect your personal information.',
+  description:
+    'How Astral Events Miami LLC d/b/a Barefoot Digital collects, uses, discloses, and safeguards personal information.',
 };
 
 export default function PrivacyPolicy() {
@@ -16,270 +17,463 @@ export default function PrivacyPolicy() {
               Privacy Policy
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-400">
-              Last updated December 24, 2025
+              <strong>Astral Events Miami LLC</strong>, a Florida limited liability company,
+              doing business as <strong>Barefoot Digital</strong>
+            </p>
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
+              Effective Date: June 28, 2026 &middot; Last Updated: June 28, 2026
             </p>
           </div>
 
           {/* Content */}
-          <div className="prose prose-lg dark:prose-invert max-w-none">
-            <div className="bg-gray-50 dark:bg-gray-900 rounded-2xl p-8 mb-8 border border-gray-200 dark:border-gray-800">
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                This Privacy Notice for <strong>Henry Barefoot</strong> ("we," "us," or "our"), describes how and why we might access, collect, store, use, and/or share ("process") your personal information when you use our services ("Services"), including when you:
-              </p>
-              <ul className="mt-4 space-y-2 text-gray-700 dark:text-gray-300">
-                <li>Visit our website at <a href="https://next.henrybarefoot.com" className="text-blue-600 dark:text-blue-400 hover:underline">https://next.henrybarefoot.com</a> or any website of ours that links to this Privacy Notice</li>
-                <li>Use HB LinkedIn Automation. Personal automation tool for scheduling LinkedIn posts</li>
-                <li>Engage with us in other related ways, including any marketing or events</li>
-              </ul>
-              <p className="mt-4 text-gray-700 dark:text-gray-300">
-                <strong>Questions or concerns?</strong> Reading this Privacy Notice will help you understand your privacy rights and choices. We are responsible for making decisions about how your personal information is processed. If you do not agree with our policies and practices, please do not use our Services. If you still have any questions or concerns, please contact us at{' '}
-                <a href="mailto:henrybarefoot1987@gmail.com" className="text-blue-600 dark:text-blue-400 hover:underline">
-                  henrybarefoot1987@gmail.com
-                </a>.
-              </p>
-            </div>
+          <article
+            className="prose prose-lg dark:prose-invert max-w-none
+                       prose-headings:scroll-mt-24
+                       prose-a:text-blue-600 dark:prose-a:text-blue-400
+                       prose-table:text-sm"
+          >
+            <p>
+              This Privacy Policy explains how we collect, use, disclose, and safeguard
+              personal information when you visit{' '}
+              <a href="https://www.barefootdigital.dev">https://www.barefootdigital.dev</a>{' '}
+              (the &ldquo;Website&rdquo;) or engage our services. By using the Website, you
+              agree to the practices described here.
+            </p>
 
-            {/* Summary Section */}
-            <section className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Summary of Key Points</h2>
-              <div className="space-y-4 text-gray-700 dark:text-gray-300">
-                <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
-                  <p className="font-semibold text-gray-900 dark:text-white mb-2">What personal information do we process?</p>
-                  <p>When you visit, use, or navigate our Services, we may process personal information depending on how you interact with us and the Services, the choices you make, and the products and features you use.</p>
-                </div>
+            <h2>1. Who We Are</h2>
+            <p>
+              We are the operating business of Astral Events Miami LLC, doing business as
+              Barefoot Digital, a technology consultancy providing AI-powered automation,
+              custom AI/LLM workflows, full-stack engineering, and related advisory and
+              training services.
+            </p>
+            <p>
+              <strong>Controller / Contact:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>Entity:</strong> Astral Events Miami LLC d/b/a Barefoot Digital
+              </li>
+              <li>
+                <strong>Mailing Address:</strong> 7901 4th Street N, Suite 300, St.
+                Petersburg, FL 33702, United States
+              </li>
+              <li>
+                <strong>Email:</strong>{' '}
+                <a href="mailto:info@barefootdigital.dev">info@barefootdigital.dev</a>
+              </li>
+            </ul>
+            <p>
+              For the purposes of the EU/UK GDPR, Astral Events Miami LLC is the
+              &ldquo;controller&rdquo; of personal information processed through the Website.
+              For the purposes of U.S. state privacy laws, we are the &ldquo;business&rdquo;
+              that determines the purposes and means of processing.
+            </p>
 
-                <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
-                  <p className="font-semibold text-gray-900 dark:text-white mb-2">Do we process any sensitive personal information?</p>
-                  <p>We do not process sensitive personal information.</p>
-                </div>
+            <h2>2. Information We Collect</h2>
+            <h3>2.1 Information You Provide</h3>
+            <ul>
+              <li>
+                <strong>Contact details:</strong> name, email address, phone number, and
+                company name when you submit a form, request a consultation or audit, or
+                download a resource.
+              </li>
+              <li>
+                <strong>Communications:</strong> the contents of messages, inquiries, and
+                feedback you send us.
+              </li>
+              <li>
+                <strong>Business information:</strong> details you share about your workflows,
+                systems, and automation needs.
+              </li>
+            </ul>
+            <h3>2.2 Information Collected Automatically</h3>
+            <ul>
+              <li>
+                <strong>Device and technical data:</strong> browser type, operating system,
+                device identifiers, IP address, and approximate (city/region-level) location.
+              </li>
+              <li>
+                <strong>Usage data:</strong> pages viewed, time on page, click activity, and
+                referral source.
+              </li>
+            </ul>
+            <h3>2.3 Interactive Demos</h3>
+            <p>
+              The Website may offer interactive demonstrations. Information you enter into a
+              demo is processed only to generate the demo result for that session and is{' '}
+              <strong>not stored or retained</strong> after the session ends. Demos are
+              provided for evaluation only.
+            </p>
+            <h3>2.4 Cookies and Similar Technologies</h3>
+            <p>
+              We use cookies and similar technologies for site functionality, analytics, and
+              advertising measurement. See <strong>Section 4</strong> for the specific tools,
+              and <strong>Section 7</strong> for your choices.
+            </p>
 
-                <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
-                  <p className="font-semibold text-gray-900 dark:text-white mb-2">Do we collect any information from third parties?</p>
-                  <p>We do not collect any information from third parties.</p>
-                </div>
+            <h2>3. How We Use Your Information</h2>
+            <p>We use personal information to:</p>
+            <ul>
+              <li>
+                respond to inquiries, schedule consultations, and provide and improve our
+                services;
+              </li>
+              <li>
+                send you resources or updates you request, and, with your consent or where
+                permitted, relevant marketing communications (see Section 11);
+              </li>
+              <li>operate, secure, and analyze the performance of the Website;</li>
+              <li>measure the effectiveness of our advertising; and</li>
+              <li>comply with legal obligations and protect our legal rights.</li>
+            </ul>
+            <h3>3.1 AI Processing</h3>
+            <p>
+              Certain Website features and demos use the <strong>Anthropic (Claude)</strong>{' '}
+              API to generate outputs. Information you submit to those features is processed
+              solely to deliver the requested result and is{' '}
+              <strong>
+                not used to train Anthropic&rsquo;s or any third party&rsquo;s AI models
+              </strong>{' '}
+              under our commercial terms with Anthropic. AI outputs may contain errors and
+              should be reviewed by a qualified human before reliance.
+            </p>
 
-                <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
-                  <p className="font-semibold text-gray-900 dark:text-white mb-2">How do we keep your information safe?</p>
-                  <p>We have adequate organizational and technical processes and procedures in place to protect your personal information. However, no electronic transmission over the internet or information storage technology can be guaranteed to be 100% secure.</p>
-                </div>
-              </div>
-            </section>
+            <h2>4. Cookies, Analytics, and Advertising</h2>
+            <p>
+              We use the following categories of technologies on the Website:
+            </p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Tool</th>
+                  <th>Category</th>
+                  <th>Purpose</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Google Tag Manager</td>
+                  <td>Functional</td>
+                  <td>Tag and script management</td>
+                </tr>
+                <tr>
+                  <td>Cloudflare Analytics</td>
+                  <td>Analytics</td>
+                  <td>Privacy-friendly, aggregated performance metrics</td>
+                </tr>
+                <tr>
+                  <td>Vercel Analytics</td>
+                  <td>Analytics</td>
+                  <td>Core Web Vitals and site performance</td>
+                </tr>
+                <tr>
+                  <td>Meta Pixel</td>
+                  <td>Advertising</td>
+                  <td>Conversion measurement and ad delivery</td>
+                </tr>
+                <tr>
+                  <td>LinkedIn Insight Tag</td>
+                  <td>Advertising</td>
+                  <td>B2B conversion measurement and ad delivery</td>
+                </tr>
+              </tbody>
+            </table>
+            <p>
+              <strong>Important &mdash; advertising and &ldquo;sharing&rdquo;:</strong> The
+              Meta Pixel and LinkedIn Insight Tag enable cross-context behavioral advertising.
+              Under the California Consumer Privacy Act, as amended (CCPA/CPRA), this activity
+              is treated as the <strong>&ldquo;sharing&rdquo;</strong> of personal information.{' '}
+              <strong>We do not &ldquo;sell&rdquo; your personal information for money.</strong>{' '}
+              You can opt out of this sharing &mdash; see Section 7.
+            </p>
+            <p>
+              Where required (including for visitors in the EU/UK), non-essential cookies and
+              advertising technologies are only set <strong>after you provide consent</strong>{' '}
+              through our cookie banner. We honor recognized opt-out preference signals,
+              including the <strong>Global Privacy Control (GPC)</strong>.
+            </p>
 
-            {/* Table of Contents */}
-            <section className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Table of Contents</h2>
-              <nav className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 border border-gray-200 dark:border-gray-800">
-                <ol className="space-y-2 text-gray-700 dark:text-gray-300">
-                  <li><a href="#section-1" className="text-blue-600 dark:text-blue-400 hover:underline">1. What Information Do We Collect?</a></li>
-                  <li><a href="#section-2" className="text-blue-600 dark:text-blue-400 hover:underline">2. How Do We Process Your Information?</a></li>
-                  <li><a href="#section-3" className="text-blue-600 dark:text-blue-400 hover:underline">3. When and With Whom Do We Share Your Personal Information?</a></li>
-                  <li><a href="#section-4" className="text-blue-600 dark:text-blue-400 hover:underline">4. How Long Do We Keep Your Information?</a></li>
-                  <li><a href="#section-5" className="text-blue-600 dark:text-blue-400 hover:underline">5. How Do We Keep Your Information Safe?</a></li>
-                  <li><a href="#section-6" className="text-blue-600 dark:text-blue-400 hover:underline">6. Do We Collect Information from Minors?</a></li>
-                  <li><a href="#section-7" className="text-blue-600 dark:text-blue-400 hover:underline">7. What Are Your Privacy Rights?</a></li>
-                  <li><a href="#section-8" className="text-blue-600 dark:text-blue-400 hover:underline">8. Controls for Do-Not-Track Features</a></li>
-                  <li><a href="#section-9" className="text-blue-600 dark:text-blue-400 hover:underline">9. Do United States Residents Have Specific Privacy Rights?</a></li>
-                  <li><a href="#section-10" className="text-blue-600 dark:text-blue-400 hover:underline">10. Do We Make Updates to This Notice?</a></li>
-                  <li><a href="#section-11" className="text-blue-600 dark:text-blue-400 hover:underline">11. How Can You Contact Us About This Notice?</a></li>
-                  <li><a href="#section-12" className="text-blue-600 dark:text-blue-400 hover:underline">12. How Can You Review, Update, or Delete the Data We Collect From You?</a></li>
-                </ol>
-              </nav>
-            </section>
+            <h2>5. Service Providers and Subprocessors</h2>
+            <p>
+              We share personal information with the following service providers, who process
+              it only to provide services to us and under contractual confidentiality and
+              data-protection obligations:
+            </p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Provider</th>
+                  <th>Role</th>
+                  <th>Data Involved</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Vercel</td>
+                  <td>Hosting of the public Website</td>
+                  <td>Site traffic and form data in transit</td>
+                </tr>
+                <tr>
+                  <td>Railway</td>
+                  <td>
+                    Hosting of our backend and self-hosted applications (including our CRM and
+                    automation tooling)
+                  </td>
+                  <td>Contact/lead data and application data</td>
+                </tr>
+                <tr>
+                  <td>Cloudflare</td>
+                  <td>CDN, security, and analytics</td>
+                  <td>Traffic and technical data</td>
+                </tr>
+                <tr>
+                  <td>Google (Google Workspace)</td>
+                  <td>Business email and mailbox</td>
+                  <td>Email content and contact details</td>
+                </tr>
+                <tr>
+                  <td>Resend</td>
+                  <td>Transactional email delivery</td>
+                  <td>Email address and message content</td>
+                </tr>
+                <tr>
+                  <td>Anthropic</td>
+                  <td>AI features and interactive demos</td>
+                  <td>Inputs you submit to AI features (transient; not retained)</td>
+                </tr>
+                <tr>
+                  <td>Meta Platforms</td>
+                  <td>Advertising measurement and delivery</td>
+                  <td>Online identifiers and activity</td>
+                </tr>
+                <tr>
+                  <td>LinkedIn</td>
+                  <td>Advertising measurement and delivery</td>
+                  <td>Online identifiers and professional/demographic data</td>
+                </tr>
+              </tbody>
+            </table>
+            <blockquote>
+              <p>
+                <strong>Note:</strong> Contact and lead information is stored in our{' '}
+                <strong>self-hosted CRM running on Railway infrastructure</strong>, not a
+                third-party CRM service.
+              </p>
+            </blockquote>
+            <p>
+              We may also disclose information where required by law, to enforce our
+              agreements, or in connection with a merger, acquisition, or sale of assets.{' '}
+              <strong>We do not sell your personal information.</strong>
+            </p>
 
-            {/* Section 1 */}
-            <section id="section-1" className="mb-12 scroll-mt-20">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">1. What Information Do We Collect?</h2>
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
-                <p className="font-semibold text-gray-900 dark:text-white mb-2">In Short:</p>
-                <p className="text-gray-700 dark:text-gray-300">We collect personal information that you provide to us.</p>
-              </div>
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                We collect personal information that you voluntarily provide to us when you express an interest in obtaining information about us or our products and Services, when you participate in activities on the Services, or otherwise when you contact us.
-              </p>
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                <strong>Sensitive Information.</strong> We do not process sensitive information.
-              </p>
-              <p className="text-gray-700 dark:text-gray-300">
-                All personal information that you provide to us must be true, complete, and accurate, and you must notify us of any changes to such personal information.
-              </p>
-            </section>
+            <h2>6. Data Retention</h2>
+            <p>
+              We retain personal information only as long as necessary for the purposes
+              described above:
+            </p>
+            <ul>
+              <li>
+                <strong>Contact / lead data:</strong> up to 3 years from your last
+                interaction, or until you request deletion.
+              </li>
+              <li>
+                <strong>Communication records:</strong> up to 3 years, or longer where
+                required for legal or accounting purposes.
+              </li>
+              <li>
+                <strong>Analytics data:</strong> per each provider&rsquo;s default retention
+                (typically up to 26 months).
+              </li>
+              <li>
+                <strong>Demo inputs:</strong> not retained beyond the active session.
+              </li>
+            </ul>
+            <p>
+              We retain information longer only where required by law or for the
+              establishment, exercise, or defense of legal claims.
+            </p>
 
-            {/* Section 2 */}
-            <section id="section-2" className="mb-12 scroll-mt-20">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">2. How Do We Process Your Information?</h2>
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
-                <p className="font-semibold text-gray-900 dark:text-white mb-2">In Short:</p>
-                <p className="text-gray-700 dark:text-gray-300">We process your information to provide, improve, and administer our Services, communicate with you, for security and fraud prevention, and to comply with law. We may also process your information for other purposes with your consent.</p>
-              </div>
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                We process your personal information for a variety of reasons, depending on how you interact with our Services, including:
-              </p>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
-                <li>To post testimonials. We post testimonials on our Services that may contain personal information.</li>
-              </ul>
-            </section>
+            <h2>7. Your Privacy Rights and Choices</h2>
+            <h3>7.1 All Visitors</h3>
+            <p>You may, at any time:</p>
+            <ul>
+              <li>request access to the personal information we hold about you;</li>
+              <li>request correction of inaccurate information;</li>
+              <li>request deletion of your information;</li>
+              <li>opt out of marketing communications; and</li>
+              <li>
+                opt out of advertising cookies via our cookie banner or by enabling GPC in
+                your browser.
+              </li>
+            </ul>
+            <p>
+              To exercise any right, email{' '}
+              <a href="mailto:info@barefootdigital.dev">info@barefootdigital.dev</a> or write
+              to the mailing address in Section 1. We will respond within the timeframe
+              required by applicable law (generally within 30&ndash;45 days).
+            </p>
+            <h3>7.2 California Residents (CCPA/CPRA)</h3>
+            <p>If you are a California resident, you have the right to:</p>
+            <ul>
+              <li>
+                <strong>Know / access</strong> the categories and specific pieces of personal
+                information we collect, the sources, the purposes, and the categories of
+                recipients;
+              </li>
+              <li>
+                <strong>Delete</strong> personal information we have collected, subject to
+                legal exceptions;
+              </li>
+              <li>
+                <strong>Correct</strong> inaccurate personal information;
+              </li>
+              <li>
+                <strong>Opt out of the &ldquo;sale&rdquo; or &ldquo;sharing&rdquo;</strong> of
+                personal information. We do not sell personal information; we do
+                &ldquo;share&rdquo; it for cross-context behavioral advertising as described
+                in Section 4, and you may opt out;
+              </li>
+              <li>
+                <strong>Limit the use of sensitive personal information</strong> (note: we do
+                not use sensitive personal information for purposes that trigger this right);
+                and
+              </li>
+              <li>
+                <strong>Non-discrimination</strong> for exercising your rights.
+              </li>
+            </ul>
+            <p>
+              <strong>To opt out of sharing:</strong> use the cookie banner on the Website,
+              enable Global Privacy Control, or email{' '}
+              <a href="mailto:info@barefootdigital.dev">info@barefootdigital.dev</a> with the
+              subject &ldquo;Do Not Sell or Share.&rdquo; You may use an authorized agent to
+              submit requests. We will verify your request as required by law.
+            </p>
+            <h3>7.3 EU / UK Residents (GDPR / UK GDPR)</h3>
+            <p>
+              If you are in the European Economic Area or the United Kingdom, you have the
+              right to access, rectify, erase, restrict, or object to processing of your
+              personal information, the right to data portability, and the right to withdraw
+              consent at any time (without affecting prior processing).
+            </p>
+            <p>
+              <strong>Legal bases.</strong> We process personal information on the basis of:
+              your <strong>consent</strong> (e.g., marketing, non-essential cookies); our{' '}
+              <strong>legitimate interests</strong> (e.g., operating and securing the Website,
+              responding to inquiries); the <strong>performance of a contract</strong>; and{' '}
+              <strong>compliance with legal obligations</strong>.
+            </p>
+            <p>
+              You also have the right to lodge a complaint with your local supervisory
+              authority (in the UK, the Information Commissioner&rsquo;s Office).
+            </p>
 
-            {/* Section 3 */}
-            <section id="section-3" className="mb-12 scroll-mt-20">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">3. When and With Whom Do We Share Your Personal Information?</h2>
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
-                <p className="font-semibold text-gray-900 dark:text-white mb-2">In Short:</p>
-                <p className="text-gray-700 dark:text-gray-300">We may share information in specific situations described in this section and/or with the following third parties.</p>
-              </div>
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                We may need to share your personal information in the following situations:
-              </p>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
-                <li><strong>Business Transfers.</strong> We may share or transfer your information in connection with, or during negotiations of, any merger, sale of company assets, financing, or acquisition of all or a portion of our business to another company.</li>
-              </ul>
-            </section>
+            <h2>8. How to Exercise Your Rights</h2>
+            <p>
+              <strong>By email:</strong>{' '}
+              <a href="mailto:info@barefootdigital.dev">info@barefootdigital.dev</a> (subject
+              line: &ldquo;Privacy Request&rdquo;)
+            </p>
+            <p>
+              <strong>By mail:</strong>
+              <br />
+              Astral Events Miami LLC d/b/a Barefoot Digital
+              <br />
+              Attn: Privacy
+              <br />
+              7901 4th Street N, Suite 300
+              <br />
+              St. Petersburg, FL 33702, United States
+            </p>
+            <p>
+              <strong>Process:</strong> We acknowledge requests promptly, may request
+              information to verify your identity, and complete verified requests within the
+              period required by applicable law. We will not discriminate against you for
+              exercising your rights.
+            </p>
 
-            {/* Section 4 */}
-            <section id="section-4" className="mb-12 scroll-mt-20">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">4. How Long Do We Keep Your Information?</h2>
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
-                <p className="font-semibold text-gray-900 dark:text-white mb-2">In Short:</p>
-                <p className="text-gray-700 dark:text-gray-300">We keep your information for as long as necessary to fulfill the purposes outlined in this Privacy Notice unless otherwise required by law.</p>
-              </div>
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                We will only keep your personal information for as long as it is necessary for the purposes set out in this Privacy Notice, unless a longer retention period is required or permitted by law (such as tax, accounting, or other legal requirements).
-              </p>
-              <p className="text-gray-700 dark:text-gray-300">
-                When we have no ongoing legitimate business need to process your personal information, we will either delete or anonymize such information, or, if this is not possible (for example, because your personal information has been stored in backup archives), then we will securely store your personal information and isolate it from any further processing until deletion is possible.
-              </p>
-            </section>
+            <h2>9. Data Security</h2>
+            <p>
+              We use industry-standard measures to protect personal information, including:
+            </p>
+            <ul>
+              <li>
+                <strong>Encryption</strong> of data in transit (TLS) and at rest;
+              </li>
+              <li>
+                <strong>Access controls</strong>, including multi-factor authentication for
+                administrative access;
+              </li>
+              <li>
+                <strong>Secure infrastructure</strong> hosted with Vercel (public Website) and
+                Railway (backend and self-hosted applications), with automated backups; and
+              </li>
+              <li>
+                <strong>Network security and monitoring</strong> via Cloudflare.
+              </li>
+            </ul>
+            <p>
+              Our service providers maintain their own security and compliance programs. No
+              method of transmission or storage is completely secure, and we cannot guarantee
+              absolute security.
+            </p>
 
-            {/* Section 5 */}
-            <section id="section-5" className="mb-12 scroll-mt-20">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">5. How Do We Keep Your Information Safe?</h2>
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
-                <p className="font-semibold text-gray-900 dark:text-white mb-2">In Short:</p>
-                <p className="text-gray-700 dark:text-gray-300">We aim to protect your personal information through a system of organizational and technical security measures.</p>
-              </div>
-              <p className="text-gray-700 dark:text-gray-300">
-                We have implemented appropriate and reasonable technical and organizational security measures designed to protect the security of any personal information we process. However, despite our safeguards and efforts to secure your information, no electronic transmission over the Internet or information storage technology can be guaranteed to be 100% secure, so we cannot promise or guarantee that hackers, cybercriminals, or other unauthorized third parties will not be able to defeat our security and improperly collect, access, steal, or modify your information. Although we will do our best to protect your personal information, transmission of personal information to and from our Services is at your own risk. You should only access the Services within a secure environment.
-              </p>
-            </section>
+            <h2>10. Children&rsquo;s Privacy</h2>
+            <p>
+              The Website and our services are directed to businesses and are not intended for
+              individuals under <strong>16</strong>. We do not knowingly collect personal
+              information from anyone under 16. If you believe a child has provided us personal
+              information, contact us and we will delete it.
+            </p>
 
-            {/* Section 6 */}
-            <section id="section-6" className="mb-12 scroll-mt-20">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">6. Do We Collect Information from Minors?</h2>
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
-                <p className="font-semibold text-gray-900 dark:text-white mb-2">In Short:</p>
-                <p className="text-gray-700 dark:text-gray-300">We do not knowingly collect data from or market to children under 18 years of age.</p>
-              </div>
-              <p className="text-gray-700 dark:text-gray-300">
-                We do not knowingly collect, solicit data from, or market to children under 18 years of age, nor do we knowingly sell such personal information. By using the Services, you represent that you are at least 18 or that you are the parent or guardian of such a minor and consent to such minor dependent's use of the Services. If we learn that personal information from users less than 18 years of age has been collected, we will deactivate the account and take reasonable measures to promptly delete such data from our records. If you become aware of any data we may have collected from children under age 18, please contact us at{' '}
-                <a href="mailto:henrybarefoot1987@gmail.com" className="text-blue-600 dark:text-blue-400 hover:underline">
-                  henrybarefoot1987@gmail.com
-                </a>.
-              </p>
-            </section>
+            <h2>11. Marketing Communications</h2>
+            <p>
+              If you opt in to receive resources, newsletters, or other marketing emails, you
+              may unsubscribe at any time using the link in any such email or by emailing{' '}
+              <a href="mailto:info@barefootdigital.dev">info@barefootdigital.dev</a>. Marketing
+              emails will identify us and include our mailing address, consistent with the
+              CAN-SPAM Act. Transactional and service-related messages (for example, responses
+              to your inquiries) are not marketing communications.
+            </p>
 
-            {/* Section 7 */}
-            <section id="section-7" className="mb-12 scroll-mt-20">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">7. What Are Your Privacy Rights?</h2>
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
-                <p className="font-semibold text-gray-900 dark:text-white mb-2">In Short:</p>
-                <p className="text-gray-700 dark:text-gray-300">You may review, change, or terminate your account at any time, depending on your country, province, or state of residence.</p>
-              </div>
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                <strong>Withdrawing your consent:</strong> If we are relying on your consent to process your personal information, which may be express and/or implied consent depending on the applicable law, you have the right to withdraw your consent at any time. You can withdraw your consent at any time by contacting us by using the contact details provided in the section "HOW CAN YOU CONTACT US ABOUT THIS NOTICE?" below.
-              </p>
-              <p className="text-gray-700 dark:text-gray-300">
-                However, please note that this will not affect the lawfulness of the processing before its withdrawal nor, when applicable law allows, will it affect the processing of your personal information conducted in reliance on lawful processing grounds other than consent.
-              </p>
-              <p className="text-gray-700 dark:text-gray-300 mt-4">
-                If you have questions or comments about your privacy rights, you may email us at{' '}
-                <a href="mailto:henrybarefoot1987@gmail.com" className="text-blue-600 dark:text-blue-400 hover:underline">
-                  henrybarefoot1987@gmail.com
-                </a>.
-              </p>
-            </section>
+            <h2>12. International Data Transfers</h2>
+            <p>
+              We are based in the United States, and personal information we process is stored
+              and processed in the United States. If you access the Website from outside the
+              United States, you understand your information will be transferred to and
+              processed in the United States. Where required, we rely on appropriate
+              safeguards (such as Standard Contractual Clauses) for international transfers.
+            </p>
 
-            {/* Section 8 */}
-            <section id="section-8" className="mb-12 scroll-mt-20">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">8. Controls for Do-Not-Track Features</h2>
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                Most web browsers and some mobile operating systems and mobile applications include a Do-Not-Track ("DNT") feature or setting you can activate to signal your privacy preference not to have data about your online browsing activities monitored and collected. At this stage, no uniform technology standard for recognizing and implementing DNT signals has been finalized. As such, we do not currently respond to DNT browser signals or any other mechanism that automatically communicates your choice not to be tracked online. If a standard for online tracking is adopted that we must follow in the future, we will inform you about that practice in a revised version of this Privacy Notice.
-              </p>
-              <p className="text-gray-700 dark:text-gray-300">
-                California law requires us to let you know how we respond to web browser DNT signals. Because there currently is not an industry or legal standard for recognizing or honoring DNT signals, we do not respond to them at this time.
-              </p>
-            </section>
+            <h2>13. Changes to This Policy</h2>
+            <p>
+              We may update this Privacy Policy from time to time. We will post the updated
+              version on this page with a revised &ldquo;Last Updated&rdquo; date and, for
+              material changes, provide additional notice where required.
+            </p>
 
-            {/* Section 9 */}
-            <section id="section-9" className="mb-12 scroll-mt-20">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">9. Do United States Residents Have Specific Privacy Rights?</h2>
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
-                <p className="font-semibold text-gray-900 dark:text-white mb-2">In Short:</p>
-                <p className="text-gray-700 dark:text-gray-300">If you are a resident of California or other US states with privacy laws, you may have the right to request access to and receive details about the personal information we maintain about you and how we have processed it, correct inaccuracies, get a copy of, or delete your personal information.</p>
-              </div>
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                We have not disclosed, sold, or shared any personal information to third parties for a business or commercial purpose in the preceding twelve (12) months. We will not sell or share personal information in the future belonging to website visitors, users, and other consumers.
-              </p>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">Your Rights</h3>
-              <p className="text-gray-700 dark:text-gray-300 mb-4">You have rights under certain US state data protection laws. These rights include:</p>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300 mb-6">
-                <li>Right to know whether or not we are processing your personal data</li>
-                <li>Right to access your personal data</li>
-                <li>Right to correct inaccuracies in your personal data</li>
-                <li>Right to request the deletion of your personal data</li>
-                <li>Right to obtain a copy of the personal data you previously shared with us</li>
-                <li>Right to non-discrimination for exercising your rights</li>
-              </ul>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">How to Exercise Your Rights</h3>
-              <p className="text-gray-700 dark:text-gray-300">
-                To exercise these rights, you can contact us by emailing us at{' '}
-                <a href="mailto:henrybarefoot1987@gmail.com" className="text-blue-600 dark:text-blue-400 hover:underline">
-                  henrybarefoot1987@gmail.com
-                </a>, or by referring to the contact details at the bottom of this document.
-              </p>
-            </section>
+            <h2>14. Contact Us</h2>
+            <p>
+              <strong>Astral Events Miami LLC d/b/a Barefoot Digital</strong>
+              <br />
+              Email:{' '}
+              <a href="mailto:info@barefootdigital.dev">info@barefootdigital.dev</a>
+              <br />
+              Mail: 7901 4th Street N, Suite 300, St. Petersburg, FL 33702, United States
+              <br />
+              Website:{' '}
+              <a href="https://www.barefootdigital.dev">https://www.barefootdigital.dev</a>
+            </p>
 
-            {/* Section 10 */}
-            <section id="section-10" className="mb-12 scroll-mt-20">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">10. Do We Make Updates to This Notice?</h2>
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
-                <p className="font-semibold text-gray-900 dark:text-white mb-2">In Short:</p>
-                <p className="text-gray-700 dark:text-gray-300">Yes, we will update this notice as necessary to stay compliant with relevant laws.</p>
-              </div>
-              <p className="text-gray-700 dark:text-gray-300">
-                We may update this Privacy Notice from time to time. The updated version will be indicated by an updated "Revised" date at the top of this Privacy Notice. If we make material changes to this Privacy Notice, we may notify you either by prominently posting a notice of such changes or by directly sending you a notification. We encourage you to review this Privacy Notice frequently to be informed of how we are protecting your information.
-              </p>
-            </section>
-
-            {/* Section 11 */}
-            <section id="section-11" className="mb-12 scroll-mt-20">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">11. How Can You Contact Us About This Notice?</h2>
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                If you have questions or comments about this notice, you may email us at{' '}
-                <a href="mailto:henrybarefoot1987@gmail.com" className="text-blue-600 dark:text-blue-400 hover:underline">
-                  henrybarefoot1987@gmail.com
-                </a>{' '}
-                or contact us by post at:
-              </p>
-              <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 border border-gray-200 dark:border-gray-800">
-                <p className="text-gray-700 dark:text-gray-300">
-                  <strong>Henry Barefoot</strong><br />
-                  651 NW 82nd Ave<br />
-                  Plantation, FL 33324<br />
-                  United States
-                </p>
-              </div>
-            </section>
-
-            {/* Section 12 */}
-            <section id="section-12" className="mb-12 scroll-mt-20">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">12. How Can You Review, Update, or Delete the Data We Collect From You?</h2>
-              <p className="text-gray-700 dark:text-gray-300">
-                Based on the applicable laws of your country or state of residence in the US, you may have the right to request access to the personal information we collect from you, details about how we have processed it, correct inaccuracies, or delete your personal information. You may also have the right to withdraw your consent to our processing of your personal information. These rights may be limited in some circumstances by applicable law. To request to review, update, or delete your personal information, please contact us at{' '}
-                <a href="mailto:henrybarefoot1987@gmail.com" className="text-blue-600 dark:text-blue-400 hover:underline">
-                  henrybarefoot1987@gmail.com
-                </a>.
-              </p>
-            </section>
-          </div>
+            <hr />
+            <p>
+              <em>
+                &copy; 2026 Astral Events Miami LLC d/b/a Barefoot Digital. All rights
+                reserved.
+              </em>
+            </p>
+          </article>
         </div>
       </div>
     </div>
