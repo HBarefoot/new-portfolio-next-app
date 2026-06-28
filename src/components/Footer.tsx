@@ -60,7 +60,17 @@ export function Footer() {
         </div>
 
         <div className="mt-8 border-t border-border/50 pt-8 text-center">
-          <p className="text-xs text-muted-foreground">
+          {/* Trust line — plain-language data-protection practices. Scoped to
+              paid client engagements; not a statement about website analytics
+              or lead-form data. Keep claims verbatim and literally true. */}
+          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
+            <span>GDPR &amp; CCPA rights respected</span>
+            <span aria-hidden="true">·</span>
+            <span>We don&apos;t train AI models on client data</span>
+            <span aria-hidden="true">·</span>
+            <span>Client data stays in your own infrastructure</span>
+          </div>
+          <p className="mt-4 text-xs text-muted-foreground">
             {new Date().getFullYear()} Barefoot Digital. All rights reserved.
           </p>
         </div>
