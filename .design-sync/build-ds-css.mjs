@@ -26,8 +26,16 @@ const base = block(/@layer base\s*\{/);
 
 const out = `/* Barefoot Digital DS — standalone stylesheet (generated from src/app/globals.css) */
 @import "tailwindcss" source(none);
-@source "../src/components/ui";
+@source "../src/components";
 @source "../.design-sync/previews";
+
+/* Safelist: brand-token utilities so designs built WITH this DS can use the palette. */
+@source inline("bg-{background,card,popover,primary,secondary,muted,accent,destructive}");
+@source inline("text-{foreground,primary,primary-foreground,secondary-foreground,muted-foreground,accent-foreground,card-foreground,popover-foreground,destructive}");
+@source inline("border-{border,input,primary,destructive}");
+@source inline("ring-{ring,primary}");
+@source inline("rounded-{sm,md,lg,xl,full}");
+@source inline("font-{sans,mono}");
 
 @custom-variant dark (&:is(.dark, .dark *));
 

@@ -1,9 +1,14 @@
 # Barefoot Digital Design System — conventions
 
-A small, token-driven kit: three styled primitives (`Button`, `Card`, `Input`) plus the
-brand's semantic color/type tokens. Built with Tailwind CSS v4 + CSS-variable design tokens
-(shadcn-style). Components are pre-styled — compose them and use the tokens for your own
-surfaces, and every screen stays on-brand in both light and dark.
+The Barefoot Digital component library, mirrored from the live site: the styled primitives
+(`Button`, `Card`, `Input`) plus the brand's real page sections — Home, Paw, Engram, Landing
+Page, Audit, and Demos — grouped in the pane. Built with Tailwind CSS v4 + CSS-variable design
+tokens (shadcn-style). Build with the primitives for controls and use the page sections as
+on-brand references; style your own surfaces with the tokens below, and every screen stays
+on-brand in both light and dark.
+
+A separate **Voice & Messaging** guide ships under guidelines — consult it for copy/tone (how
+the brand sounds: honest, operator-to-operator, concrete over claimed).
 
 ## Setup & theming
 - **No provider/wrapper needed.** Components are styled by the shipped stylesheet; the tokens

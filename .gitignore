@@ -47,3 +47,4 @@ ds-bundle/
 dist-css/
 .design-sync/pkg/dist/index.mjs
 .design-sync/pkg/ds.css
+.design-sync/pkg/dist/index.d.ts
