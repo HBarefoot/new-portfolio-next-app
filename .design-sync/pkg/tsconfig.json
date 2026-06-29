@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx", "module": "ESNext", "moduleResolution": "Bundler",
+    "declaration": true, "emitDeclarationOnly": true, "outDir": "dist",
+    "baseUrl": "../../", "paths": { "@/*": ["src/*"] },
+    "skipLibCheck": true, "strict": false, "esModuleInterop": true
+  },
+  "include": ["src/index.ts"]
+}
