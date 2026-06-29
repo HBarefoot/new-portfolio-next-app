@@ -86,6 +86,7 @@ function setSecurityHeaders(response: NextResponse, request: NextRequest) {
       'https://connect.facebook.net',
       'http://localhost:8000',
       'https://performance-service-production.up.railway.app',
+      'https://pagespeed.barefootdigital.dev',
       'https://vercel.live',
       'https://vercel.com',
       'wss://ws-us3.pusher.com',
