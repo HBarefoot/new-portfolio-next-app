@@ -1,66 +1,53 @@
-"use client"
-
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
-import { motion } from "framer-motion"
 
 export function HeroSection() {
   return (
-    <section id="hero" className="relative min-h-screen overflow-hidden bg-background pt-24">
-      {/* Subtle grid background */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
+    <section className="heroA relative flex min-h-screen items-center overflow-hidden bg-background pt-24 text-foreground">
+      {/* Background layers */}
+      <div className="ha-grid-layer pointer-events-none absolute inset-0" />
+      <div className="ha-glow pointer-events-none absolute inset-0" />
 
-      <div className="relative mx-auto max-w-6xl px-6 py-24 md:py-32 lg:py-40">
-        <div className="flex flex-col items-center text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-6"
-          >
-            <span className="inline-flex items-center rounded-full border border-border bg-secondary/50 px-4 py-1.5 text-xs font-medium text-muted-foreground">
-              AI Enablement & Engineering
-            </span>
-          </motion.div>
+      <div className="relative mx-auto w-full max-w-6xl px-6 py-16 md:py-24">
+        <p
+          className="ha-rise text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground"
+          style={{ margin: "0 0 22px" }}
+        >
+          AI enablement &amp; engineering
+        </p>
 
-          <h1
-            className="max-w-4xl text-balance text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl"
-          >
-            Put AI to work in your organization.
-          </h1>
+        <h1 className="ha-h1 ha-rise">Put AI to work in your organization.</h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg"
-          >
-            Barefoot Digital helps teams go from AI curiosity to AI in production — strategy, enablement, and the systems to back it. Built by an engineer who ships real tools, Engram and Paw, and real deployments — not slideware.
-          </motion.p>
+        <p className="ha-sub ha-rise-2" style={{ marginTop: 26 }}>
+          AI enablement for HR, L&amp;D, IT, and operations teams — strategy, training, and the
+          systems to back it. Built by an engineer who ships real tools and real deployments, not
+          slideware.
+        </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
-          >
-            <Button asChild size="lg" className="group">
-              <Link href="/strategy">
-                Book a Strategy Call
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg">
-              <Link href="#work">See What We&apos;ve Built</Link>
-            </Button>
-          </motion.div>
+        <div
+          className="ha-cta ha-rise-2 flex items-center gap-[14px]"
+          style={{ marginTop: 38 }}
+        >
+          <Link href="/strategy" className="ha-btn ha-primary h-[50px] px-[26px] text-base">
+            Book a call <span className="ha-arrow">→</span>
+          </Link>
+          <Link href="#work" className="ha-btn ha-outline h-[50px] px-6 text-base">
+            See what we&apos;ve built
+          </Link>
+        </div>
 
-          {/* TODO(owner): Stats trust bar removed pending attributed sources.
-              The previous "95% Efficiency Gain" / "$500K+ Cost Savings" numbers
-              were unattributed round figures. Re-add ONLY once the owner confirms
-              a real, attributable source (e.g. "Allied Yacht Transport: 95% faster
-              quoting"). Do not display unattributed metrics. */}
+        <div
+          className="ha-rise-3 flex flex-wrap items-center gap-x-3 gap-y-2.5 border-t border-border pt-[22px] text-[13.5px] text-muted-foreground"
+          style={{ marginTop: "clamp(40px, 7vh, 64px)" }}
+        >
+          <span className="font-semibold tracking-[0.01em] text-foreground">Shipped &amp; in production</span>
+          <span className="opacity-40">·</span>
+          <span className="ha-mono text-[12.5px]">
+            Engram <span style={{ color: "#16a34a" }}>npm, MIT</span>
+          </span>
+          <span className="opacity-40">·</span>
+          <span className="ha-mono text-[12.5px]">Paw — agent framework</span>
+          <span className="opacity-40">·</span>
+          <span>Maritime automation live for Allied Yacht Transport</span>
         </div>
       </div>
     </section>
