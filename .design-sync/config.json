@@ -11,12 +11,17 @@
     "CardAction": null,
     "CardContent": null,
     "CardFooter": null,
-    "buttonVariants": null
+    "buttonVariants": null,
+    "ShareButtonsCompact": null,
+    "ShareButtonsFloating": null
   },
   "cssEntry": "./ds.css",
   "extraFonts": [
     "./fonts.css"
   ],
   "docsDir": "./docs",
-  "readmeHeader": ".design-sync/conventions.md"
+  "readmeHeader": ".design-sync/conventions.md",
+  "guidelinesGlob": [
+    "guides/**/*.md"
+  ]
 }
