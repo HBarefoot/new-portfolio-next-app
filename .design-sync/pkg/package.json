@@ -1,0 +1,1 @@
+{ "name": "barefoot-digital-ds", "version": "0.1.0", "type": "module", "module": "./dist/index.mjs", "types": "./dist/index.d.ts" }

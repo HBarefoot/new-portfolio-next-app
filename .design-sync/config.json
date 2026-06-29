@@ -1,0 +1,22 @@
+{
+  "projectId": "0e8d4510-6b2c-4011-99a7-1581be318a1a",
+  "shape": "package",
+  "pkg": "barefoot-digital-ds",
+  "globalName": "BarefootDS",
+  "tsconfig": "./tsconfig.json",
+  "componentSrcMap": {
+    "CardHeader": null,
+    "CardTitle": null,
+    "CardDescription": null,
+    "CardAction": null,
+    "CardContent": null,
+    "CardFooter": null,
+    "buttonVariants": null
+  },
+  "cssEntry": "./ds.css",
+  "extraFonts": [
+    "./fonts.css"
+  ],
+  "docsDir": "./docs",
+  "readmeHeader": ".design-sync/conventions.md"
+}
