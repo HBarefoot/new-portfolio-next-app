@@ -50,7 +50,7 @@ const features = [
     icon: Sparkles,
     title: 'Optional On-Device LLM',
     description:
-      'Sharpen extraction with a local model — recommended henrybarefoot1987/engram-extract (Qwen3-1.7B, Apache-2.0), or any Ollama / OpenAI-compatible endpoint. +50 pts entity recognition vs rules; runs 100% on your machine; off by default.',
+      'Sharpen extraction with a local model — recommended henrybarefoot1987/engram-extract (Qwen3-1.7B, Apache-2.0), or any Ollama / OpenAI-compatible endpoint. +50 pts entity recognition with engram-extract (qwen3:1.7b) vs rules; runs 100% on your machine; off by default.',
     stat: 'Optional · local',
   },
 ];
