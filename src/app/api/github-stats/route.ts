@@ -39,8 +39,8 @@ export async function GET() {
       forks: repo.forks_count || 0,
       downloads: totalDownloads,
       latestVersion: Array.isArray(releases)
-        ? releases[0]?.tag_name || 'v1.0.0'
-        : 'v1.0.0',
+        ? releases[0]?.tag_name || 'v1.9.0'
+        : 'v1.9.0',
     });
   } catch {
     return NextResponse.json(
