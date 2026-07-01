@@ -209,6 +209,17 @@ export interface StrapiCaseStudy {
   publishedAt: string;
 }
 
+export interface StrapiSeo {
+  metaTitle?: string;
+  metaDescription?: string;
+  ogImage?: { data: StrapiEntity<StrapiImage> | null } | { url: string };
+  canonicalURL?: string;
+  keywords?: string;
+  metaRobots?: string;
+  twitterCard?: 'summary_large_image' | 'summary';
+  structuredData?: unknown;
+}
+
 export interface StrapiBlogPost {
   id?: number;
   documentId?: string;
@@ -216,6 +227,7 @@ export interface StrapiBlogPost {
   slug: string;
   excerpt: string;
   content: string;
+  seo?: StrapiSeo;
   coverImage?: { data: StrapiEntity<StrapiImage> | null } | { url: string; formats?: any };
   author?: { data: StrapiEntity<StrapiAuthor> | null } | { name: string; avatar?: { url: string }; bio?: string };
   category?: { data: StrapiEntity<StrapiBlogCategory> | null } | { name: string };

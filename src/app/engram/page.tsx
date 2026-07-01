@@ -18,13 +18,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Engram — Persistent Memory for AI Agents',
     description: 'SQLite for agent state. Your AI finally remembers you.',
-    images: ['/images/engram/engram_logo_dark_bg_1770436697879.png'],
+    images: ['/images/engram/engram-og.png'],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Engram — Persistent Memory for AI Agents',
     description: 'SQLite for agent state. Your AI finally remembers you.',
+    images: ['/images/engram/engram-og.png'],
   },
 };
 

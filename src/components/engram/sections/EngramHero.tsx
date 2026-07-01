@@ -5,6 +5,7 @@ import { Download, Github, Terminal, Copy, Check } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { ENGRAM_VERSION } from '@/lib/engram';
 
 export default function EngramHero() {
   const [copied, setCopied] = useState(false);
@@ -54,7 +55,7 @@ export default function EngramHero() {
         >
           <span className="inline-flex items-center gap-2 rounded-full bg-cyan-500/10 px-4 py-2 text-sm font-medium text-cyan-600 ring-1 ring-inset ring-cyan-500/20 dark:text-cyan-400">
             <Terminal className="h-4 w-4" />
-            v1.0.0 — Open Source CLI + Dashboard
+            {`v${ENGRAM_VERSION} — Open Source CLI + Dashboard`}
           </span>
         </motion.div>
 

@@ -23,8 +23,8 @@ const existing = [
 ];
 
 const engramSolves = [
-  { icon: Sparkles, label: 'Learns passively from interactions' },
-  { icon: GitBranch, label: 'Understands relationships between facts' },
+  { icon: Sparkles, label: 'Captures what your agent chooses to remember' },
+  { icon: GitBranch, label: 'Detects duplicates and contradictions automatically' },
   { icon: Layers, label: 'Prioritizes relevant memory by context' },
   { icon: TrendingDown, label: 'Decays outdated info automatically' },
   { icon: Clock, label: 'Works across agents, not locked to one platform' },

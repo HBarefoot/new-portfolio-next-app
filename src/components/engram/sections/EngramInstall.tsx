@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Download, Terminal, Package, Check, Copy } from 'lucide-react';
 import Link from 'next/link';
+import { ENGRAM_PACKAGE_SIZE } from '@/lib/engram';
 
 const tabs = [
   { id: 'cli', label: 'CLI Install', icon: Terminal },
@@ -145,7 +146,7 @@ export default function EngramInstall() {
               </div>
 
               <p className="text-center text-xs text-muted-foreground/60">
-                Requires Node.js 20+ · 105.4 kB package size
+                Requires Node.js 20+ · {ENGRAM_PACKAGE_SIZE}
               </p>
             </motion.div>
           ) : (

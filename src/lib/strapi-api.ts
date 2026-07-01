@@ -185,7 +185,9 @@ export const getBlogPosts = async (params?: { category?: string; limit?: number;
 };
 
 export const getBlogPost = async (slug: string, locale: string = 'en') => {
-  return fetchCollection<StrapiBlogPost>(`/blog-posts?locale=${locale}&filters[slug][$eq]=${slug}&populate[0]=author&populate[1]=author.avatar&populate[2]=category&populate[3]=coverImage&populate[4]=codeSnippets`);
+  // Object-style populate (Strapi rejects mixing indexed + object syntax) so we can
+  // deep-populate the `seo` component's `ogImage` media for per-article social tags.
+  return fetchCollection<StrapiBlogPost>(`/blog-posts?locale=${locale}&filters[slug][$eq]=${slug}&populate[author][populate]=avatar&populate[category]=true&populate[coverImage]=true&populate[codeSnippets]=true&populate[seo][populate]=ogImage`);
 };
 
 export const getBlogCategories = async () => {

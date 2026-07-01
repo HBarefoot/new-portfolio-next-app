@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Brain, Search, Cpu, Shield, Layout, Plug } from 'lucide-react';
+import { Brain, Search, Cpu, Shield, Layout, Plug, Sparkles } from 'lucide-react';
 
 const features = [
   {
@@ -45,6 +45,13 @@ const features = [
     description:
       '6 MCP tools for Claude/Cursor. Full REST API for n8n, LangChain, custom agents.',
     stat: '6 MCP tools',
+  },
+  {
+    icon: Sparkles,
+    title: 'Optional On-Device LLM',
+    description:
+      'Sharpen extraction with a local model — recommended henrybarefoot1987/engram-extract (Qwen3-1.7B, Apache-2.0), or any Ollama / OpenAI-compatible endpoint. +50 pts entity recognition vs rules; runs 100% on your machine; off by default.',
+    stat: 'Optional · local',
   },
 ];
 
