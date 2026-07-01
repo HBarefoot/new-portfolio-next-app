@@ -11,9 +11,16 @@ const nextConfig: NextConfig = {
   
   // Enable React strict mode
   reactStrictMode: true,
-  
+
   // Compress output
   compress: true,
+
+  // Force metadata to render in <head> for ALL requests (not just known bots).
+  // Next 16 streams metadata into <body> for normal browsers by default; a regex that
+  // matches every UA opts every request into the blocking, in-<head> render so social
+  // unfurls work on every scraper (Telegram/Mastodon/Bluesky included). No Lighthouse
+  // impact — Chrome-Lighthouse already triggers the blocking path.
+  htmlLimitedBots: /.+/,
   
   // Allow Next/Image to load remote images from the Strapi instance
   images: {
